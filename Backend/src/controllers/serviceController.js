@@ -48,5 +48,15 @@ const editService = async (req,res) => {
     }
 }
 
+const getService = async (req,res) => {
+    try{
+        const id= req.params.id;
+        const s = await services.findByPk(id);
+        res.status(200).json(s);
+    } catch (error) {
+        res.status(500).json({ message: error.message, success: false });
+    }    
+}
+
 module.exports = { serviceRoot };
-module.exports = { getAllServices, addService, editService };
+module.exports = { getAllServices, addService, editService, getService };
