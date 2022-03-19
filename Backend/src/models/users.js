@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-  const User = sequelize.define("user", {
+  const Users = sequelize.define("users", {
     fullname: {
       type: Sequelize.STRING,
       required: true,
@@ -14,10 +14,9 @@ module.exports = (sequelize, Sequelize) => {
     },
     role: {
       type: Sequelize.STRING,
-      default: "house_seeker",
-      enum: ["house_seeker", "house_owner", "super_admin"],
+      default: "app_user",
       required: true,
     },
   });
-  return User;
+  return Users;
 };
