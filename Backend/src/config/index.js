@@ -8,4 +8,6 @@ module.exports = {
   PASSWORD: process.env.DEV_PASSWORD,
   DB: process.env.DEV_DB,
   SALT_VALUE: process.env.SALT_VALUE,
+  MAIL_API_KEY: process.env.MAIL_API_KEY,
+  WEBSITE_LINK: process.env.WEBSITE_LINK,
 };

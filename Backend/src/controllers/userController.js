@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
-const { SALT_VALUE } = require("../config/index");
+const { SALT_VALUE, WEBSITE_LINK } = require("../config/index");
 const { users } = require("../models");
+const { sendEmail } = require("../utils/sendEmail");
 const { APP_USER, SUPER_ADMIN } = require("../config/constants");
 
 //User Root
@@ -45,7 +46,16 @@ const userRegistration = async (user, role, res) => {
       password,
       role,
     };
-    users.create(userObj);
+    // users.create(userObj);
+    sendEmail(
+      user.email,
+      "Welcome to Easy Housing",
+      {
+        fullname: user.fullname,
+        link: WEBSITE_LINK,
+      },
+      "../utils/templates/welcome.handlebars"
+    );
     return res.status(201).json({
       message: "User is registered successfully!",
       success: true,
