@@ -14,6 +14,11 @@ app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 db.sequelize.sync();
+
+//Routes
+const serviceRouter = require("../Backend/src/routes/serviceRoute");
+app.use("/services",serviceRouter);
+
 app.use("/api/users", userRoute);
 
 // app.use((req, res, next) => {
@@ -22,6 +27,11 @@ app.use("/api/users", userRoute);
 //     error: "Please Enter Correct Route, Current Route Not found",
 //   });
 // });
-const listener = app.listen(process.env.PORT || 8081, () => {
-  console.log("Your app is listening on port " + listener.address().port);
-});
+
+db.sequelize.sync().then(() => {
+  const listener = app.listen(process.env.PORT || 8080, () => {
+    console.log("Your app is listening on port " + listener.address().port);
+  });
+  
+
+} )
