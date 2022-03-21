@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const userRoute = require("../Backend/src/routes/userRoute");
+const propertyRoute = require("../Backend/src/routes/propertyRoute");
 const db = require("../Backend/src/models");
 
 var corsOptions = {
@@ -17,9 +18,11 @@ db.sequelize.sync();
 
 //Routes
 const serviceRouter = require("../Backend/src/routes/serviceRoute");
-app.use("/services",serviceRouter);
+app.use("/services", serviceRouter);
 
 app.use("/api/users", userRoute);
+
+app.use("/api/properties", propertyRoute);
 
 // app.use((req, res, next) => {
 //   res.status(404).send({
@@ -32,6 +35,6 @@ db.sequelize.sync().then(() => {
   const listener = app.listen(process.env.PORT || 8080, () => {
     console.log("Your app is listening on port " + listener.address().port);
   });
-  
 
-} )
+
+})
