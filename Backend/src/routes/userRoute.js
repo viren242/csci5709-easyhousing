@@ -1,6 +1,9 @@
+// Author: Anuj Dev (B00900887)
+
 const express = require("express");
 const {
   registrationValidationRules,
+  loginValidationRules,
   validateRequest,
 } = require("../utils/userValidation");
 
@@ -9,6 +12,8 @@ const {
   userRoot,
   registerAppUser,
   registerSuperAdmin,
+  loginAppUser,
+  loginSuperAdmin,
 } = require("../controllers/userController");
 
 // Base Route
@@ -30,6 +35,24 @@ router.post(
   registrationValidationRules(),
   validateRequest,
   registerSuperAdmin
+);
+
+// Login Super Admin Route
+
+router.post(
+  "/login-app-user",
+  loginValidationRules(),
+  validateRequest,
+  loginAppUser
+);
+
+// Login Super Admin Route
+
+router.post(
+  "/login-super-admin",
+  loginValidationRules(),
+  validateRequest,
+  loginSuperAdmin
 );
 
 module.exports = router;

@@ -1,3 +1,5 @@
+// Author: Anuj Dev (B00900887)
+
 const { HOST, USER, PASSWORD, DB } = require("../config");
 
 module.exports = {
