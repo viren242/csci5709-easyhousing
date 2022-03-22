@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAllPropeties, getProperty, createProperty, updateProperty, deleteProperty, getMyProperties } = require("../controllers/propertyController");
+const { getAllProperties, getProperty, createProperty, updateProperty, deleteProperty, getMyProperties } = require("../controllers/propertyController");
 const { propertyValidationRules, validateRequest } = require("../utils/propertyValidation");
 
-router.get("/getAllPropeties", getAllPropeties);
+router.get("/getAllPropeties", getAllProperties);
 router.get("/getProperty/:id", getProperty);
 router.get("/getMyProperties/:userid", getMyProperties);
 router.post(

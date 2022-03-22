@@ -6,16 +6,14 @@ const { properties } = require("../models");
 const propertyRoot = (req, res) => {
     try {
         res.setHeader("Content_type", "application/json");
-        res
-            .status(200)
-            .json({ message: "Welcome to Property Management Module", success: true });
+        return res.status(200).json({ message: "Welcome to Property Management Module", success: true });
     } catch (error) {
-        res.status(500).json({ message: error.message, success: false });
+        return res.status(500).json({ message: error.message, success: false });
     }
 };
 
 
-const getAllPropeties = async (req, res) => {
+const getAllProperties = async (req, res) => {
     try {
         res.setHeader("Content_type", "application/json");
         const listOfProperties = await properties.findAll();
@@ -47,7 +45,19 @@ const getProperty = async (req, res) => {
 };
 
 const getMyProperties = async (req, res) => {
+    try {
+        res.setHeader("Content_type", "application/json");
+        const userId = req.params.userid;
 
+        const propertyByUserId = await properties.findAll({ where: { user_id: userId } });
+        if (!propertyByUserId || !propertyByUserId.length) {
+            return res.status(404).json({ message: "Properties details not found!!", success: false });
+        }
+        return res.status(200).json({ message: "All the Properties of User retrieved.", success: true, data: propertyByUserId });
+
+    } catch (error) {
+        return res.status(500).json({ error: error.message, message: "Unable to get Property details from Id!!", success: false });
+    }
 };
 
 const createProperty = async (req, res) => {
@@ -108,4 +118,4 @@ const deleteProperty = async (req, res) => {
 
 
 
-module.exports = { propertyRoot, getAllPropeties, getProperty, getMyProperties, createProperty, updateProperty, deleteProperty };
+module.exports = { propertyRoot, getAllProperties, getProperty, getMyProperties, createProperty, updateProperty, deleteProperty };
