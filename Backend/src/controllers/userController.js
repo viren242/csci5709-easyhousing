@@ -80,7 +80,6 @@ const userRegistration = async (user, role, res) => {
     });
   } catch (error) {
     res.status(500).json({
-      message: "Unable to create user account",
       error: error.message,
       success: false,
     });
@@ -145,7 +144,6 @@ const userLogin = async (user, role, res) => {
     }
   } catch (error) {
     res.status(500).json({
-      message: "Unable to create user account",
       error: error.message,
       success: false,
     });
@@ -235,7 +233,7 @@ const changePassword = async (req, res) => {
       req.body.newPassword,
       Number(SALT_VALUE)
     );
-    userObj.save();
+    await userObj.save();
     res.status(200).json({
       message: "Password Changed Successfully",
       success: true,
@@ -249,6 +247,33 @@ const getUserById = async (user_id) => {
   return await users.findByPk(user_id);
 };
 
+// User Registration with different Roles
+const updateProfile = async (req, res) => {
+  try {
+    const id = req.params.id;
+    res.setHeader("Content_type", "application/json");
+
+    let userObj = await getUserById(id);
+    if (!userObj) {
+      return res.status(400).json({
+        message: "User Does not Exists",
+        success: false,
+      });
+    }
+
+    await userObj.update(req.body, { where: { id: id } });
+    return res.status(201).json({
+      message: "User is updated successfully!",
+      success: true,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+      success: false,
+    });
+  }
+};
+
 module.exports = {
   userRoot,
   registerAppUser,
@@ -258,4 +283,5 @@ module.exports = {
   isUserVerified,
   userProfile,
   changePassword,
+  updateProfile,
 };

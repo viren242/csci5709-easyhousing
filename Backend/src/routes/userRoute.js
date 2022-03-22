@@ -4,6 +4,8 @@ const express = require("express");
 const {
   registrationValidationRules,
   loginValidationRules,
+  changePasswordValidationRules,
+  updateProfileValidationRules,
   validateRequest,
 } = require("../utils/userValidation");
 
@@ -17,6 +19,7 @@ const {
   isUserVerified,
   userProfile,
   changePassword,
+  updateProfile,
 } = require("../controllers/userController");
 
 // Base Route
@@ -62,6 +65,21 @@ router.post(
 router.get("/userProfile", isUserVerified, userProfile);
 
 // Change Password Route
-router.post("/changePassword", isUserVerified, changePassword);
+router.post(
+  "/changePassword",
+  isUserVerified,
+  changePasswordValidationRules(),
+  validateRequest,
+  changePassword
+);
+
+// Update User profile
+router.post(
+  "/updateProfile/:id",
+  isUserVerified,
+  updateProfileValidationRules(),
+  validateRequest,
+  updateProfile
+);
 
 module.exports = router;

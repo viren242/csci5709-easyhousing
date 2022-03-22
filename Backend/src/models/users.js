@@ -25,6 +25,9 @@ module.exports = (sequelize, Sequelize) => {
     imgURL: {
       type: Sequelize.STRING,
     },
+    phoneNumber: {
+      type: Sequelize.STRING,
+    },
     role: {
       type: Sequelize.STRING,
       default: "app_user",
