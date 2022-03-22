@@ -85,7 +85,25 @@ const updateProperty = async (req, res) => {
 };
 
 const deleteProperty = async (req, res) => {
+    try {
+        res.setHeader("Content_type", "application/json");
+        const property_id = req.params.id;
+        const propertyById = await properties.findByPk(property_id);
 
+        if (!propertyById) {
+            return res.status(404).json({ message: "Property details with this Id not found!!", success: false });
+        }
+
+        await properties.destroy({
+            where: {
+                id: property_id
+            }
+        }).then(() => {
+            return res.status(200).json({ message: "Property Details Deleted", success: true });
+        })
+    } catch (error) {
+        res.status(500).json({ error: error.message, message: "Unable to delete Property details!!", success: false });
+    }
 };
 
 
