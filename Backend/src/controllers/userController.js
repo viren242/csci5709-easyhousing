@@ -69,7 +69,7 @@ const userRegistration = async (user, role, res) => {
       user.email,
       "Welcome to Easy Housing",
       {
-        fullname: user.firstName + user.lastName,
+        fullname: user.firstName + " " + user.lastName,
         link: WEBSITE_LINK,
       },
       "../utils/templates/welcome.handlebars"
@@ -274,6 +274,32 @@ const updateProfile = async (req, res) => {
   }
 };
 
+// User Registration with different Roles
+const deleteUserProfile = async (req, res) => {
+  try {
+    const id = req.params.id;
+    res.setHeader("Content_type", "application/json");
+
+    let userObj = await getUserById(id);
+    if (!userObj) {
+      return res.status(400).json({
+        message: "User Does not Exists",
+        success: false,
+      });
+    }
+    await userObj.destroy();
+    return res.status(200).json({
+      message: "User deleted successfully!",
+      success: true,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+      success: false,
+    });
+  }
+};
+
 module.exports = {
   userRoot,
   registerAppUser,
@@ -284,4 +310,5 @@ module.exports = {
   userProfile,
   changePassword,
   updateProfile,
+  deleteUserProfile,
 };

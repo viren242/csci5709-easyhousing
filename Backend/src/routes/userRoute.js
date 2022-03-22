@@ -20,6 +20,7 @@ const {
   userProfile,
   changePassword,
   updateProfile,
+  deleteUserProfile,
 } = require("../controllers/userController");
 
 // Base Route
@@ -74,7 +75,7 @@ router.post(
 );
 
 // Update User profile
-router.post(
+router.put(
   "/updateProfile/:id",
   isUserVerified,
   updateProfileValidationRules(),
@@ -82,4 +83,5 @@ router.post(
   updateProfile
 );
 
+router.delete("/deleteUserProfile/:id", isUserVerified, deleteUserProfile);
 module.exports = router;
