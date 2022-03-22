@@ -14,6 +14,9 @@ const {
   registerSuperAdmin,
   loginAppUser,
   loginSuperAdmin,
+  isUserVerified,
+  userProfile,
+  changePassword,
 } = require("../controllers/userController");
 
 // Base Route
@@ -22,7 +25,7 @@ router.get("/", userRoot);
 // Register App User Route
 
 router.post(
-  "/register-app-user",
+  "/appUserRegistration",
   registrationValidationRules(),
   validateRequest,
   registerAppUser
@@ -31,7 +34,7 @@ router.post(
 // Register Super Admin Route
 
 router.post(
-  "/register-super-admin",
+  "/superAdminRegistration",
   registrationValidationRules(),
   validateRequest,
   registerSuperAdmin
@@ -40,7 +43,7 @@ router.post(
 // Login Super Admin Route
 
 router.post(
-  "/login-app-user",
+  "/appUserLogin",
   loginValidationRules(),
   validateRequest,
   loginAppUser
@@ -49,10 +52,16 @@ router.post(
 // Login Super Admin Route
 
 router.post(
-  "/login-super-admin",
+  "/superAdminLogin",
   loginValidationRules(),
   validateRequest,
   loginSuperAdmin
 );
+
+// Profile Route
+router.get("/userProfile", isUserVerified, userProfile);
+
+// Change Password Route
+router.post("/changePassword", isUserVerified, changePassword);
 
 module.exports = router;

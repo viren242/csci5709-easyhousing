@@ -22,6 +22,9 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.BOOLEAN,
       default: false,
     },
+    imgURL: {
+      type: Sequelize.STRING,
+    },
     role: {
       type: Sequelize.STRING,
       default: "app_user",
