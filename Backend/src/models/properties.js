@@ -55,6 +55,10 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.INTEGER,
             required: true,
         },
+        price: {
+            type: Sequelize.INTEGER,
+            required: true,
+        },
 
     });
     return Properties;

@@ -46,9 +46,26 @@ const propertyValidationRules = () => {
         body("user_id")
             .notEmpty()
             .withMessage("User is required").isInt().withMessage("Valid User required"),
+        body("price")
+            .notEmpty()
+            .withMessage("Price information is required")
+            .isInt({ min: 1, max: 10000 })
+            .withMessage("Enter between 1 to 10000"),
     ];
 };
 
+const filterValidationRules = () => {
+    return [
+        body("filter")
+            .notEmpty()
+            .withMessage("Filter category is required")
+            .isIn(['unit_type', 'city', 'price'])
+            .withMessage("Correct Filter Category is required"),
+        body("value1")
+            .notEmpty()
+            .withMessage("Filteration value is required"),
+    ];
+};
 const validateRequest = (req, res, next) => {
     const errors = validationResult(req);
     if (errors.isEmpty()) {
@@ -64,5 +81,6 @@ const validateRequest = (req, res, next) => {
 
 module.exports = {
     propertyValidationRules,
+    filterValidationRules,
     validateRequest,
 };

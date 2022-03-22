@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAllProperties, getProperty, createProperty, updateProperty, deleteProperty, getMyProperties } = require("../controllers/propertyController");
-const { propertyValidationRules, validateRequest } = require("../utils/propertyValidation");
+const { getAllProperties, getProperty, createProperty, updateProperty, deleteProperty, getMyProperties, getFilterProperties } = require("../controllers/propertyController");
+const { propertyValidationRules, validateRequest, filterValidationRules } = require("../utils/propertyValidation");
 
 router.get("/getAllPropeties", getAllProperties);
 router.get("/getProperty/:id", getProperty);
@@ -20,5 +20,11 @@ router.put(
     updateProperty
 );
 router.delete("/deleteProperty/:id", deleteProperty);
+
+router.post(
+    "/getFilterProperties",
+    filterValidationRules(),
+    validateRequest,
+    getFilterProperties);
 
 module.exports = router;

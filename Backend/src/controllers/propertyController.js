@@ -1,4 +1,5 @@
 const bcrypt = require("bcryptjs");
+const { Op } = require('sequelize');
 const { SALT_VALUE } = require("../config/index");
 const { properties } = require("../models");
 
@@ -116,6 +117,28 @@ const deleteProperty = async (req, res) => {
     }
 };
 
+const getFilterProperties = async (req, res) => {
+    try {
+        res.setHeader("Content_type", "application/json");
 
+        const { filter, value1, value2 } = req.body;
+        let propertyByCategory = '';
 
-module.exports = { propertyRoot, getAllProperties, getProperty, getMyProperties, createProperty, updateProperty, deleteProperty };
+        if (filter === "unit_type" || filter === "city") {
+            propertyByCategory = await properties.findAll({ where: { [filter]: { [Op.like]: `%${value1}%` } } });
+        }
+
+        if (filter === "price") {
+            propertyByCategory = await properties.findAll({ where: { [filter]: { [Op.between]: [value1, value2] } } });
+        }
+
+        if (!propertyByCategory || !propertyByCategory.length) {
+            return res.status(404).json({ message: "Properties details not found!!", success: false });
+        }
+        return res.status(200).json({ message: "All the Properties based on filter retrieved.", success: true, data: propertyByCategory });
+    } catch (error) {
+        return res.status(500).json({ error: error.message, message: "Unable to get Property details!!", success: false });
+    }
+};
+
+module.exports = { propertyRoot, getAllProperties, getProperty, getMyProperties, createProperty, updateProperty, deleteProperty, getFilterProperties };
