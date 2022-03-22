@@ -24,11 +24,25 @@ const getAllPropeties = async (req, res) => {
         }
         return res.status(200).json({ message: "Properties retrieved", success: true, data: listOfProperties });
     } catch (error) {
-        return res.status(500).json({ message: error.message, success: false });
+        return res.status(500).json({ message: error.message, message: "Unable to get all Properties details!!", success: false });
     }
 };
 
 const getProperty = async (req, res) => {
+
+    try {
+        const property_id = req.params.id;
+
+        const propertyById = await properties.findByPk(property_id);
+
+        if (propertyById) {
+            return res.status(200).json({ message: "Property retrieved from Id", success: true, data: propertyById });
+        } else {
+            return res.status(404).json({ message: "Property details not found!!", success: false });
+        }
+    } catch (error) {
+        return res.status(500).json({ error: error.message, message: "Unable to get Property details from Id!!", success: false });
+    }
 
 };
 
