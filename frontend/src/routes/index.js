@@ -13,6 +13,8 @@ import { AppContext } from "../context/userContext";
 import { ROUTES, TOKEN } from "../common/constants";
 import Login from "../pages/UserManagement/Login/Login";
 import Signup from "../pages/UserManagement/Signup/Signup";
+import Profile from "../pages/UserProfile/index";
+
 // import PrivateRoute from "PrivateRoute";
 import Homepage from "../pages/HomePage/index";
 
@@ -31,6 +33,10 @@ function Routing() {
     {
       pageLink: ROUTES.SIGNUP,
       view: Signup,
+    },
+    {
+      pageLink: ROUTES.PROFILE,
+      view: Profile,
     },
     {
       pageLink: ROUTES.ERROR,

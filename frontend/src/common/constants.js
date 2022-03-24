@@ -7,6 +7,7 @@ export const ROUTES = {
   LOGIN: "/login",
   FORGOT_PASSWORD: "/forgotPassword",
   SIGNUP: "/signup",
+  PROFILE: "/profile",
 
   NOT_FOUND: "*",
   ERROR: "/error",
