@@ -3,19 +3,20 @@ const cors = require("cors");
 const userRoute = require("../Backend/src/routes/userRoute");
 const propertyRoute = require("../Backend/src/routes/propertyRoute");
 const db = require("../Backend/src/models");
+const passport = require("passport");
 
 var corsOptions = {
-  origin: "http://localhost:8080",
+  origin: "http://localhost:3000",
 };
 
 const app = express();
 app.use(cors(corsOptions));
-// parse requests of content-type - application/json
 app.use(express.json());
-// parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 db.sequelize.sync();
+app.use(passport.initialize());
 
+require("./src/middleware/passport")(passport);
 //Routes
 const serviceRouter = require("../Backend/src/routes/serviceRoute");
 app.use("/services", serviceRouter);
@@ -35,6 +36,4 @@ db.sequelize.sync().then(() => {
   const listener = app.listen(process.env.PORT || 8080, () => {
     console.log("Your app is listening on port " + listener.address().port);
   });
-
-
-})
+});

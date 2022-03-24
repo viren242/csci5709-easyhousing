@@ -1,6 +1,12 @@
+// Author: Anuj Dev (B00900887)
+
 module.exports = (sequelize, Sequelize) => {
   const Users = sequelize.define("users", {
-    fullname: {
+    firstName: {
+      type: Sequelize.STRING,
+      required: true,
+    },
+    lastName: {
       type: Sequelize.STRING,
       required: true,
     },
@@ -12,10 +18,19 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       required: true,
     },
+    isVerified: {
+      type: Sequelize.BOOLEAN,
+      default: false,
+    },
+    imgURL: {
+      type: Sequelize.STRING,
+    },
+    phoneNumber: {
+      type: Sequelize.STRING,
+    },
     role: {
       type: Sequelize.STRING,
       default: "app_user",
-      required: true,
     },
   });
   return Users;

@@ -1,3 +1,5 @@
+// Author: Anuj Dev (B00900887)
+
 const fs = require("fs");
 const path = require("path");
 const basename = path.basename(__filename);
