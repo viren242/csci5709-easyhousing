@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const userRoute = require("../Backend/src/routes/userRoute");
+const propertyRoute = require("../Backend/src/routes/propertyRoute");
 const db = require("../Backend/src/models");
 const passport = require("passport");
 
@@ -21,6 +22,8 @@ const serviceRouter = require("../Backend/src/routes/serviceRoute");
 app.use("/services", serviceRouter);
 
 app.use("/api/users", userRoute);
+
+app.use("/api/properties", propertyRoute);
 
 // app.use((req, res, next) => {
 //   res.status(404).send({
