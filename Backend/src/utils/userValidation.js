@@ -79,7 +79,15 @@ const updateProfileValidationRules = () => {
     body("email").notEmpty().withMessage("Email is required").isEmail(),
   ];
 };
-
+const forgetPasswordValidationRules = () => {
+  return [
+    body("email")
+      .notEmpty()
+      .withMessage("Email is required")
+      .isEmail()
+      .withMessage("Must be a valid email address"),
+  ];
+};
 const loginValidationRules = () => {
   return [
     body("email").notEmpty().withMessage("Email is required").isEmail(),
@@ -105,5 +113,6 @@ module.exports = {
   loginValidationRules,
   changePasswordValidationRules,
   updateProfileValidationRules,
+  forgetPasswordValidationRules,
   validateRequest,
 };

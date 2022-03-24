@@ -6,6 +6,7 @@ const {
   loginValidationRules,
   changePasswordValidationRules,
   updateProfileValidationRules,
+  forgetPasswordValidationRules,
   validateRequest,
 } = require("../utils/userValidation");
 
@@ -21,6 +22,7 @@ const {
   changePassword,
   updateProfile,
   deleteUserProfile,
+  forgotPassword,
 } = require("../controllers/userController");
 
 // Base Route
@@ -60,6 +62,14 @@ router.post(
   loginValidationRules(),
   validateRequest,
   loginSuperAdmin
+);
+
+// Forget Password Route
+router.post(
+  "/forgetPassword",
+  forgetPasswordValidationRules(),
+  validateRequest,
+  forgotPassword
 );
 
 // Profile Route

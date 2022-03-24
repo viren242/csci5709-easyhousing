@@ -92,7 +92,7 @@ const userLogin = async (user, role, res) => {
     res.setHeader("Content_type", "application/json");
 
     const userExist = await users.findOne({
-      email: user.email,
+      where: { email: user.email },
     });
     if (!userExist) {
       return res.status(400).json({
@@ -187,6 +187,50 @@ const userProfile = async (req, res) => {
       message: "User Fetched Successfully",
       success: true,
       data: userData,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message, success: false });
+  }
+};
+
+// Change Password Controller
+
+const forgotPassword = async (req, res) => {
+  try {
+    const user = req.body;
+    res.setHeader("Content_type", "application/json");
+
+    const userExist = await users.findOne({
+      where: { email: user.email },
+    });
+    if (!userExist) {
+      return res.status(400).json({
+        message: "Email Does not Exist with this Email",
+        success: false,
+      });
+    }
+    const jwtPayload = {
+      id: userExist.id,
+      firstName: userExist.firstName,
+      lastName: userExist.lastName,
+      email: userExist.email,
+      role: userExist.role,
+    };
+    let token = jwt.sign(jwtPayload, JWT_SECRET, { expiresIn: "1h" });
+    const link = `${WEBSITE_LINK}/api/user/reset/${token}`;
+    sendEmail(
+      userExist.email,
+      "Reset Password For Easy Housing",
+      {
+        fullname: userExist.firstName + " " + userExist.lastName,
+        link: link,
+        web_link: WEBSITE_LINK,
+      },
+      "../utils/templates/resetPassword.handlebars"
+    );
+    res.status(200).json({
+      message: "Forget Password Email Sent Successfully",
+      success: true,
     });
   } catch (error) {
     res.status(500).json({ message: error.message, success: false });
@@ -311,4 +355,5 @@ module.exports = {
   changePassword,
   updateProfile,
   deleteUserProfile,
+  forgotPassword,
 };

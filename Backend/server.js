@@ -5,7 +5,7 @@ const db = require("../Backend/src/models");
 const passport = require("passport");
 
 var corsOptions = {
-  origin: "http://localhost:8080",
+  origin: "http://localhost:3000",
 };
 
 const app = express();
