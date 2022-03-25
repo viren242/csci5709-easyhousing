@@ -22,6 +22,7 @@ import jwtDecode from "jwt-decode";
 import { AppContext } from "../../../context/userContext";
 import * as ActionTypes from "../../../common/actionTypes";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { ROUTES } from "../../../common/constants";
 
 const Login = () => {
   const {
@@ -38,8 +39,7 @@ const Login = () => {
   } = useForm();
   useEffect(() => {
     if (authenticated) {
-      toast.info("You are already Authenticated");
-      navigate("/");
+      navigate(ROUTES.HOMEPAGE);
     }
   });
   const onSubmit = (data) => {
@@ -58,7 +58,7 @@ const Login = () => {
           dispatch({ type: ActionTypes.SET_AUTHENTICATED, data: true });
           toast.success(response?.data?.message);
           reset();
-          navigate("/");
+          navigate(ROUTES.HOMEPAGE);
         } else {
           toast.error(response?.data?.message);
         }
@@ -99,7 +99,7 @@ const Login = () => {
             }}
             component="a"
             startIcon={<ArrowBackIcon fontSize="small" />}
-            onClick={() => navigate("/")}
+            onClick={() => navigate(ROUTES.HOMEPAGE)}
           >
             Home
           </Button>
@@ -199,7 +199,7 @@ const Login = () => {
                 <Grid item xs></Grid>
                 <Grid item>
                   <Link
-                    onClick={(event) => navigate("/signup")}
+                    onClick={(event) => navigate(ROUTES.SIGNUP)}
                     variant="body2"
                   >
                     {"Already Have Account? Sign Up"}

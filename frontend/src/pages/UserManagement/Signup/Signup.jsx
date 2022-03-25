@@ -15,10 +15,10 @@ import Typography from "@mui/material/Typography";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../../context/userContext";
-import * as ActionTypes from "../../../common/actionTypes";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { toast } from "react-toastify";
 import axios_api from "../../../common/axios";
+import { ROUTES } from "../../../common/constants";
 
 const Signup = () => {
   const {
@@ -36,12 +36,11 @@ const Signup = () => {
 
   useEffect(() => {
     if (authenticated) {
-      toast.info("You are already Authenticated");
-      navigate("/");
+      // toast.info("You are already Authenticated");
+      navigate(ROUTES.HOMEPAGE);
     }
   });
   const onSubmit = (data) => {
-    debugger;
     const { firstName, lastName, email, password, confirmPassword } = data;
     const registrationDetails = {
       firstName,
@@ -54,10 +53,9 @@ const Signup = () => {
       .post("/users/appUserRegistration", registrationDetails)
       .then((response) => {
         if ((response.data.success = true)) {
-          const { data } = response;
           toast.success(response?.data?.message);
           reset();
-          navigate("/login");
+          navigate(ROUTES.LOGIN);
         } else {
           toast.error(response?.data?.message);
         }
@@ -107,7 +105,7 @@ const Signup = () => {
             }}
             component="a"
             startIcon={<ArrowBackIcon fontSize="small" />}
-            onClick={() => navigate("/")}
+            onClick={() => navigate(ROUTES.HOMEPAGE)}
           >
             Home
           </Button>
@@ -266,7 +264,10 @@ const Signup = () => {
               <Grid container>
                 <Grid item xs></Grid>
                 <Grid item>
-                  <Link onClick={(event) => navigate("/login")} variant="body2">
+                  <Link
+                    onClick={(event) => navigate(ROUTES.LOGIN)}
+                    variant="body2"
+                  >
                     {"Already Have Account? Login"}
                   </Link>
                 </Grid>
