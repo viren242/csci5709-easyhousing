@@ -76,7 +76,6 @@ const updateProfileValidationRules = () => {
       .withMessage("Full Name is required")
       .isLength({ min: 2, max: 20 })
       .withMessage("Last name should be between 2 and 20 characters"),
-    body("email").notEmpty().withMessage("Email is required").isEmail(),
   ];
 };
 const forgetPasswordValidationRules = () => {
