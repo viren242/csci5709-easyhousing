@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@material-ui/icons": "^4.11.2",
+    "@mui/icons-material": "^5.5.1",
     "@sendgrid/mail": "^7.6.2",
     "axios": "^0.26.1",
     "bcryptjs": "^2.4.3",

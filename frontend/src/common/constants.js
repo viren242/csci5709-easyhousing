@@ -7,6 +7,11 @@ export const ROUTES = {
   LOGIN: "/login",
   FORGOT_PASSWORD: "/forgotPassword",
   SIGNUP: "/signup",
+  ADD_PROPERTY: "/add_property",
+  UPDATE_PROPERTY: "/update_property/:propertyId",
+  PROPERTY_LISTING: "/property_list",
+  PROPERTY_DETAILS: "/propertyDetails/:propertyId",
+  USER_PROPERTY_LISTING: "/user_property_list/:userId",
 
   NOT_FOUND: "*",
   ERROR: "/error",

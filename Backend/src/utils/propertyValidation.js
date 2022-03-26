@@ -26,15 +26,6 @@ const propertyValidationRules = () => {
             .withMessage("Square feet information is required")
             .isInt({ min: 1, max: 10000 })
             .withMessage("Enter between 1 to 10000"),
-        body("image")
-            .notEmpty()
-            .withMessage("Image is required"),
-        body("location")
-            .notEmpty()
-            .withMessage("Location is required"),
-        body("city")
-            .notEmpty()
-            .withMessage("City is required"),
         body("email")
             .notEmpty()
             .withMessage("Email is required")
