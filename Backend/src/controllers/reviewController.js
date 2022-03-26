@@ -133,4 +133,4 @@ const deleteReview = async (req, res) => {
     }
 };
 
-module.exports = { addReview, getAllReviews, getReview, updateReview, deleteReview};
+module.exports = { addReview, getAllReviews, getReview, updateReview, deleteReview };
