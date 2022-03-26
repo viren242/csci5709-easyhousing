@@ -24,6 +24,8 @@ import PlacesAutocomplete, {
 import { ROUTES } from '../../../common/constants';
 import axios_api from '../../../common/axios';
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+
 
 
 const initialState = {
@@ -228,38 +230,38 @@ const AddProperty = () => {
                 .put(`/properties/updateProperty/${propertyId}`, newPost)
                 .then((response) => {
                     if ((response.data.success = true)) {
-                        //toast.success(response?.data?.message);
+                        toast.success(response?.data?.message);
                         reset();
                         console.log(response?.data?.message);
                         navigate(ROUTES.HOMEPAGE);
                     } else {
                         console.log(response?.data?.message);
-                        //toast.error(response?.data?.message);
+                        toast.error(response?.data?.message);
                     }
                 })
                 .catch((err) => {
                     debugger;
                     console.log(err?.response?.data?.message);
-                    //toast.error(err?.response?.data?.message || "Something went wrong");
+                    toast.error(err?.response?.data?.message || "Something went wrong");
                 });
         } else {
             axios_api
                 .post("/properties/createProperty", newPost)
                 .then((response) => {
                     if ((response.data.success = true)) {
-                        //toast.success(response?.data?.message);
+                        toast.success(response?.data?.message);
                         reset();
                         console.log(response?.data?.message);
                         navigate(ROUTES.HOMEPAGE);
                     } else {
                         console.log(response?.data?.message);
-                        //toast.error(response?.data?.message);
+                        toast.error(response?.data?.message);
                     }
                 })
                 .catch((err) => {
                     debugger;
                     console.log(err?.response?.data?.message);
-                    //toast.error(err?.response?.data?.message || "Something went wrong");
+                    toast.error(err?.response?.data?.message || "Something went wrong");
                 });
         }
 
@@ -424,9 +426,9 @@ const AddProperty = () => {
                                                             onChange={handleOnChange}
                                                             value={newPost.unit_type}
                                                         >
-                                                            <FormControlLabel {...register("unit_type")} value="apartment" control={<Radio />} label="Apartment" />
-                                                            <FormControlLabel {...register("unit_type")} value="condo" control={<Radio />} label="Condo" />
-                                                            <FormControlLabel {...register("unit_type")} value="basement" control={<Radio />} label="Basement" />
+                                                            <FormControlLabel {...register("unit_type")} value="Apartment" control={<Radio />} label="Apartment" />
+                                                            <FormControlLabel {...register("unit_type")} value="Condo" control={<Radio />} label="Condo" />
+                                                            <FormControlLabel {...register("unit_type")} value="Basement" control={<Radio />} label="Basement" />
 
                                                         </RadioGroup>
 

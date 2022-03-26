@@ -6,7 +6,7 @@ export const PropertySchema = yup.object().shape({
         .string()
         .trim()
         .required("Title is required")
-        .min(6, "Title should be at least 6 characters")
+        .min(8, "Title should be at least 8 characters")
         .max(60, "Title should be at most 60 characters"),
     description: yup
         .string()

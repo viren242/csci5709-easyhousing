@@ -52,9 +52,6 @@ const filterValidationRules = () => {
             .withMessage("Filter category is required")
             .isIn(['unit_type', 'city', 'price'])
             .withMessage("Correct Filter Category is required"),
-        body("value1")
-            .notEmpty()
-            .withMessage("Filteration value is required"),
     ];
 };
 const validateRequest = (req, res, next) => {

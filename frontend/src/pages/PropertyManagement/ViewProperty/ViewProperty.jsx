@@ -5,9 +5,15 @@ import { Card, CardMedia, CardContent, Typography, CardActions, Button } from '@
 import axios_api from '../../../common/axios';
 import { useNavigate } from 'react-router';
 
+const initialState = {
+    filter: 'city',
+    value1: '',
+    value2: '',
+};
+
 const ViewProperty = () => {
     const navigate = useNavigate();
-    const [searchText, setSearchText] = useState("");
+    const [searchText, setSearchText] = useState(initialState);
     const [properties, setProperties] = useState(null)
 
     useEffect(async () => {
@@ -27,8 +33,27 @@ const ViewProperty = () => {
     }, [])
 
     const handleSearchChange = async (e) => {
-        let value = e.target.value
-        setSearchText(value)
+        const value = e.target.value
+        const post = { ...searchText, value1: value };
+        //setNewPost(post);
+        //let value = e.target.value
+        setSearchText(post)
+        axios_api.post("/properties/getFilterProperties", post)
+            .then((response) => {
+                if ((response.data.success = true)) {
+                    setProperties(response.data.data);
+
+                } else {
+                    //console.log("Error")
+                    //toast.error(response?.data?.message);
+                }
+            })
+            .catch((err) => {
+                setProperties([])
+                //debugger;
+                console.log(err?.response?.data?.message);
+                //toast.error(err?.response?.data?.message || "Something went wrong");
+            });
         // if (debounceVar) clearTimeout(debounceVar)
         // debounceVar = setTimeout(() => {
         //     handleSearch(value)
@@ -69,7 +94,7 @@ const ViewProperty = () => {
                         id="search"
                         label="Search City ..."
                         autoFocus
-                        value={searchText}
+                        value={searchText.value1}
                         onChange={handleSearchChange}
                     />
 

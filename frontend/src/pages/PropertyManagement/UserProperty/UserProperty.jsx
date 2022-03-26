@@ -5,24 +5,30 @@ import { Container, Box, CssBaseline, TextField, Grid } from '@mui/material';
 import NavigationBar from "../../NavigationBar/Navbar";
 import { Card, CardMedia, CardContent, Typography, CardActions, Button } from '@mui/material';
 import { Divider } from '@material-ui/core';
+import { toast } from "react-toastify";
 
 const UserProperty = () => {
     const { userId } = useParams();
     const [properties, setProperties] = useState(null)
+
     const navigate = useNavigate();
+
     const handleDelete = async (propertyId) => {
         await axios_api.delete(`/properties/deleteProperty/${propertyId}`)
             .then(response => {
                 if (response.data.success) {
                     console.log(response.data.message);
+                    toast.success(response?.data?.message);
                     //setProperties(response.data.data);
+                    // window.location.reload(false);
+                    getPropertyData();
                 }
                 //console.log("success");
 
             }).catch((err) => {
                 console.log(err.response.data.error);
                 //setProperties([])
-                //toast.error(err?.response?.data?.message || "Something went wrong")
+                toast.error(err?.response?.data?.message || "Something went wrong")
             })
         //navigate(`/propertyDetails/${propertyId}`);
     };
@@ -31,8 +37,7 @@ const UserProperty = () => {
         navigate(`/update_property/${propertyId}`);
     };
 
-    useEffect(() => {
-
+    const getPropertyData = () => {
         axios_api.get(`/properties/getMyProperties/${userId}`)
             .then(response => {
                 if (response.data.success) {
@@ -46,6 +51,9 @@ const UserProperty = () => {
                 //toast.error(err?.response?.data?.message || "Something went wrong")
             })
         //handleSearch(searchText)
+    }
+    useEffect(() => {
+        getPropertyData();
     }, [])
 
     return (
