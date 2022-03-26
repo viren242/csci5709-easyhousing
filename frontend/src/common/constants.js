@@ -12,12 +12,16 @@ export const ROUTES = {
   PROPERTY_LISTING: "/property_list",
   PROPERTY_DETAILS: "/propertyDetails/:propertyId",
   USER_PROPERTY_LISTING: "/user_property_list/:userId",
+  PROFILE: "/profile",
+  EDIT_PROFILE: "/editprofile",
+  CHANGEPASSWORD: "/changepassword",
+  LOGOUT: "/logout",
 
   NOT_FOUND: "*",
   ERROR: "/error",
 
   //Private Route
-  USER_PROFILE: "/profile",
+  // USER_PROFILE: "/profile",
 };
 
 /* Authentication */

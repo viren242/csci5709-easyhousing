@@ -36,7 +36,7 @@ const Error = () => {
           sx={{ mt: 3, mb: 2 }}
           onClick={(event) => navigate("/")}
         >
-          Go to Dashboard
+          Go to Homepage
         </Button>
       </Box>
     </Container>

@@ -1,23 +1,32 @@
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
+import React, { useContext } from "react";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  Container,
+  Avatar,
+  Button,
+  Tooltip,
+  MenuItem,
+  Divider,
+} from "@mui/material";
+import { AppContext } from "../../context/userContext";
 import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
 import { useNavigate } from "react-router-dom";
 import Logo from "../../assets/images/Logo.png";
+import { ROUTES } from "../../common/constants";
+import Settings from "./components/Settings";
 
 const pages = ["Property Rental", "Services", "Roomate Finder"];
 const settings = ["Profile", "Change Password", "Logout"];
 
 const Navbar = () => {
+  const {
+    state: { authenticated, currentUser },
+  } = useContext(AppContext);
   let navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -113,16 +122,20 @@ const Navbar = () => {
             >
               Post Ad
             </Button>
-            <Button
-              variant="contained"
-              sx={{
-                backgroundColor: "#1C3988",
-                display: { md: "flex" },
-              }}
-              onClick={() => navigate("/login")}
-            >
-              Login
-            </Button>
+            {authenticated ? (
+              <Settings />
+            ) : (
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: "#1C3988",
+                  display: { md: "flex" },
+                }}
+                onClick={() => navigate(ROUTES.LOGIN)}
+              >
+                Login
+              </Button>
+            )}
           </Box>
         </Toolbar>
       </Container>
