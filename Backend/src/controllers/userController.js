@@ -126,6 +126,8 @@ const userLogin = async (user, role, res) => {
         firstName: userExist.firstName,
         lastName: userExist.lastName,
         email: userExist.email,
+        imgURL: userExist.imgURL,
+        phoneNumber: userExist.phoneNumber,
         role: userExist.role,
         token: `Bearer ${token}`,
         expiresIn: 1,
@@ -179,6 +181,7 @@ const userProfile = async (req, res) => {
       firstName: user.firstName,
       lastName: user.lastName,
       imgURL: user.imgURL,
+      phoneNumber: user.phoneNumber,
       role: user.role,
       updatedAt: user.updatedAt,
       createdAt: user.createdAt,
@@ -291,7 +294,7 @@ const getUserById = async (user_id) => {
   return await users.findByPk(user_id);
 };
 
-// User Registration with different Roles
+// User Updation with different Roles
 const updateProfile = async (req, res) => {
   try {
     const id = req.params.id;
@@ -318,7 +321,7 @@ const updateProfile = async (req, res) => {
   }
 };
 
-// User Registration with different Roles
+// User Deletion with different Roles
 const deleteUserProfile = async (req, res) => {
   try {
     const id = req.params.id;
