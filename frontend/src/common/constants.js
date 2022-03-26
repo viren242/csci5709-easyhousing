@@ -13,6 +13,7 @@ export const ROUTES = {
 
   //Private Route
   USER_PROFILE: "/profile",
+  ROOMMATE_FINDER:"/roommateHomepage"
 };
 
 /* Authentication */

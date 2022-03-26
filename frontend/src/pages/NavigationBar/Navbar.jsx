@@ -23,6 +23,7 @@ const Navbar = () => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
+    console.log(event);
     setAnchorElNav(event.currentTarget);
   };
   const handleOpenUserMenu = (event) => {
@@ -30,6 +31,7 @@ const Navbar = () => {
   };
 
   const handleCloseNavMenu = () => {
+    console.log("test");
     setAnchorElNav(null);
   };
 
