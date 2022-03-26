@@ -25,6 +25,8 @@ app.use("/api/users", userRoute);
 
 app.use("/api/properties", propertyRoute);
 
+app.use("/api/roomatefinder",roommateFinderRoute);
+
 // app.use((req, res, next) => {
 //   res.status(404).send({
 //     status: 404,
