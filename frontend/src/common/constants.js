@@ -7,6 +7,10 @@ export const ROUTES = {
   LOGIN: "/login",
   FORGOT_PASSWORD: "/forgotPassword",
   SIGNUP: "/signup",
+  PROFILE: "/profile",
+  EDIT_PROFILE: "/editprofile",
+  CHANGEPASSWORD: "/changepassword",
+  LOGOUT: "/logout",
 
   NOT_FOUND: "*",
   ERROR: "/error",
@@ -14,6 +18,7 @@ export const ROUTES = {
   //Private Route
   USER_PROFILE: "/profile",
   ROOMMATE_FINDER:"/roommateHomepage"
+  // USER_PROFILE: "/profile",
 };
 
 /* Authentication */

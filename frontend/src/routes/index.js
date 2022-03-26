@@ -13,6 +13,11 @@ import { AppContext } from "../context/userContext";
 import { ROUTES, TOKEN } from "../common/constants";
 import Login from "../pages/UserManagement/Login/Login";
 import Signup from "../pages/UserManagement/Signup/Signup";
+import EditUserProfile from "../pages/UserProfile/EditProfile";
+import Logout from "../Components/Logout";
+import ChangePassword from "../pages/UserProfile/ChangePassword";
+import Profile from "../pages/UserProfile/Profile";
+
 // import PrivateRoute from "PrivateRoute";
 import Homepage from "../pages/HomePage/index";
 import RoommateHomepage from "../pages/RoommateFinder/RoomateHomePage";
@@ -33,6 +38,23 @@ function Routing() {
       pageLink: ROUTES.SIGNUP,
       view: Signup,
     },
+    {
+      pageLink: ROUTES.PROFILE,
+      view: Profile,
+    },
+    {
+      pageLink: ROUTES.EDIT_PROFILE,
+      view: EditUserProfile,
+    },
+    {
+      pageLink: ROUTES.CHANGEPASSWORD,
+      view: ChangePassword,
+    },
+    {
+      pageLink: ROUTES.LOGOUT,
+      view: Logout,
+    },
+
     {
       pageLink: ROUTES.ERROR,
       view: Error,

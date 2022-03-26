@@ -1,4 +1,6 @@
-import React, { useState, useContext } from "react";
+// Author: Anuj Dev (B00900887)
+
+import React, { useContext, useEffect } from "react";
 import MainScreen from "../../../assets/images/LoginPage.png";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -12,16 +14,15 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
-import Alert from "@mui/material/Alert";
-import Snackbar from "@mui/material/Snackbar";
+import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../../NavigationBar/Navbar";
-import Footer from "../../Footer/Footer";
 import axios_api from "../../../common/axios";
 import jwtDecode from "jwt-decode";
 import { AppContext } from "../../../context/userContext";
 import * as ActionTypes from "../../../common/actionTypes";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { ROUTES } from "../../../common/constants";
 
 const Login = () => {
   const {
@@ -36,9 +37,11 @@ const Login = () => {
     reset,
     trigger,
   } = useForm();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [open, setOpen] = useState(false);
-
+  useEffect(() => {
+    if (authenticated) {
+      navigate(ROUTES.HOMEPAGE);
+    }
+  });
   const onSubmit = (data) => {
     const { email, password } = data;
     const loginCredentials = { email, password };
@@ -47,36 +50,27 @@ const Login = () => {
       .then((response) => {
         if ((response.data.success = true)) {
           const { data } = response;
-          debugger;
           const decoded = jwtDecode(data.token);
           console.log(authenticated, currentUser, userId, authToken);
           dispatch({ type: ActionTypes.SET_TOKEN, data: data.token });
           dispatch({ type: ActionTypes.SET_CURRENT_USER, data: data });
           dispatch({ type: ActionTypes.SET_USER_ID, data: decoded.id });
           dispatch({ type: ActionTypes.SET_AUTHENTICATED, data: true });
-          navigate("/");
+          toast.success(response?.data?.message);
+          reset();
+          navigate(ROUTES.HOMEPAGE);
         } else {
-          setOpen(true);
-          setIsLoggedIn(false);
+          toast.error(response?.data?.message);
         }
       })
       .catch((err) => {
-        setOpen(true);
-        setIsLoggedIn(false);
+        debugger;
+        toast.error(err?.response?.data?.message || "Something went wrong");
       });
-    reset();
-  };
-
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpen(false);
   };
 
   return (
     <>
-      {/* <Navbar /> */}
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
@@ -97,9 +91,20 @@ const Login = () => {
         />
 
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Button
+            sx={{
+              my: 4,
+              ml: 2,
+              alignItems: "left",
+            }}
+            component="a"
+            startIcon={<ArrowBackIcon fontSize="small" />}
+            onClick={() => navigate(ROUTES.HOMEPAGE)}
+          >
+            Home
+          </Button>
           <Box
             sx={{
-              my: 8,
               mx: 4,
               display: "flex",
               flexDirection: "column",
@@ -160,7 +165,7 @@ const Login = () => {
                     value:
                       /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
                     message:
-                      "Please enter valid password, Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters",
+                      "Please enter valid password, Must contain at least 1 number and 1 uppercase and lowercase letter, and at least 8 or more characters",
                   },
                 })}
                 onKeyUp={() => {
@@ -173,6 +178,7 @@ const Login = () => {
                 </Typography>
               )}
               <FormControlLabel
+                sx={{ display: "flex" }}
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               />
@@ -184,19 +190,6 @@ const Login = () => {
               >
                 Login
               </Button>
-              <Snackbar
-                open={open}
-                autoHideDuration={6000}
-                onClose={handleClose}
-              >
-                <Alert
-                  onClose={handleClose}
-                  severity="error"
-                  sx={{ width: "100%" }}
-                >
-                  Invalid Email Address or Password
-                </Alert>
-              </Snackbar>
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">
@@ -206,7 +199,7 @@ const Login = () => {
                 <Grid item xs></Grid>
                 <Grid item>
                   <Link
-                    onClick={(event) => navigate("/signup")}
+                    onClick={(event) => navigate(ROUTES.SIGNUP)}
                     variant="body2"
                   >
                     {"Already Have Account? Sign Up"}
@@ -217,7 +210,6 @@ const Login = () => {
           </Box>
         </Grid>
       </Grid>
-      {/* <Footer /> */}
     </>
   );
 };
