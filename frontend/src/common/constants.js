@@ -11,6 +11,10 @@ export const ROUTES = {
   EDIT_PROFILE: "/editprofile",
   CHANGEPASSWORD: "/changepassword",
   LOGOUT: "/logout",
+  REVIEW: "/review",
+  RATING: "/rating",
+  BOOK_APPOINTMENT: "/book-appointment",
+  CANCEL_APPOINTMENT: "/cancel-appointment",
 
   NOT_FOUND: "*",
   ERROR: "/error",

@@ -17,6 +17,10 @@ import EditUserProfile from "../pages/UserProfile/EditProfile";
 import Logout from "../Components/Logout";
 import ChangePassword from "../pages/UserProfile/ChangePassword";
 import Profile from "../pages/UserProfile/Profile";
+import BookAppointment from "../pages/Appointment/BookAppointment/BookAppointment";
+import CancelAppointment from "../pages/Appointment/CancelAppointment/CancelAppointment";
+import Review from "../pages/Review/Review";
+import Ratings from "../pages/Rating/Ratings";
 
 // import PrivateRoute from "PrivateRoute";
 import Homepage from "../pages/HomePage/index";
@@ -52,6 +56,22 @@ function Routing() {
     {
       pageLink: ROUTES.LOGOUT,
       view: Logout,
+    },
+    {
+      pageLink: ROUTES.BOOK_APPOINTMENT,
+      view: BookAppointment,
+    },
+    {
+      pageLink: ROUTES.CANCEL_APPOINTMENT,
+      view: CancelAppointment,
+    },
+    {
+      pageLink: ROUTES.REVIEW,
+      view: Review,
+    },
+    {
+      pageLink: ROUTES.RATING,
+      view: Ratings,
     },
 
     {

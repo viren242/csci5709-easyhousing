@@ -45,7 +45,7 @@ const getRating = async (req, res) => {
             res.status(200).json({
                 message: "Rating Retrieved",
                 success: true,
-                ratings: rating
+                rating: rating
             })
         }
     } catch (err) {

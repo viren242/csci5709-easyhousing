@@ -1,4 +1,74 @@
-const { reviews } = require("../models");
+const { reviews, appointments, properties } = require("../models");
+
+const getUserReviews = async (req, res) => {
+    try {
+        const listMyAppointments = await appointments.findAll({
+            where: { user_id: req.params.userId, isDeleted: false }
+        })
+        if (!listMyAppointments || !listMyAppointments.length) {
+            res.status(404).json({
+                message: "No Appointment Available",
+                success: false
+            })
+        } else {
+            const numOfReviews = listMyAppointments.length;
+            let listOfReviews = [];
+            for (let i = 0; i < numOfReviews; i++) {
+                const user = listMyAppointments[i].user_id;
+                const property = listMyAppointments[i].property_id;
+                const review = await reviews.findOne({
+                    where: { user_id: user, property_id: property }
+                })
+                if (!review) {
+                    const propertyImg = await properties.findOne({
+                        where: { id: property }
+                    })
+                    let image = "";
+                    if (!propertyImg || !propertyImg.dataValues.image) {
+                        image = "image"
+                    } else {
+                        image = propertyImg.dataValues.image;
+                    }
+                    listOfReviews.push({
+                        user_id: user,
+                        property_id: property,
+                        images: image,
+                        review_id: "",
+                        review: ""
+                    })
+                } else {
+                    const propertyImg = await properties.findOne({
+                        where: { id: property }
+                    })
+                    let image = "";
+                    if (!propertyImg || !propertyImg.dataValues.image) {
+                        image = "image"
+                    } else {
+                        image = propertyImg.dataValues.image;
+                    }
+                    listOfReviews.push({
+                        user_id: user,
+                        property_id: property,
+                        images: image,
+                        review_id: review.dataValues.review_id,
+                        review: review.dataValues.review
+                    })
+                }
+            }
+            res.status(200).json({
+                message: "Appointments Retrieved",
+                success: true,
+                reviews: listOfReviews
+            })
+        }
+    } catch (err) {
+        res.status(500).json({
+            message: "Internal Server Error!!",
+            success: false,
+            error: err.message
+        })
+    }
+}
 
 const getAllReviews = async (req, res) => {
     try {
@@ -16,7 +86,7 @@ const getAllReviews = async (req, res) => {
             res.status(200).json({
                 message: "Reviews Retrieved",
                 success: true,
-                ratings: listOfReviews
+                reviews: listOfReviews
             })
         }
     } catch (err) {
@@ -45,7 +115,7 @@ const getReview = async (req, res) => {
             res.status(200).json({
                 message: "Review Retrieved",
                 success: true,
-                ratings: review
+                review: review
             })
         }
     } catch (err) {
@@ -121,7 +191,7 @@ const deleteReview = async (req, res) => {
             })
         } else {
             await reviews.destroy({
-                where: { rating_id: review.rating_id }
+                where: { review_id: review.review_id }
             }).then(() => {
                 res.status(200).json({
                     message: "Review Deleted",
@@ -138,4 +208,4 @@ const deleteReview = async (req, res) => {
     }
 };
 
-module.exports = { addReview, getAllReviews, getReview, updateReview, deleteReview };
+module.exports = { addReview, getAllReviews, getUserReviews, getReview, updateReview, deleteReview };
