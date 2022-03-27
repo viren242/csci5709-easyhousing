@@ -3,7 +3,7 @@ const { appointments } = require("../models");
 const getAllAppointments = async (req, res) => {
     try {
         const listOfAppointments = await appointments.findAll({
-            where: { user_id: req.params.userId }
+            where: { user_id: req.params.userId, isDeleted: false }
         });
 
         if (!listOfAppointments || !listOfAppointments.length) {
@@ -32,10 +32,10 @@ const getAppointment = async (req, res) => {
         const user = req.params.userId;
         const property = req.params.propertyId;
         const appointment = await appointments.findOne({
-            where: { user_id: user, property_id: property }
+            where: { user_id: user, property_id: property, isDeleted: false }
         })
 
-        if (!appointment || !appointment.length) {
+        if (!appointment) {
             res.status(404).json({
                 message: "No Appointment Available",
                 success: false
@@ -44,7 +44,7 @@ const getAppointment = async (req, res) => {
             res.status(200).json({
                 message: "Appointment Retrieved",
                 success: true,
-                ratings: appointment
+                appointment: appointment
             })
         }
     } catch (err) {
@@ -78,7 +78,7 @@ const updateAppointment = async (req, res) => {
         const user = req.params.userId;
         const property = req.params.propertyId;
         const appointment = await appointments.findOne({
-            where: { user_id: user, property_id: property }
+            where: { user_id: user, property_id: property, isDeleted: false }
         })
 
         if (!appointment) {
@@ -87,8 +87,14 @@ const updateAppointment = async (req, res) => {
                 success: false
             })
         } else {
+            const appointmentId = appointment.dataValues.appointment_id;
             await appointments.update(req.body, {
-                where: { appointment_id: appointment.appointment_id }
+                where: { appointment_id: appointmentId }
+            }).then( () => {
+                res.status(200).json({
+                    message: "Appointment Updated",
+                    success: true
+                })
             })
         }
     } catch (err) {
@@ -105,7 +111,7 @@ const deleteAppointment = async (req, res) => {
         const user = req.params.userId;
         const property = req.params.propertyId;
         const appointment = await appointments.findOne({
-            where: { user_id: user, property_id: property }
+            where: { user_id: user, property_id: property, isDeleted: false }
         })
 
         if (!appointment) {
@@ -114,11 +120,12 @@ const deleteAppointment = async (req, res) => {
                 success: false
             })
         } else {
-            await appointments.destroy({
-                where: { appointment_id: appointment.appointment_id }
-            }).then(() => {
+            const appointmentId = appointment.dataValues.appointment_id;
+            await appointments.update( { isDeleted: true }, {
+                where: { appointment_id: appointmentId }
+            }).then( () => {
                 res.status(200).json({
-                    message: "Appointment Deleted",
+                    message: "Appointment marked deleted",
                     success: true
                 })
             })
