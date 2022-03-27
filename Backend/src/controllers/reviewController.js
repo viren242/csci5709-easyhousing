@@ -36,7 +36,7 @@ const getReview = async (req, res) => {
             where: { user_id: user, property_id: property }
         })
 
-        if (!review || !review.length) {
+        if (!review) {
             res.status(404).json({
                 message: "No Review Available",
                 success: false
@@ -89,7 +89,12 @@ const updateReview = async (req, res) => {
             })
         } else {
             await reviews.update(req.body, {
-                where: { rating_id: review.rating_id }
+                where: { rating_id: review.dataValues.rating_id }
+            }).then( () => {
+                res.status(200).json({
+                    message: "Review Updated",
+                    success: true
+                })
             })
         }
     } catch (err) {
