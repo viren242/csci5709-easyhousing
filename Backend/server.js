@@ -5,6 +5,7 @@ const propertyRoute = require("../Backend/src/routes/propertyRoute");
 const ratingRoute = require("../Backend/src/routes/ratingRoute");
 const reviewRoute = require("../Backend/src/routes/reviewRoute");
 const appointmentRoute = require("./src/routes/appointmentRoute");
+const favoriteRoute = require("./src/routes/favoriteRoute");
 const db = require("../Backend/src/models");
 const passport = require("passport");
 
@@ -33,6 +34,8 @@ app.use("/api/ratings", ratingRoute);
 app.use("/api/reviews", reviewRoute);
 
 app.use("/api/appointments", appointmentRoute);
+
+app.use("/api/favorites", favoriteRoute);
 
 // app.use((req, res, next) => {
 //   res.status(404).send({
