@@ -208,4 +208,31 @@ const getUserReviews = async (req, res) => {
     }
 }
 
-module.exports = { addReview, getAllReviews, getUserReviews, getReview, updateReview, deleteReview };
+const getAllPropertyReviews = async (req, res) => {
+    try {
+        const property = req.params.propertyId;
+        const propertyReviews = await reviews.findAll({
+            where: {property_id: property}
+        })
+        if (!propertyReviews || !propertyReviews.length) {
+            res.status(404).json({
+                message: "No Review Found!!!",
+                success: false
+            })
+        } else {
+            res.status(200).json({
+                message: "Reviews Retrieved",
+                success: true,
+                reviews: propertyReviews
+            })
+        }
+    } catch (err) {
+        res.status(500).json({
+            message: "Internal Server Error!!",
+            success: false,
+            error: err.message
+        })
+    }
+}
+
+module.exports = { addReview, getAllReviews, getUserReviews, getReview, updateReview, deleteReview, getAllPropertyReviews };
