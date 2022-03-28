@@ -66,7 +66,7 @@ const getService = async (req, res) => {
 }
 
 const deleteImageAssociatedWithService = (imageName) => {
-    const imagePath = path.join("uploads", imageName);
+    const imagePath = path.join("images", imageName);
     try {
         if (fs.existsSync(imagePath)) {
             fs.unlinkSync(imagePath);
