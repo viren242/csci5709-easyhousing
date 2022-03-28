@@ -141,4 +141,6 @@ const getFilterProperties = async (req, res) => {
     }
 };
 
+
+
 module.exports = { propertyRoot, getAllProperties, getProperty, getMyProperties, createProperty, updateProperty, deleteProperty, getFilterProperties };

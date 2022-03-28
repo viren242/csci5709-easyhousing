@@ -7,7 +7,7 @@ const reviewRoute = require("../Backend/src/routes/reviewRoute");
 const appointmentRoute = require("./src/routes/appointmentRoute");
 const db = require("../Backend/src/models");
 const passport = require("passport");
-
+const path = require('path')
 var corsOptions = {
   origin: "http://localhost:3000",
 };
@@ -18,6 +18,7 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true }));
 db.sequelize.sync();
 app.use(passport.initialize());
+app.use('/src/images', express.static(path.join(__dirname, "src/images")))
 
 require("./src/middleware/passport")(passport);
 //Routes
