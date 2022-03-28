@@ -20,7 +20,7 @@ import Logo from "../../assets/images/Logo.png";
 import { ROUTES } from "../../common/constants";
 import Settings from "./components/Settings";
 
-const pages = ["Property Rental", "Roomate Finder"];
+const pages = ["Roomate Finder"];
 const settings = ["Profile", "Change Password", "Logout"];
 
 const Navbar = () => {
@@ -88,6 +88,9 @@ const Navbar = () => {
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
+              <MenuItem onClick={() => navigate(ROUTES.PROPERTY_LISTING)}>
+                <Typography textAlign="center">PROPERTY RENTAL</Typography>
+              </MenuItem>
               <MenuItem onClick={() => navigate(ROUTES.VIEW_SERVICES)}>
                 <Typography textAlign="center">Services</Typography>
               </MenuItem>
@@ -106,7 +109,12 @@ const Navbar = () => {
                 {page}
               </Button>
             ))}
-
+            <Button
+              onClick={() => navigate(ROUTES.PROPERTY_LISTING)}
+              sx={{ my: 2, color: "black", display: "block" }}
+            >
+              PROPERTY RENTAL
+            </Button>
             <Button
               onClick={() => navigate(ROUTES.VIEW_SERVICES)}
               sx={{ my: 2, color: "black", display: "block" }}

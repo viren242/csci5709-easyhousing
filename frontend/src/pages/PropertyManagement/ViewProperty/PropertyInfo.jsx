@@ -163,7 +163,7 @@ const PropertyInfo = () => {
                                     >
                                         Review
                                     </Button>
-                                    <Button
+                                    {/* <Button
                                         //fullWidth
                                         variant="contained"
                                         onClick={(event) => {
@@ -173,7 +173,7 @@ const PropertyInfo = () => {
                                         sx={{ mt: 3, mb: 2, mr: 2, }}
                                     >
                                         Report
-                                    </Button>
+                                    </Button> */}
                                     {/* </Box> */}
                                 </Box>
 

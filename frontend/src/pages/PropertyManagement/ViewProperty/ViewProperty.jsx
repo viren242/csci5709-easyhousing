@@ -61,6 +61,7 @@ const ViewProperty = () => {
     }
 
     const handleClick = (propertyId) => {
+        //console.log(`/propertyDetails/${propertyId}`)
         navigate(`/propertyDetails/${propertyId}`);
     };
 
@@ -113,7 +114,7 @@ const ViewProperty = () => {
                                             <Typography gutterBottom variant="h5" component="div">
                                                 {property.title}
                                             </Typography>
-                                            <Typography variant="body2" color="text.secondary">
+                                            <Typography variant="body2" color="text.secondary" textOverflow="ellipsis" overflow="hidden" whiteSpace="nowrap">
                                                 {property.location}
                                             </Typography>
                                             <br />

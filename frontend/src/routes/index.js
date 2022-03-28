@@ -69,6 +69,8 @@ function Routing() {
     {
       pageLink: ROUTES.PROPERTY_DETAILS,
       view: PropertyInfo,
+    },
+    {
       pageLink: ROUTES.FORGOT_PASSWORD,
       view: ForgetPassword,
     },

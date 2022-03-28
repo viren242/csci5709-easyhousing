@@ -137,14 +137,17 @@ const AddProperty = () => {
                 //console.log("h");
                 onSubmit();
             }
-            let newSkipped = skipped;
-            if (isStepSkipped(activeStep)) {
-                newSkipped = new Set(newSkipped.values());
-                newSkipped.delete(activeStep);
+            else {
+                let newSkipped = skipped;
+                if (isStepSkipped(activeStep)) {
+                    newSkipped = new Set(newSkipped.values());
+                    newSkipped.delete(activeStep);
+                }
+
+                setActiveStep((prevActiveStep) => prevActiveStep + 1);
+                setSkipped(newSkipped);
             }
 
-            setActiveStep((prevActiveStep) => prevActiveStep + 1);
-            setSkipped(newSkipped);
         }
 
     };
@@ -236,7 +239,7 @@ const AddProperty = () => {
                 //if ((response.status = true)) {
                 //toast.success(response?.data?.message);
                 //reset();
-                //console.log("Hello");
+                console.log("Hello");
                 const path = response.data.path;
                 const post = { ...newPost, image: path }
                 setNewPost(post);
@@ -255,59 +258,104 @@ const AddProperty = () => {
     const onSubmit = () => {
         //handleImagePath();
         const data = new FormData();
+        //console.log(fileData);
         data.append('image', fileData);
-        axios_api.post("/properties/uploadImage", data)
-            .then((response) => {
-                const path = response.data;
-                //console.log(path);
-                const post = { ...newPost, image: path }
-                setNewPost(post);
+        if (fileData) {
+            axios_api.post("/properties/uploadImage", data)
+                .then((response) => {
+                    const path = response.data;
+                    //console.log(path);
+                    const post = { ...newPost, image: path }
+                    setNewPost(post);
 
-                if (propertyId) {
-                    axios_api
-                        .put(`/properties/updateProperty/${propertyId}`, post)
-                        .then((response) => {
-                            if ((response.data.success = true)) {
-                                toast.success(response?.data?.message);
-                                reset();
-                                console.log(response?.data?.message);
-                                navigate(ROUTES.HOMEPAGE);
-                            } else {
-                                console.log(response?.data?.message);
-                                toast.error(response?.data?.message);
-                            }
-                        })
-                        .catch((err) => {
-                            debugger;
-                            console.log(err?.response?.data?.message);
-                            toast.error(err?.response?.data?.message || "Something went wrong");
-                        });
-                } else {
-                    axios_api
-                        .post("/properties/createProperty", post)
-                        .then((response) => {
-                            if ((response.data.success = true)) {
-                                toast.success(response?.data?.message);
-                                reset();
-                                console.log(response?.data?.message);
-                                navigate(ROUTES.HOMEPAGE);
-                            } else {
-                                console.log(response?.data?.message);
-                                toast.error(response?.data?.message);
-                            }
-                        })
-                        .catch((err) => {
-                            debugger;
-                            console.log(err?.response?.data?.message);
-                            toast.error(err?.response?.data?.message || "Something went wrong");
-                        });
-                }
+                    if (propertyId) {
+                        axios_api
+                            .put(`/properties/updateProperty/${propertyId}`, post)
+                            .then((response) => {
+                                if ((response.data.success = true)) {
+                                    toast.success(response?.data?.message);
+                                    reset();
+                                    console.log(response?.data?.message);
+                                    navigate(ROUTES.HOMEPAGE);
+                                } else {
+                                    console.log(response?.data?.message);
+                                    toast.error(response?.data?.message);
+                                }
+                            })
+                            .catch((err) => {
+                                debugger;
+                                console.log(err?.response?.data?.message);
+                                toast.error(err?.response?.data?.message || "Something went wrong");
+                            });
+                    } else {
+                        axios_api
+                            .post("/properties/createProperty", post)
+                            .then((response) => {
+                                if ((response.data.success = true)) {
+                                    toast.success(response?.data?.message);
+                                    reset();
+                                    console.log(response?.data?.message);
+                                    navigate(ROUTES.HOMEPAGE);
+                                } else {
+                                    console.log(response?.data?.message);
+                                    toast.error(response?.data?.message);
+                                }
+                            })
+                            .catch((err) => {
+                                debugger;
+                                console.log(err?.response?.data?.message);
+                                toast.error(err?.response?.data?.message || "Something went wrong");
+                            });
+                    }
 
-            })
-            .catch((err) => {
-                //debugger;
-                console.log(err?.response?.data?.message);
-            });
+                })
+                .catch((err) => {
+                    //debugger;
+                    console.log(err?.response?.data?.message);
+                });
+
+        }
+        else {
+            if (propertyId) {
+                axios_api
+                    .put(`/properties/updateProperty/${propertyId}`, newPost)
+                    .then((response) => {
+                        if ((response.data.success = true)) {
+                            toast.success(response?.data?.message);
+                            reset();
+                            console.log(response?.data?.message);
+                            navigate(ROUTES.HOMEPAGE);
+                        } else {
+                            console.log(response?.data?.message);
+                            toast.error(response?.data?.message);
+                        }
+                    })
+                    .catch((err) => {
+                        debugger;
+                        console.log(err?.response?.data?.message);
+                        toast.error(err?.response?.data?.message || "Something went wrong");
+                    });
+            } else {
+                axios_api
+                    .post("/properties/createProperty", newPost)
+                    .then((response) => {
+                        if ((response.data.success = true)) {
+                            toast.success(response?.data?.message);
+                            reset();
+                            console.log(response?.data?.message);
+                            navigate(ROUTES.HOMEPAGE);
+                        } else {
+                            console.log(response?.data?.message);
+                            toast.error(response?.data?.message);
+                        }
+                    })
+                    .catch((err) => {
+                        debugger;
+                        console.log(err?.response?.data?.message);
+                        toast.error(err?.response?.data?.message || "Something went wrong");
+                    });
+            }
+        }
 
 
 
