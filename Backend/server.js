@@ -1,18 +1,18 @@
 const express = require("express");
 const cors = require("cors");
-const userRoute = require("../Backend/src/routes/userRoute");
-const propertyRoute = require("../Backend/src/routes/propertyRoute");
-const ratingRoute = require("../Backend/src/routes/ratingRoute");
-const reviewRoute = require("../Backend/src/routes/reviewRoute");
+const userRoute = require("./src/routes/userRoute");
+const propertyRoute = require("./src/routes/propertyRoute");
+const ratingRoute = require("./src/routes/ratingRoute");
+const reviewRoute = require("./src/routes/reviewRoute");
 const appointmentRoute = require("./src/routes/appointmentRoute");
 const favoriteRoute = require("./src/routes/favoriteRoute");
-const db = require("../Backend/src/models");
+const db = require("./src/models");
 const passport = require("passport");
 const path = require("path");
 const fs = require("fs");
 
 var corsOptions = {
-  origin: "http://localhost:3000",
+  origin: ["http://localhost:3000", "https://easyhousingapi.herokuapp.com/"],
 };
 
 const app = express();
@@ -24,7 +24,7 @@ app.use(passport.initialize());
 
 require("./src/middleware/passport")(passport);
 //Routes
-const serviceRouter = require("../Backend/src/routes/serviceRoute");
+const serviceRouter = require("./src/routes/serviceRoute");
 app.use("/services", serviceRouter);
 
 app.use("/api/users", userRoute);
@@ -40,7 +40,7 @@ app.use("/api/appointments", appointmentRoute);
 app.get("/image/:name", async (req, res) => {
   try {
     const fileName = req.params.name;
-  
+
     const filePath = path.join("uploads", fileName);
 
     if (!fs.existsSync(filePath)) {

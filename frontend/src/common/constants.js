@@ -6,6 +6,7 @@ export const ROUTES = {
   HOMEPAGE: "/",
   LOGIN: "/login",
   FORGOT_PASSWORD: "/forgotPassword",
+  RESET_PASSWORD: "/api/user/reset/:userId/:jwtToken",
   SIGNUP: "/signup",
   PROFILE: "/profile",
   EDIT_PROFILE: "/editprofile",

@@ -50,7 +50,7 @@ const Profile = () => {
       navigate(ROUTES.HOMEPAGE);
     }
     getProfile();
-  }, []);
+  }, [authenticated]);
   return (
     <div>
       <Navbar />

@@ -87,6 +87,28 @@ const forgetPasswordValidationRules = () => {
       .withMessage("Must be a valid email address"),
   ];
 };
+
+const resetPasswordValidationRules = () => {
+  return [
+    body("newPassword")
+      .notEmpty()
+      .withMessage("Password is required")
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/
+      )
+      .withMessage(
+        "Password must contain combination of at least 1 lowercase, 1 uppercase, 1 special characters and numbers"
+      ),
+    body("confirmNewPassword")
+      .notEmpty()
+      .custom((value, { req }) => {
+        if (value !== req.body.newPassword) {
+          throw new Error("Password confirmation does not match password");
+        }
+        return true;
+      }),
+  ];
+};
 const loginValidationRules = () => {
   return [
     body("email").notEmpty().withMessage("Email is required").isEmail(),
@@ -113,5 +135,6 @@ module.exports = {
   changePasswordValidationRules,
   updateProfileValidationRules,
   forgetPasswordValidationRules,
+  resetPasswordValidationRules,
   validateRequest,
 };

@@ -220,7 +220,7 @@ const forgotPassword = async (req, res) => {
       role: userExist.role,
     };
     let token = jwt.sign(jwtPayload, JWT_SECRET, { expiresIn: "1h" });
-    const link = `${WEBSITE_LINK}/api/user/reset/${token}`;
+    const link = `${WEBSITE_LINK}/api/user/reset/${userExist.id}/${token}`;
     sendEmail(
       userExist.email,
       "Reset Password For Easy Housing",
@@ -283,6 +283,47 @@ const changePassword = async (req, res) => {
     await userObj.save();
     res.status(200).json({
       message: "Password Changed Successfully",
+      success: true,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message, success: false });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  try {
+    res.setHeader("Content_type", "application/json");
+
+    let userObj = await getUserById(req.params.userId);
+    var isVerified = jwt.verify(req.params.jwtToken, JWT_SECRET);
+    if (!isVerified) {
+      return res.status(400).json({
+        message: "User Token is Not Valid",
+        success: false,
+      });
+    }
+    if (!userObj) {
+      return res.status(400).json({
+        message: "User Does not Exists",
+        success: false,
+      });
+    }
+    userObj.password = await bcrypt.hash(
+      req.body.newPassword,
+      Number(SALT_VALUE)
+    );
+    await userObj.save();
+    sendEmail(
+      userObj.email,
+      "Password Reset Sccessfully",
+      {
+        fullname: userObj.firstName + " " + userObj.lastName,
+        link: WEBSITE_LINK,
+      },
+      "../utils/templates/resetPasswordConfirmation.handlebars"
+    );
+    res.status(200).json({
+      message: "Password Reset Successfully",
       success: true,
     });
   } catch (error) {
@@ -359,4 +400,5 @@ module.exports = {
   updateProfile,
   deleteUserProfile,
   forgotPassword,
+  resetPassword,
 };
