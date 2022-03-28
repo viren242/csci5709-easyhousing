@@ -140,6 +140,7 @@ const Profile = () => {
                       fullWidth
                       variant="text"
                       startIcon={<ReviewsIcon />}
+                      onClick={() => navigate(ROUTES.REVIEW)}
                     >
                       My Reviews
                     </Button>

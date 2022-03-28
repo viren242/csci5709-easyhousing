@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-    const Reviews = sequelize.define('reviews', {
-        review_id: {
+    const Appointments = sequelize.define('appointments', {
+        appointment_id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true
@@ -13,9 +13,16 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             required: true
         },
-        review: {
-            type: DataTypes.TEXT
+        appointment_date: {
+            type: DataTypes.DATE
+        },
+        appointment_time: {
+            type: DataTypes.TIME
+        },
+        isDeleted: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
         }
     });
-    return Reviews;
+    return Appointments;
 }

@@ -36,7 +36,7 @@ const getRating = async (req, res) => {
             where: { user_id: user, property_id: property }
         })
 
-        if (!rating || !rating.length) {
+        if (!rating) {
             res.status(404).json({
                 message: "No Rating Available",
                 success: false
@@ -45,7 +45,7 @@ const getRating = async (req, res) => {
             res.status(200).json({
                 message: "Rating Retrieved",
                 success: true,
-                ratings: rating
+                rating: rating
             })
         }
     } catch (err) {
@@ -89,7 +89,12 @@ const updateRating = async (req, res) => {
             })
         } else {
             await ratings.update(req.body, {
-                where: { rating_id: rating.rating_id }
+                where: { rating_id: rating.dataValues.rating_id }
+            }).then( () => {
+                res.status(200).json({
+                    message: "Rating Updated",
+                    success: true
+                })
             })
         }
     } catch (err) {
@@ -133,4 +138,4 @@ const deleteRating = async (req, res) => {
     }
 };
 
-module.exports = { addRating, getAllRatings, getRating, updateRating, deleteRating};
+module.exports = { addRating, getAllRatings, getRating, updateRating, deleteRating };
