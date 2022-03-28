@@ -11,17 +11,19 @@ import {
   Typography,
   Grid,
 } from "@mui/material";
-import Navbar from "../NavigationBar/Navbar";
+import Navbar from "../../NavigationBar/Navbar";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import axios_api from "../../common/axios";
-import { AppContext } from "../../context/userContext";
-import { ROUTES } from "../../common/constants";
+import { useNavigate, useParams } from "react-router-dom";
+import axios_api from "../../../common/axios";
+import { AppContext } from "../../../context/userContext";
+import { ROUTES } from "../../../common/constants";
 
-const ChangePassword = (props) => {
+const ResetPassword = () => {
+  const urlParams = useParams();
+  const { jwtToken, userId } = urlParams;
   const {
-    state: { authenticated, authToken },
+    state: { authenticated },
   } = useContext(AppContext);
   let navigate = useNavigate();
   const {
@@ -33,27 +35,23 @@ const ChangePassword = (props) => {
     watch,
   } = useForm();
   useEffect(() => {
-    if (!authenticated) {
+    if (authenticated) {
       navigate(ROUTES.HOMEPAGE);
     }
   }, [authenticated]);
   const onSubmit = (data) => {
-    const { oldPassword, newPassword, confirmNewPassword } = data;
-    const changePasswordDetails = {
-      oldPassword,
+    const { newPassword, confirmNewPassword } = data;
+    const resetPasswordDetails = {
       newPassword,
       confirmNewPassword,
     };
-    const config = {
-      headers: { Authorization: `${authToken}` },
-    };
     axios_api
-      .post("/users/changePassword", changePasswordDetails, config)
+      .post(`users/passwordReset/${userId}/${jwtToken}`, resetPasswordDetails)
       .then((response) => {
         if ((response.data.success = true)) {
           toast.success(response?.data?.message);
           reset();
-          navigate(ROUTES.LOGOUT);
+          navigate(ROUTES.LOGIN);
         } else {
           toast.error(response?.data?.message);
         }
@@ -84,8 +82,8 @@ const ChangePassword = (props) => {
             <Box sx={{ pt: 3 }}>
               <Card>
                 <CardHeader
-                  subheader="Update password"
-                  title="Change Password"
+                  subheader="Forget Password"
+                  title="Reset Password"
                 />
                 <Divider />
                 <Box
@@ -99,33 +97,6 @@ const ChangePassword = (props) => {
                     flexDirection: "column",
                   }}
                 >
-                  <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="oldPassword"
-                    label="Old Password"
-                    type="password"
-                    id="oldPassword"
-                    autoComplete="current-password"
-                    {...register("oldPassword", {
-                      required: "Old Password is Required",
-                      pattern: {
-                        value:
-                          /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
-                        message:
-                          "Please enter valid password, Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters",
-                      },
-                    })}
-                    onKeyUp={() => {
-                      trigger("password");
-                    }}
-                  />
-                  {errors.oldPassword && (
-                    <Typography sx={{ color: "red" }}>
-                      {errors.oldPassword.message}
-                    </Typography>
-                  )}
                   <TextField
                     margin="normal"
                     required
@@ -200,4 +171,4 @@ const ChangePassword = (props) => {
   );
 };
 
-export default ChangePassword;
+export default ResetPassword;

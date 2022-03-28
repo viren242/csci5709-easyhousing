@@ -26,6 +26,8 @@ import Ratings from "../pages/Rating/Ratings";
 import AllServices from "../pages/AllServices/AllServices";
 import CreateService from "../pages/CreateService/CreateService";
 import EditService from "../pages/EditService/EditService";
+import ForgetPassword from "../pages/UserManagement/components/ForgetPassword";
+import ResetPassword from "../pages/UserManagement/components/ResetPassword";
 
 // import PrivateRoute from "PrivateRoute";
 import Homepage from "../pages/HomePage/index";
@@ -67,6 +69,12 @@ function Routing() {
     {
       pageLink: ROUTES.PROPERTY_DETAILS,
       view: PropertyInfo,
+      pageLink: ROUTES.FORGOT_PASSWORD,
+      view: ForgetPassword,
+    },
+    {
+      pageLink: ROUTES.RESET_PASSWORD,
+      view: ResetPassword,
     },
     {
       pageLink: ROUTES.PROFILE,
@@ -102,18 +110,16 @@ function Routing() {
     },
     {
       pageLink: ROUTES.VIEW_SERVICES,
-      view: AllServices
+      view: AllServices,
     },
     {
       pageLink: ROUTES.ADD_SERVICE,
-      view: CreateService
+      view: CreateService,
     },
     {
       pageLink: ROUTES.EDIT_SERVICE,
-      view: EditService
+      view: EditService,
     },
-
-
     {
       pageLink: ROUTES.ERROR,
       view: Error,

@@ -41,7 +41,7 @@ const Login = () => {
     if (authenticated) {
       navigate(ROUTES.HOMEPAGE);
     }
-  });
+  }, [authenticated]);
   const onSubmit = (data) => {
     const { email, password } = data;
     const loginCredentials = { email, password };
@@ -51,7 +51,6 @@ const Login = () => {
         if ((response.data.success = true)) {
           const { data } = response;
           const decoded = jwtDecode(data.token);
-          console.log(authenticated, currentUser, userId, authToken);
           dispatch({ type: ActionTypes.SET_TOKEN, data: data.token });
           dispatch({ type: ActionTypes.SET_CURRENT_USER, data: data });
           dispatch({ type: ActionTypes.SET_USER_ID, data: decoded.id });
@@ -64,7 +63,6 @@ const Login = () => {
         }
       })
       .catch((err) => {
-        debugger;
         toast.error(err?.response?.data?.message || "Something went wrong");
       });
   };
@@ -192,7 +190,10 @@ const Login = () => {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  <Link
+                    onClick={(event) => navigate(ROUTES.FORGOT_PASSWORD)}
+                    variant="body2"
+                  >
                     Forgot password?
                   </Link>
                 </Grid>

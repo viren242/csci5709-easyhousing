@@ -11,7 +11,7 @@ const { deleteService } = require("../controllers/serviceController");
 const router = express.Router();
 
 const fileStorage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, "uploads/"),
+  destination: (req, file, cb) => cb(null, "images/"),
   filename: (req, file, cb) => {
     const imageName = Date.now() + path.extname(file.originalname);
     req.body.image = imageName;
