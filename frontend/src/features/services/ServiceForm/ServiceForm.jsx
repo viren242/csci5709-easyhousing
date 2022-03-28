@@ -60,7 +60,7 @@ const ServiceForm = (props) => {
 
     if (props.mode === "edit") {
       // edit service
-      Axios.put(`http://localhost:8080/services/${props.serviceId}`, formData)
+      Axios.put(`https://easyhousingapi.herokuapp.com/services/${props.serviceId}`, formData)
         .then((response) => {
           if (response.status === 200) {
             window.location = "/services";
@@ -69,7 +69,7 @@ const ServiceForm = (props) => {
         .catch((error) => console.log(error));
     } else {
       // new service
-      Axios.post("http://localhost:8080/services/", formData)
+      Axios.post("https://easyhousingapi.herokuapp.com/services/", formData)
         .then((response) => {
           if (response.status === 200) {
             window.location = "/services";

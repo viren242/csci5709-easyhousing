@@ -12,7 +12,7 @@ const path = require("path");
 const fs = require("fs");
 
 var corsOptions = {
-  origin: ["http://localhost:3000", "https://easyhousingapi.herokuapp.com/"],
+  origin: ["http://localhost:3000", "https://easyhousingapi.herokuapp.com/", "https://easy-housing-web.herokuapp.com"],
 };
 
 const app = express();
