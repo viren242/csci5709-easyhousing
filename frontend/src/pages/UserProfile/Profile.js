@@ -29,6 +29,7 @@ const Profile = () => {
     state: { authenticated, authToken, currentUser },
     dispatch,
   } = useContext(AppContext);
+  //console.log(currentUser)
   let navigate = useNavigate();
   const getProfile = async () => {
     const config = {
@@ -50,7 +51,7 @@ const Profile = () => {
       navigate(ROUTES.HOMEPAGE);
     }
     getProfile();
-  }, []);
+  }, [authenticated]);
   return (
     <div>
       <Navbar />
@@ -119,6 +120,7 @@ const Profile = () => {
                       fullWidth
                       variant="text"
                       startIcon={<HouseIcon />}
+                      onClick={() => navigate(`/user_property_list/${currentUser.user_id}`)}
                     >
                       My Properties
                     </Button>

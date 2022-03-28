@@ -26,15 +26,6 @@ const propertyValidationRules = () => {
             .withMessage("Square feet information is required")
             .isInt({ min: 1, max: 10000 })
             .withMessage("Enter between 1 to 10000"),
-        body("image")
-            .notEmpty()
-            .withMessage("Image is required"),
-        body("location")
-            .notEmpty()
-            .withMessage("Location is required"),
-        body("city")
-            .notEmpty()
-            .withMessage("City is required"),
         body("email")
             .notEmpty()
             .withMessage("Email is required")
@@ -61,9 +52,6 @@ const filterValidationRules = () => {
             .withMessage("Filter category is required")
             .isIn(['unit_type', 'city', 'price'])
             .withMessage("Correct Filter Category is required"),
-        body("value1")
-            .notEmpty()
-            .withMessage("Filteration value is required"),
     ];
 };
 const validateRequest = (req, res, next) => {

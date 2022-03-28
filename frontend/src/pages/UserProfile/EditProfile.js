@@ -12,14 +12,14 @@ import { toast } from "react-toastify";
 
 const EditUserProfile = () => {
   const {
-    state: { authenticated },
+    state: { authenticated, authToken },
   } = useContext(AppContext);
   let navigate = useNavigate();
   useEffect(() => {
     if (!authenticated) {
       navigate(ROUTES.HOMEPAGE);
     }
-  }, []);
+  }, [authenticated]);
   return (
     <div>
       <Navbar />

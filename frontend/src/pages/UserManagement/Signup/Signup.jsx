@@ -39,7 +39,7 @@ const Signup = () => {
       // toast.info("You are already Authenticated");
       navigate(ROUTES.HOMEPAGE);
     }
-  });
+  }, [authenticated]);
   const onSubmit = (data) => {
     const { firstName, lastName, email, password, confirmPassword } = data;
     const registrationDetails = {
@@ -61,7 +61,6 @@ const Signup = () => {
         }
       })
       .catch((err) => {
-        debugger;
         toast.error(err?.response?.data?.message || "Something went wrong");
       });
   };
