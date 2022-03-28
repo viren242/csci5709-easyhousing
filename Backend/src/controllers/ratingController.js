@@ -2,6 +2,7 @@
 
 const { ratings, appointments, properties} = require("../models");
 
+// get all ratings based on user_id
 const getAllRatings = async (req, res) => {
     try {
         const listOfRatings = await ratings.findAll({
@@ -30,6 +31,7 @@ const getAllRatings = async (req, res) => {
     }
 };
 
+// get the rating details based on user_id and property_id
 const getRating = async (req, res) => {
     try {
         const user = req.params.userId;
@@ -59,6 +61,7 @@ const getRating = async (req, res) => {
     }
 };
 
+// add a new rating
 const addRating = async (req, res) => {
     try {
         await ratings.create(req.body).then(() => {
@@ -76,6 +79,7 @@ const addRating = async (req, res) => {
     }
 };
 
+// update the rating
 const updateRating = async (req, res) => {
     try {
         const user = req.params.userId;
@@ -108,6 +112,7 @@ const updateRating = async (req, res) => {
     }
 };
 
+// delete a rating
 const deleteRating = async (req, res) => {
     try {
         const user = req.params.userId;
@@ -140,6 +145,7 @@ const deleteRating = async (req, res) => {
     }
 };
 
+// get the list of properties available for particular user to provide or update ratings
 const getUserRatings = async (req, res) => {
     try {
         const listMyAppointments = await appointments.findAll({
@@ -210,6 +216,7 @@ const getUserRatings = async (req, res) => {
     }
 }
 
+// get the average rating of a property based on all ratings available for that property
 const getAvgPropertyRatings = async (req, res) => {
     try {
         const property = req.params.propertyId;

@@ -2,6 +2,7 @@
 
 const { appointments, properties } = require("../models");
 
+// get all appointments of a user based on user_id
 const getAllAppointments = async (req, res) => {
     try {
         const listOfAppointments = await appointments.findAll({
@@ -56,6 +57,7 @@ const getAllAppointments = async (req, res) => {
     }
 };
 
+// get appointment details based on user_id and property_id
 const getAppointment = async (req, res) => {
     try {
         const user = req.params.userId;
@@ -85,6 +87,7 @@ const getAppointment = async (req, res) => {
     }
 };
 
+// add an appointment
 const addAppointment = async (req, res) => {
     try {
         await  appointments.create(req.body).then(() => {
@@ -102,6 +105,7 @@ const addAppointment = async (req, res) => {
     }
 };
 
+// update the appointment details
 const updateAppointment = async (req, res) => {
     try {
         const user = req.params.userId;
@@ -135,6 +139,7 @@ const updateAppointment = async (req, res) => {
     }
 };
 
+// mark the appointment as deleted
 const deleteAppointment = async (req, res) => {
     try {
         const user = req.params.userId;
