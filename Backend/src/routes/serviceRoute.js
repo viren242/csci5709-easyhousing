@@ -1,16 +1,32 @@
 const express = require("express");
-const router = express.Router();
+const multer = require("multer");
+const path = require("path");
+
 const { getAllServices } = require("../controllers/serviceController");
 const { addService } = require("../controllers/serviceController");
 const { editService } = require("../controllers/serviceController");
 const { getService } = require("../controllers/serviceController");
 const { deleteService } = require("../controllers/serviceController");
 
+const router = express.Router();
+
+const fileStorage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, "uploads/"),
+  filename: (req, file, cb) => {
+    const imageName = Date.now() + path.extname(file.originalname);
+    req.body.image = imageName;
+    cb(null, imageName);
+  }
+});
+
+const upload = multer({ storage: fileStorage });
+
+
 router.get("/", getAllServices);
 router.get("/:id",getService);
-router.post("/",addService);
-router.put("/:id",editService);
-router.delete("/:id",deleteService);
+router.post("/", upload.single("image"), addService);
+router.put("/:id", upload.single("image"), editService);
+router.delete("/:id", deleteService);
 
 
 module.exports = router;

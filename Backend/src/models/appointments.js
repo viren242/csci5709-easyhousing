@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
         },
         appointment_time: {
             type: DataTypes.TIME
+        },
+        isDeleted: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
         }
     });
     return Appointments;

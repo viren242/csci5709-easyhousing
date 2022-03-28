@@ -1,5 +1,6 @@
 const { services } = require("../models");
-const { use } = require("../routes/serviceRoute");
+const fs = require("fs");
+const path = require("path");
 
 const serviceRoot = (req, res) => {
     try {
@@ -29,6 +30,7 @@ const addService = async (req, res) => {
             res.status(200).json(s);
         });
     } catch (error) {
+        console.log(error);
         res.status(500).json({ message: error.message, success: false });
     }
 }
@@ -36,12 +38,17 @@ const addService = async (req, res) => {
 const editService = async (req, res) => {
     try {
         const id = req.params.id;
-        await services.update(req.body, {
-            where: {
-                id: id
-            }
-        })
         const s = await services.findByPk(id);
+
+        const isFileNameChanged = s.image !== req.body.image;
+        const previousFileName = s.image;
+
+        await s.update(req.body);
+        await s.save();
+
+        if (isFileNameChanged) {
+            deleteImageAssociatedWithService(previousFileName);
+        }
         res.status(200).json(s);
     } catch (error) {
         res.status(500).json({ message: error.message, success: false });
@@ -58,10 +65,23 @@ const getService = async (req, res) => {
     }
 }
 
+const deleteImageAssociatedWithService = (imageName) => {
+    const imagePath = path.join("uploads", imageName);
+    try {
+        if (fs.existsSync(imagePath)) {
+            fs.unlinkSync(imagePath);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 const deleteService = async (req, res) => {
     try {
         const id = req.params.id;
         const s = await services.findByPk(id);
+        deleteImageAssociatedWithService(s.image);
+
         await services.destroy({
             where: {
                 id:id

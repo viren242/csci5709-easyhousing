@@ -16,6 +16,13 @@ export const ROUTES = {
   EDIT_PROFILE: "/editprofile",
   CHANGEPASSWORD: "/changepassword",
   LOGOUT: "/logout",
+  REVIEW: "/review",
+  RATING: "/rating",
+  BOOK_APPOINTMENT: "/book-appointment",
+  CANCEL_APPOINTMENT: "/cancel-appointment",
+  VIEW_SERVICES: "/services",
+  ADD_SERVICE: "/services/create",
+  EDIT_SERVICE: "services/edit/:id",
 
   NOT_FOUND: "*",
   ERROR: "/error",

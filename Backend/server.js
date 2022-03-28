@@ -5,9 +5,12 @@ const propertyRoute = require("../Backend/src/routes/propertyRoute");
 const ratingRoute = require("../Backend/src/routes/ratingRoute");
 const reviewRoute = require("../Backend/src/routes/reviewRoute");
 const appointmentRoute = require("./src/routes/appointmentRoute");
+const favoriteRoute = require("./src/routes/favoriteRoute");
 const db = require("../Backend/src/models");
 const passport = require("passport");
-const path = require('path')
+const path = require("path");
+const fs = require("fs");
+
 var corsOptions = {
   origin: "http://localhost:3000",
 };
@@ -34,6 +37,25 @@ app.use("/api/ratings", ratingRoute);
 app.use("/api/reviews", reviewRoute);
 
 app.use("/api/appointments", appointmentRoute);
+
+app.get("/image/:name", async (req, res) => {
+  try {
+    const fileName = req.params.name;
+
+    const filePath = path.join("uploads", fileName);
+
+    if (!fs.existsSync(filePath)) {
+      throw new Error(`Image at path uploads/${fileName} does not exist.`);
+    }
+
+    const readStream = fs.createReadStream(filePath);
+    readStream.pipe(res);
+  } catch (error) {
+    console.log(error.message);
+    res.status(404).send("Image not found.");
+  }
+});
+app.use("/api/favorites", favoriteRoute);
 
 // app.use((req, res, next) => {
 //   res.status(404).send({
