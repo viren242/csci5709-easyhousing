@@ -169,21 +169,25 @@ function Review(props) {
                             </Card>
                         </Grid>
                         <Grid item xs={6}>
-                            <Button variant={"contained"}>Add Reviews</Button>
+                            <Button variant={"contained"} onClick={() => navigate(ROUTES.REVIEW)}>Add Reviews</Button>
                             <Button variant={"outlined"} onClick={() => navigate(ROUTES.RATING)}>Add Ratings</Button>
                             <Divider variant={"inset"}/>
-                            <table style={{borderSpacing: "20px"}}>
-                                <tbody>
+                            {userReviews.length < 1 ? (
+                                <div style={{textAlign: "center", margin: "20%"}}>
+                                    <p style={{color: "gray"}}>No Property is available for Review</p>
+                                </div>
+                            ) : (
+                                <table style={{borderSpacing: "20px"}}>
+                                    <tbody>
                                     {userReviews.map(value => (
                                         <tr style={{padding: '40%'}}>
                                             <td style={{width: '30%', marginRight: '50%'}}>
-                                                <img src={value.images} alt={"image"} style={{width: "400px", height: "auto"}}/>
+                                                <img src={value.images} alt={"image"} style={{width: "300px", height: "200px"}}/>
                                             </td>
                                             <td style={{width: '70%'}} valign={"top"}>
                                                 <div>
                                                     {value.review.length > 0 ? (
                                                         <p style={{width: "400px", height: "100px"}}>{value.review}</p>
-                                                        // <input type={"text"} style={{width: "400px", height: "100px"}} value={value.review} readOnly={true}/>
                                                     ) : (
                                                         <input type={"text"} style={{width: "400px", height: "100px"}} onChange={handleText}/>
                                                     )}
@@ -199,8 +203,9 @@ function Review(props) {
                                             </td>
                                         </tr>
                                     ))}
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            )}
                         </Grid>
                     </Grid>
                 </Container>

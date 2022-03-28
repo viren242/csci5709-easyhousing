@@ -5,7 +5,9 @@ const { getAllRatings } = require("../controllers/ratingController");
 const { getRating } = require("../controllers/ratingController");
 const { updateRating } = require("../controllers/ratingController");
 const { deleteRating } = require("../controllers/ratingController");
+const { getUserRatings } = require("../controllers/ratingController")
 
+router.get("/getUserRatings/:userId", getUserRatings);
 router.get("/getAllRatings/:userId", getAllRatings);
 router.get("/getRating/:userId/:propertyId", getRating);
 router.post("/addRating", addRating);
