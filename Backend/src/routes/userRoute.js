@@ -7,6 +7,7 @@ const {
   changePasswordValidationRules,
   updateProfileValidationRules,
   forgetPasswordValidationRules,
+  resetPasswordValidationRules,
   validateRequest,
 } = require("../utils/userValidation");
 
@@ -23,6 +24,7 @@ const {
   updateProfile,
   deleteUserProfile,
   forgotPassword,
+  resetPassword,
 } = require("../controllers/userController");
 
 // Base Route
@@ -91,6 +93,14 @@ router.put(
   updateProfileValidationRules(),
   validateRequest,
   updateProfile
+);
+
+// Reset User Password
+router.post(
+  "/passwordReset/:userId/:jwtToken",
+  resetPasswordValidationRules(),
+  validateRequest,
+  resetPassword
 );
 
 router.delete("/deleteUserProfile/:id", isUserVerified, deleteUserProfile);
