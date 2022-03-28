@@ -40,11 +40,11 @@ app.use("/api/appointments", appointmentRoute);
 app.get("/image/:name", async (req, res) => {
   try {
     const fileName = req.params.name;
-
-    const filePath = path.join("uploads", fileName);
+  
+    const filePath = path.join("images", fileName);
 
     if (!fs.existsSync(filePath)) {
-      throw new Error(`Image at path uploads/${fileName} does not exist.`);
+      throw new Error(`Image at path images/${fileName} does not exist.`);
     }
 
     const readStream = fs.createReadStream(filePath);
