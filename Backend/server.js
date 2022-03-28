@@ -17,10 +17,11 @@ var corsOptions = {
 
 const app = express();
 app.use(cors(corsOptions));
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true }));
 db.sequelize.sync();
 app.use(passport.initialize());
+app.use('/src/images', express.static(path.join(__dirname, "src/images")))
 
 require("./src/middleware/passport")(passport);
 //Routes
@@ -40,7 +41,7 @@ app.use("/api/appointments", appointmentRoute);
 app.get("/image/:name", async (req, res) => {
   try {
     const fileName = req.params.name;
-  
+
     const filePath = path.join("images", fileName);
 
     if (!fs.existsSync(filePath)) {

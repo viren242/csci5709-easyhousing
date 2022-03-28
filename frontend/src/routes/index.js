@@ -12,6 +12,8 @@ import Error from "../common/error";
 import { AppContext } from "../context/userContext";
 import { ROUTES, TOKEN } from "../common/constants";
 import Login from "../pages/UserManagement/Login/Login";
+import AddProperty from "../pages/PropertyManagement/AddProperty/AddProperty";
+import ViewProperty from "../pages/PropertyManagement/ViewProperty/ViewProperty";
 import Signup from "../pages/UserManagement/Signup/Signup";
 import EditUserProfile from "../pages/UserProfile/EditProfile";
 import Logout from "../Components/Logout";
@@ -29,6 +31,8 @@ import ResetPassword from "../pages/UserManagement/components/ResetPassword";
 
 // import PrivateRoute from "PrivateRoute";
 import Homepage from "../pages/HomePage/index";
+import PropertyInfo from "../pages/PropertyManagement/ViewProperty/PropertyInfo";
+import UserProperty from "../pages/PropertyManagement/UserProperty/UserProperty";
 
 function Routing() {
   const { initializeAuth, dispatch } = useContext(AppContext);
@@ -45,6 +49,26 @@ function Routing() {
     {
       pageLink: ROUTES.SIGNUP,
       view: Signup,
+    },
+    {
+      pageLink: ROUTES.ADD_PROPERTY,
+      view: AddProperty,
+    },
+    {
+      pageLink: ROUTES.UPDATE_PROPERTY,
+      view: AddProperty,
+    },
+    {
+      pageLink: ROUTES.PROPERTY_LISTING,
+      view: ViewProperty,
+    },
+    {
+      pageLink: ROUTES.USER_PROPERTY_LISTING,
+      view: UserProperty,
+    },
+    {
+      pageLink: ROUTES.PROPERTY_DETAILS,
+      view: PropertyInfo,
     },
     {
       pageLink: ROUTES.FORGOT_PASSWORD,
