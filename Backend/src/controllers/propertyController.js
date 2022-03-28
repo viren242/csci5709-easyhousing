@@ -65,7 +65,7 @@ const createProperty = async (req, res) => {
     try {
         res.setHeader("Content_type", "application/json");
         await properties.create(req.body).then(() => {
-            return res.status(201).json({ message: "Property added", success: true });
+            return res.status(201).json({ message: "Property added Successfully", success: true });
         });
     } catch (error) {
         return res.status(500).json({ error: error.message, message: "Unable to add Property details!!", success: false });
@@ -87,7 +87,7 @@ const updateProperty = async (req, res) => {
                 id: property_id
             }
         }).then(() => {
-            return res.status(200).json({ message: "Property Details Updated", success: true });
+            return res.status(200).json({ message: "Property Updated Successfully", success: true });
         });
 
     } catch (error) {
@@ -110,7 +110,7 @@ const deleteProperty = async (req, res) => {
                 id: property_id
             }
         }).then(() => {
-            return res.status(200).json({ message: "Property Details Deleted", success: true });
+            return res.status(200).json({ message: "Property Deleted Successfully", success: true });
         })
     } catch (error) {
         res.status(500).json({ error: error.message, message: "Unable to delete Property details!!", success: false });
@@ -140,5 +140,7 @@ const getFilterProperties = async (req, res) => {
         return res.status(500).json({ error: error.message, message: "Unable to get Property details!!", success: false });
     }
 };
+
+
 
 module.exports = { propertyRoot, getAllProperties, getProperty, getMyProperties, createProperty, updateProperty, deleteProperty, getFilterProperties };
