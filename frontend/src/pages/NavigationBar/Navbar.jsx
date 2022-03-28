@@ -20,7 +20,7 @@ import Logo from "../../assets/images/Logo.png";
 import { ROUTES } from "../../common/constants";
 import Settings from "./components/Settings";
 
-const pages = ["Property Rental", "Services", "Roomate Finder"];
+const pages = ["Property Rental", "Roomate Finder"];
 const settings = ["Profile", "Change Password", "Logout"];
 
 const Navbar = () => {
@@ -88,6 +88,9 @@ const Navbar = () => {
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
+              <MenuItem onClick={() => navigate(ROUTES.VIEW_SERVICES)}>
+                <Typography textAlign="center">Services</Typography>
+              </MenuItem>
             </Menu>
           </Box>
           <Box noWrap sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -103,6 +106,13 @@ const Navbar = () => {
                 {page}
               </Button>
             ))}
+
+              <Button
+                onClick={() => navigate(ROUTES.VIEW_SERVICES)}
+                sx={{ my: 2, color: "black", display: "block" }}
+              >
+                Services
+              </Button> 
           </Box>
           <Box
             display="flex"
