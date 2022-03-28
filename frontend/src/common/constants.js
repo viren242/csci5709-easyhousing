@@ -21,6 +21,7 @@ export const ROUTES = {
   RATING: "/rating",
   BOOK_APPOINTMENT: "/book-appointment",
   CANCEL_APPOINTMENT: "/cancel-appointment",
+  APPOINTMENTS: "/appointments",
   VIEW_SERVICES: "/services",
   ADD_SERVICE: "/services/create",
   EDIT_SERVICE: "services/edit/:id",
