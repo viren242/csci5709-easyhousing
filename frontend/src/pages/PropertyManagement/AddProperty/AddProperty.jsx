@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import NavigationBar from "../../NavigationBar/Navbar";
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
@@ -25,7 +25,7 @@ import { ROUTES } from '../../../common/constants';
 import axios_api from '../../../common/axios';
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-
+import { AppContext } from "../../../context/userContext";
 
 
 const initialState = {
@@ -40,10 +40,10 @@ const initialState = {
     price: '',
     location: '',
     city: '',
-    image: 'https://easy-housing-website.s3.amazonaws.com/Main_Image.webp',
+    image: '',
     email: '',
     phone_no: '',
-    user_id: '1213'
+    user_id: ''
 };
 const steps = ['Ad Details', 'Property Details', 'Post Ad'];
 //let navigate = useNavigate();
@@ -63,30 +63,31 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AddProperty = () => {
+    const {
+        state: { userId },
+        dispatch,
+    } = useContext(AppContext);
+    //console.log(userId);
     const [activeStep, setActiveStep] = React.useState(0);
     const [skipped, setSkipped] = React.useState(new Set());
     const [address, setAddress] = useState('');
     const [newPost, setNewPost] = useState(initialState);
+    const [fileData, setFileData] = useState();
     let navigate = useNavigate();
     const { propertyId } = useParams();
 
+
     useEffect(() => {
+        const post = { ...newPost, user_id: userId };
+        setNewPost(post);
         if (propertyId) {
             // toast.info("You are already Authenticated");
             axios_api.get(`/properties/getProperty/${propertyId}`)
                 .then((response) => {
                     if ((response.data.success = true)) {
                         setNewPost(response.data.data);
-                        //trigger("title");
-                        //trigger("description");
-                        //trigger("bedrooms");
-                        //trigger("bathrooms");
-                        //toast.success(response?.data?.message);
-                        //reset();
-                        //navigate(ROUTES.PROFILE);
                     } else {
                         console.log("Error")
-                        //toast.error(response?.data?.message);
                     }
                 })
                 .catch((err) => {
@@ -206,6 +207,11 @@ const AddProperty = () => {
         setAddress(address);
     };
 
+    const handleUpload = (e) => {
+        setFileData(e.target.files[0]);
+
+    };
+
     const handleSelect = (address) => {
         const post1 = { ...newPost, location: address };
         setNewPost(post1);
@@ -222,48 +228,88 @@ const AddProperty = () => {
 
 
     };
+    const handleImagePath = () => {
+        const data = new FormData();
+        data.append('image', fileData);
+        axios_api.post("/properties/uploadImage", data)
+            .then((response) => {
+                //if ((response.status = true)) {
+                //toast.success(response?.data?.message);
+                //reset();
+                //console.log("Hello");
+                const path = response.data.path;
+                const post = { ...newPost, image: path }
+                setNewPost(post);
+                //console.log(response.data.path);
 
-    const onSubmit = (data) => {
+                //navigate(ROUTES.HOMEPAGE);
+                //}
+            })
+            .catch((err) => {
+                debugger;
+                console.log(err?.response?.data?.message);
+                //toast.error(err?.response?.data?.message || "Something went wrong");
+            });
+    };
 
-        if (propertyId) {
-            axios_api
-                .put(`/properties/updateProperty/${propertyId}`, newPost)
-                .then((response) => {
-                    if ((response.data.success = true)) {
-                        toast.success(response?.data?.message);
-                        reset();
-                        console.log(response?.data?.message);
-                        navigate(ROUTES.HOMEPAGE);
-                    } else {
-                        console.log(response?.data?.message);
-                        toast.error(response?.data?.message);
-                    }
-                })
-                .catch((err) => {
-                    debugger;
-                    console.log(err?.response?.data?.message);
-                    toast.error(err?.response?.data?.message || "Something went wrong");
-                });
-        } else {
-            axios_api
-                .post("/properties/createProperty", newPost)
-                .then((response) => {
-                    if ((response.data.success = true)) {
-                        toast.success(response?.data?.message);
-                        reset();
-                        console.log(response?.data?.message);
-                        navigate(ROUTES.HOMEPAGE);
-                    } else {
-                        console.log(response?.data?.message);
-                        toast.error(response?.data?.message);
-                    }
-                })
-                .catch((err) => {
-                    debugger;
-                    console.log(err?.response?.data?.message);
-                    toast.error(err?.response?.data?.message || "Something went wrong");
-                });
-        }
+    const onSubmit = () => {
+        //handleImagePath();
+        const data = new FormData();
+        data.append('image', fileData);
+        axios_api.post("/properties/uploadImage", data)
+            .then((response) => {
+                const path = response.data;
+                //console.log(path);
+                const post = { ...newPost, image: path }
+                setNewPost(post);
+
+                if (propertyId) {
+                    axios_api
+                        .put(`/properties/updateProperty/${propertyId}`, post)
+                        .then((response) => {
+                            if ((response.data.success = true)) {
+                                toast.success(response?.data?.message);
+                                reset();
+                                console.log(response?.data?.message);
+                                navigate(ROUTES.HOMEPAGE);
+                            } else {
+                                console.log(response?.data?.message);
+                                toast.error(response?.data?.message);
+                            }
+                        })
+                        .catch((err) => {
+                            debugger;
+                            console.log(err?.response?.data?.message);
+                            toast.error(err?.response?.data?.message || "Something went wrong");
+                        });
+                } else {
+                    axios_api
+                        .post("/properties/createProperty", post)
+                        .then((response) => {
+                            if ((response.data.success = true)) {
+                                toast.success(response?.data?.message);
+                                reset();
+                                console.log(response?.data?.message);
+                                navigate(ROUTES.HOMEPAGE);
+                            } else {
+                                console.log(response?.data?.message);
+                                toast.error(response?.data?.message);
+                            }
+                        })
+                        .catch((err) => {
+                            debugger;
+                            console.log(err?.response?.data?.message);
+                            toast.error(err?.response?.data?.message || "Something went wrong");
+                        });
+                }
+
+            })
+            .catch((err) => {
+                //debugger;
+                console.log(err?.response?.data?.message);
+            });
+
+
 
     };
     //console.log(newPost);
@@ -662,7 +708,8 @@ const AddProperty = () => {
                         Upload
                     </Button>
                 </label> */}
-                                                    <div className={classes.fileInput}><FileBase type="file" multiple={false} onDone={({ base64 }) => { setNewPost({ ...newPost, image: base64 }) }} /></div>
+                                                    {/* <div className={classes.fileInput}><FileBase type="file" multiple={false} onDone={({ base64 }) => { setNewPost({ ...newPost, image: base64 }) }} /></div> */}
+                                                    <div><input type="file" name="image" onChange={handleUpload} /></div>
                                                     {/* setPostData({...postData, selectedFile: base64 }) */}
                                                 </Grid>
                                                 <Grid item xs={12} sm={3} sx={{ marginTop: "12px" }}>
