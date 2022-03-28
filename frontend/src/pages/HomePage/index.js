@@ -7,7 +7,6 @@ const HomePage = () => {
     state: { authenticated, currentUser, userId, authToken },
     dispatch,
   } = useContext(AppContext);
-  console.log(authenticated, currentUser, userId, authToken);
   return (
     <>
       <NavigationBar />

@@ -1,4 +1,4 @@
-const { ratings } = require("../models");
+const { ratings, appointments, properties} = require("../models");
 
 const getAllRatings = async (req, res) => {
     try {
@@ -138,4 +138,74 @@ const deleteRating = async (req, res) => {
     }
 };
 
-module.exports = { addRating, getAllRatings, getRating, updateRating, deleteRating };
+const getUserRatings = async (req, res) => {
+    try {
+        const listMyAppointments = await appointments.findAll({
+            where: { user_id: req.params.userId, isDeleted: false }
+        })
+        if (!listMyAppointments || !listMyAppointments.length) {
+            res.status(404).json({
+                message: "No Appointment Available",
+                success: false
+            })
+        } else {
+            const numOfRatings = listMyAppointments.length;
+            let listOfRatings = [];
+            for (let i = 0; i < numOfRatings; i++) {
+                const user = listMyAppointments[i].user_id;
+                const property = listMyAppointments[i].property_id;
+                const rating = await ratings.findOne({
+                    where: { user_id: user, property_id: property }
+                })
+                if (!rating) {
+                    const propertyImg = await properties.findOne({
+                        where: { id: property }
+                    })
+                    let image = "";
+                    if (!propertyImg || !propertyImg.dataValues.image || propertyImg.dataValues.image === "") {
+                        image = 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
+                    } else {
+                        image = propertyImg.dataValues.image;
+                    }
+                    listOfRatings.push({
+                        user_id: user,
+                        property_id: property,
+                        images: image,
+                        rating_id: "",
+                        rating: false
+                    })
+                } else {
+                    const propertyImg = await properties.findOne({
+                        where: { id: property }
+                    })
+                    let image = "";
+                    if (!propertyImg || !propertyImg.dataValues.image || propertyImg.dataValues.image === "") {
+                        image = 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
+                    } else {
+                        image = propertyImg.dataValues.image;
+                    }
+                    listOfRatings.push({
+                        user_id: user,
+                        property_id: property,
+                        images: image,
+                        rating_id: rating.dataValues.rating_id,
+                        rating: rating.dataValues.rating
+                    })
+                }
+            }
+            res.status(200).json({
+                message: "Ratings Retrieved",
+                success: true,
+                ratings: listOfRatings
+            })
+        }
+    } catch (err) {
+        res.status(500).json({
+            message: "Internal Server Error!!",
+            success: false,
+            error: err.message
+        })
+    }
+}
+
+module.exports = { addRating, getAllRatings, getRating, updateRating, deleteRating, getUserRatings };

@@ -19,7 +19,7 @@ const EditUserProfile = () => {
     if (!authenticated) {
       navigate(ROUTES.HOMEPAGE);
     }
-  }, []);
+  }, [authenticated]);
   return (
     <div>
       <Navbar />
