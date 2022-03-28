@@ -22,7 +22,7 @@ import axios_api from "../../common/axios";
 
 export const AccountProfileDetails = () => {
   const {
-    state: { authenticated, currentUser },
+    state: { authenticated, currentUser, authToken },
   } = useContext(AppContext);
   const {
     register,
@@ -40,15 +40,21 @@ export const AccountProfileDetails = () => {
   };
   let navigate = useNavigate();
   const onSubmit = (data) => {
-    debugger;
     const { firstName, lastName, phoneNumber } = data;
     const updateDetails = {
       firstName,
       lastName,
       phoneNumber,
     };
+    const config = {
+      headers: { Authorization: `${authToken}` },
+    };
     axios_api
-      .put(`/users/updateProfile/${currentUser.user_id}`, updateDetails)
+      .put(
+        `/users/updateProfile/${currentUser.user_id}`,
+        updateDetails,
+        authToken
+      )
       .then((response) => {
         if ((response.data.success = true)) {
           toast.success(response?.data?.message);
@@ -59,7 +65,6 @@ export const AccountProfileDetails = () => {
         }
       })
       .catch((err) => {
-        debugger;
         toast.error(err?.response?.data?.message || "Something went wrong");
       });
   };

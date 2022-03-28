@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 
 const EditUserProfile = () => {
   const {
-    state: { authenticated },
+    state: { authenticated, authToken },
   } = useContext(AppContext);
   let navigate = useNavigate();
   useEffect(() => {
