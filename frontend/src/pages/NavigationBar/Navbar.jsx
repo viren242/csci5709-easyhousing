@@ -107,12 +107,12 @@ const Navbar = () => {
               </Button>
             ))}
 
-              <Button
-                onClick={() => navigate(ROUTES.VIEW_SERVICES)}
-                sx={{ my: 2, color: "black", display: "block" }}
-              >
-                Services
-              </Button> 
+            <Button
+              onClick={() => navigate(ROUTES.VIEW_SERVICES)}
+              sx={{ my: 2, color: "black", display: "block" }}
+            >
+              Services
+            </Button>
           </Box>
           <Box
             display="flex"
@@ -129,6 +129,7 @@ const Navbar = () => {
                 alignItems: "right",
                 display: { xs: "none", md: "flex" },
               }}
+              onClick={() => navigate(ROUTES.ADD_PROPERTY)}
             >
               Post Ad
             </Button>
