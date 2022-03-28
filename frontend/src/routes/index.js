@@ -24,6 +24,7 @@ import Ratings from "../pages/Rating/Ratings";
 import AllServices from "../pages/AllServices/AllServices";
 import CreateService from "../pages/CreateService/CreateService";
 import EditService from "../pages/EditService/EditService";
+import Appointments from "../pages/Appointment/Appointments/Appointments";
 
 // import PrivateRoute from "PrivateRoute";
 import Homepage from "../pages/HomePage/index";
@@ -87,6 +88,10 @@ function Routing() {
     {
       pageLink: ROUTES.EDIT_SERVICE,
       view: EditService
+    },
+    {
+      pageLink: ROUTES.APPOINTMENTS,
+      view: Appointments
     },
 
 

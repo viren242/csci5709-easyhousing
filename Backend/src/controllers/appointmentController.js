@@ -1,4 +1,4 @@
-const { appointments } = require("../models");
+const { appointments, properties } = require("../models");
 
 const getAllAppointments = async (req, res) => {
     try {
@@ -12,10 +12,37 @@ const getAllAppointments = async (req, res) => {
                 success: false
             })
         } else {
+            const numOfAppointments = listOfAppointments.length;
+            let appointmentList = [];
+            for (let i=0; i<numOfAppointments; i++) {
+                const user = listOfAppointments[i].user_id;
+                const property = listOfAppointments[i].property_id;
+                const propertyDetails = await properties.findOne({
+                    where: { id: property }
+                })
+                let image = "";
+                if (!propertyDetails || !propertyDetails.dataValues.image || propertyDetails.dataValues.image === "") {
+                    image = 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
+                } else {
+                    image = propertyDetails.dataValues.image
+                }
+                appointmentList.push({
+                    appointment_id: listOfAppointments[i].appointment_id,
+                    property_id: property,
+                    user_id: user,
+                    appointment_date: listOfAppointments[i].appointment_date,
+                    appointment_time: listOfAppointments[i].appointment_time,
+                    isDeleted: listOfAppointments[i].isDeleted,
+                    property_image: image,
+                    property_location: propertyDetails.location,
+                    property_city: propertyDetails.city,
+                    property_price: propertyDetails.property_price
+                })
+            }
             res.status(200).json({
                 message: "Appointments Retrieved",
                 success: true,
-                appointments: listOfAppointments
+                appointments: appointmentList
             })
         }
     } catch (err) {
@@ -113,6 +140,8 @@ const deleteAppointment = async (req, res) => {
         const appointment = await appointments.findOne({
             where: { user_id: user, property_id: property, isDeleted: false }
         })
+
+        console.log(appointment);
 
         if (!appointment) {
             res.status(404).json({

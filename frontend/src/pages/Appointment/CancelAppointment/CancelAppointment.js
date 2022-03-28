@@ -1,20 +1,22 @@
 import React, {useState} from "react";
 import {Button, Dialog} from "@mui/material";
+import {useNavigate} from "react-router-dom";
+import {ROUTES} from "../../../common/constants";
 
 function CancelAppointment(props) {
-    const [openDialog, setOpenDialog] = useState(false);
 
-    const handleButton = (event) => {
-        setOpenDialog(true);
-    }
+    let navigate = useNavigate();
+
+    const [openDialog, setOpenDialog] = useState(true);
 
     const handleClose = (event) => {
         setOpenDialog(false);
+        navigate(ROUTES.APPOINTMENTS);
     }
 
     return (
         <div>
-            <Button variant={"contained"} onClick={handleButton}>Cancel Appointment</Button>
+            {/*<Button variant={"contained"} onClick={handleButton}>Cancel Appointment</Button>*/}
             <Dialog open={openDialog} fullWidth={true}>
                 <p style={{textAlign: "center", margin: "20px"}}>Appointment Cancelled!!!</p>
                 <div style={{textAlign: "center"}}>
