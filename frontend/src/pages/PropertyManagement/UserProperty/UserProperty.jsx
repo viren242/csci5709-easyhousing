@@ -59,17 +59,22 @@ const UserProperty = () => {
     return (
         <>
             <NavigationBar />
-            {properties ? properties.length > 0 ? properties.map((property) => (
-                <Container component="main" maxWidth='xl' >
-                    <CssBaseline />
-                    <Box
-                        sx={{
-                            marginTop: 8,
-                            display: 'flex',
-                            flexDirection: 'column',
-                        }}
-                    >
-                        <Grid container spacing={2}>
+
+            <Container component="main" maxWidth='xl' >
+                <CssBaseline />
+                <Box
+                    sx={{
+                        marginTop: 8,
+                        display: 'flex',
+                        flexDirection: 'column',
+                    }}
+                >
+                    <Typography sx={{ mb: 3 }} variant="h4">
+                        My Properties Posted
+                    </Typography>
+                    <Grid container spacing={2}>
+
+                        {properties ? properties.length > 0 ? properties.map((property) => (
                             <Grid item xs={12} sm={6} md={4} lg={3} >
                                 <Card sx={{ maxWidth: 345 }}>
                                     <CardMedia
@@ -111,12 +116,13 @@ const UserProperty = () => {
                                     </Box>
                                 </Card>
                             </Grid>
-                        </Grid>
-                    </Box>
-                </Container>
-            )
+                        )
+                        ) : "No results Found" : " Fetching properties"}
+                    </Grid>
+                </Box>
+            </Container>
 
-            ) : "No results Found" : " Fetching properties"}
+
         </>
     )
 }
