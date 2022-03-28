@@ -1,3 +1,5 @@
+// Author: Arvinder Singh (B00878415)
+
 const { appointments, properties } = require("../models");
 
 const getAllAppointments = async (req, res) => {

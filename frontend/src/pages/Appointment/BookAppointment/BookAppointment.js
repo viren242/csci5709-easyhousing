@@ -1,7 +1,9 @@
+// Author: Arvinder Singh (B00878415)
+
 import React, {useState} from "react";
 import {Button, Dialog, DialogTitle, TextField} from "@mui/material";
 
-function BookAppointment(props) {
+function BookAppointment() {
     const [openBookingDialog, setOpenBookingDialog] = useState(false);
     const [date, setDate] = useState("");
     const [time, setTime] = useState("");

@@ -1,3 +1,5 @@
+// Author: Arvinder Singh (B00878415)
+
 import React, {useContext, useEffect, useState} from "react";
 import {AppContext} from "../../../context/userContext";
 import {useNavigate} from "react-router-dom";
@@ -11,7 +13,7 @@ import {
     CardContent,
     Container,
     Divider,
-    Grid, Rating,
+    Grid,
     Typography
 } from "@mui/material";
 import {ROUTES} from "../../../common/constants";

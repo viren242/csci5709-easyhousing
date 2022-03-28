@@ -1,3 +1,5 @@
+// Author: Arvinder Singh (B00878415)
+
 const { ratings, appointments, properties} = require("../models");
 
 const getAllRatings = async (req, res) => {

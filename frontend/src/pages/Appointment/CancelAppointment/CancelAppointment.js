@@ -1,3 +1,5 @@
+// Author: Arvinder Singh (B00878415)
+
 import React, {useState} from "react";
 import {Button, Dialog} from "@mui/material";
 import {useNavigate} from "react-router-dom";
