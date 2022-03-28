@@ -10,7 +10,7 @@ const ListServices = () => {
   const [services, setServices] = useState([]);
 
   const fetchServices = () => {
-    Axios.get("http://localhost:8080/services")
+    Axios.get("https://easyhousingapi.herokuapp.com/services")
       .then((response) => {
         if (response.status === 200) {
           setServices(response.data);
@@ -32,7 +32,7 @@ const ListServices = () => {
       id={service.id}
       title={service.title}
       description={service.description}
-      img={`http://localhost:8080/image/${service.image}`}
+      img={`https://easyhousingapi.herokuapp.com/image/${service.image}`}
       price={service.price}
       email={service.email}
       location={service.location}

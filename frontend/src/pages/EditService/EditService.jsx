@@ -23,7 +23,7 @@ const EditService = () => {
 
   // get service details on mount
   React.useEffect(() => {
-    Axios.get(`http://localhost:8080/services/${params.id}`)
+    Axios.get(`https://easyhousingapi.herokuapp.com/services/${params.id}`)
       .then((response) => {
         const newDefaultValues = {
           title: response.data.title,
