@@ -9,13 +9,9 @@ import { Container, CssBaseline, autocompleteClasses, TextareaAutosize } from '@
 import { FormControl, FormLabel, RadioGroup, Radio, FormGroup, FormControlLabel, Autocomplete, TextField, Grid, Checkbox, Typography, Select, MenuItem } from '@mui/material';
 import propertyImage from "../../../assets/images/property.jpg";
 import { makeStyles } from "@mui/styles";
-import AdDetails from './AdDetails';
-import PropertyDetails from './PropertyDetails';
-import PostAd from './PostAd';
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { PropertySchema } from '../../../common/validationSchema';
-import FileBase from 'react-file-base64';
 import PlacesAutocomplete, {
     geocodeByAddress,
     getLatLng,
@@ -64,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
 
 const AddProperty = () => {
     const {
-        state: { userId },
+        state: { userId, authenticated },
         dispatch,
     } = useContext(AppContext);
     //console.log(userId);
@@ -78,6 +74,9 @@ const AddProperty = () => {
 
 
     useEffect(() => {
+        if (!authenticated) {
+            navigate(ROUTES.LOGIN);
+        }
         const post = { ...newPost, user_id: userId };
         setNewPost(post);
         if (propertyId) {
@@ -575,15 +574,6 @@ const AddProperty = () => {
                                                         onChange={handleOnChange}
                                                     />
                                                 </Grid>
-                                                {/* <Grid item xs={12}>
-                                                    <FormGroup>
-                                                        <FormLabel id="appliances">Appliances</FormLabel>
-                                                        <FormControlLabel control={<Checkbox />} onChange={handleOnCheck} name="Laundry(In Unit) " label="Laundry(In Unit)" />
-                                                        <FormControlLabel control={<Checkbox />} onChange={handleOnCheck} label="Laundry(In Building)" name="Laundry(In Building)" />
-                                                        <FormControlLabel control={<Checkbox />} onChange={handleOnCheck} name="Dishwasher" label="Dishwasher" />
-                                                        <FormControlLabel control={<Checkbox />} onChange={handleOnCheck} name="Fridge" label="Fridge" />
-                                                    </FormGroup>
-                                                </Grid> */}
                                                 <Grid item xs={12} sm={2} sx={{ marginTop: "12px" }}>
                                                     <Typography component="h1" variant="subtitle1">
                                                         Size:
@@ -711,12 +701,6 @@ const AddProperty = () => {
                                                                     label="Location"
                                                                     id="location"
                                                                 />
-                                                                {/* <input
-                                    {...getInputProps({
-                                        placeholder: 'Search Places ...',
-                                        className: 'location-search-input',
-                                    })}
-                                /> */}
                                                                 <div className="autocomplete-dropdown-container">
                                                                     {loading && <div>Loading...</div>}
                                                                     {suggestions.map(suggestion => {
