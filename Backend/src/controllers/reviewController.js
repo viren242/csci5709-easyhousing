@@ -169,36 +169,40 @@ const getUserReviews = async (req, res) => {
                     const propertyImg = await properties.findOne({
                         where: { id: property }
                     })
-                    let image = "";
-                    if (!propertyImg || !propertyImg.dataValues.image || propertyImg.dataValues.image === "") {
-                        image = 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
-                    } else {
-                        image = propertyImg.dataValues.image;
+                    if (propertyImg) {
+                        let image = "";
+                        if (!propertyImg.dataValues.image || propertyImg.dataValues.image === "") {
+                            image = 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
+                        } else {
+                            image = propertyImg.dataValues.image;
+                        }
+                        listOfReviews.push({
+                            user_id: user,
+                            property_id: property,
+                            images: image,
+                            review_id: "",
+                            review: ""
+                        })
                     }
-                    listOfReviews.push({
-                        user_id: user,
-                        property_id: property,
-                        images: image,
-                        review_id: "",
-                        review: ""
-                    })
                 } else {
                     const propertyImg = await properties.findOne({
                         where: { id: property }
                     })
-                    let image = "";
-                    if (!propertyImg || !propertyImg.dataValues.image || propertyImg.dataValues.image === "") {
-                        image = 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
-                    } else {
-                        image = propertyImg.dataValues.image;
+                    if (propertyImg) {
+                        let image = "";
+                        if (!propertyImg.dataValues.image || propertyImg.dataValues.image === "") {
+                            image = 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
+                        } else {
+                            image = propertyImg.dataValues.image;
+                        }
+                        listOfReviews.push({
+                            user_id: user,
+                            property_id: property,
+                            images: image,
+                            review_id: review.dataValues.review_id,
+                            review: review.dataValues.review
+                        })
                     }
-                    listOfReviews.push({
-                        user_id: user,
-                        property_id: property,
-                        images: image,
-                        review_id: review.dataValues.review_id,
-                        review: review.dataValues.review
-                    })
                 }
             }
             res.status(200).json({
