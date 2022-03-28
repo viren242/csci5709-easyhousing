@@ -9,7 +9,7 @@ const ServiceCard = ({ id, title, description, img, price, email, location }) =>
 
   const deleteService = async () => {
     try {
-      const response = await Axios.delete(`http://localhost:8080/services/${id}`);
+      const response = await Axios.delete(`https://easyhousingapi.herokuapp.com/services/${id}`);
 
       if (response.status === 200) {
         // redirect to /services

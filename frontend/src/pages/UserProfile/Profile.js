@@ -149,6 +149,28 @@ const Profile = () => {
                   </Box>
                 </CardContent>
               </Card>
+
+              <Card sx={{ mt: 2 }}>
+                <CardContent>
+                  <Box
+                      sx={{
+                        alignItems: "left",
+                        display: "flex",
+                        flexDirection: "column",
+                      }}
+                  >
+                    <Button
+                        color="primary"
+                        fullWidth
+                        variant="text"
+                        startIcon={<ReviewsIcon />}
+                        onClick={() => navigate(ROUTES.APPOINTMENTS)}
+                    >
+                      My Appointments
+                    </Button>
+                  </Box>
+                </CardContent>
+              </Card>
             </Grid>
           </Grid>
         </Container>

@@ -12,16 +12,24 @@ const path = require("path");
 const fs = require("fs");
 
 var corsOptions = {
-  origin: ["http://localhost:3000", "https://easyhousingapi.herokuapp.com/"],
+<<<<<<< HEAD
+  origin: ["http://localhost:3000", "https://easyhousingapi.herokuapp.com/", "https://easy-housing-web.herokuapp.com"],
+=======
+  origin: [
+    "http://localhost:3000",
+    "https://easyhousingapi.herokuapp.com",
+    "https://easy-housing-web.herokuapp.com",
+  ],
+>>>>>>> ea1c7558a6ddd1168f6e7cffd1621bb2d4ac30f0
 };
 
 const app = express();
 app.use(cors(corsOptions));
-app.use(express.json({ limit: '50mb' }));
+app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true }));
 db.sequelize.sync();
 app.use(passport.initialize());
-app.use('/src/images', express.static(path.join(__dirname, "src/images")))
+app.use("/src/images", express.static(path.join(__dirname, "src/images")));
 
 require("./src/middleware/passport")(passport);
 //Routes

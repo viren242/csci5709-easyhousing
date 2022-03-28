@@ -1,9 +1,9 @@
 // Author: Arvinder Singh (B00878415)
 
 import React, {useContext, useEffect, useState} from "react";
-import {AppContext} from "../../context/userContext";
+import {AppContext} from "../../../context/userContext";
 import {useNavigate} from "react-router-dom";
-import Navbar from "../NavigationBar/Navbar";
+import Navbar from "../../NavigationBar/Navbar";
 import {
     Avatar,
     Box,
@@ -13,27 +13,27 @@ import {
     CardContent,
     Container,
     Divider,
-    Grid, Rating,
+    Grid,
     Typography
 } from "@mui/material";
-import {ROUTES} from "../../common/constants";
+import {ROUTES} from "../../../common/constants";
 import EditIcon from "@mui/icons-material/Edit";
 import HouseIcon from "@mui/icons-material/House";
 import ReviewsIcon from "@mui/icons-material/Reviews";
-import axios_api from "../../common/axios";
+import axios_api from "../../../common/axios";
 
-function Ratings() {
+function Appointments() {
 
     const {
         state: { authenticated, userId, currentUser}
     } = useContext(AppContext);
     let navigate = useNavigate();
 
-    const [userRatings, setUserRatings] = useState([]);
+    const [userAppointments, setUserAppointments] = useState([]);
 
-    const userRating = async () => {
-        axios_api.get("/ratings/getUserRatings/" + userId).then((res) => {
-            setUserRatings(res.data.ratings);
+    const userAppointment = async () => {
+        axios_api.get("/appointments/getAllAppointments/" + userId).then((res) => {
+            setUserAppointments(res.data.appointments);
         })
     }
 
@@ -41,28 +41,14 @@ function Ratings() {
         if (!authenticated) {
             navigate(ROUTES.HOMEPAGE);
         }
-        userRating();
+        userAppointment();
     }, []);
 
-    const handleClick = (event) => {
-        axios_api.post("/ratings/addRating", {
-            property_id: event.property,
-            user_id: event.user,
-            rating: event.rating
-        }).then((res) => {
-            if (res.data.success) {
-                userRating();
-            }
-        });
-    }
-
-    const handleEdit = (event) => {
-        axios_api.put('/ratings/updateRating/' + event.user + '/' + event.property, {
-            property_id: event.property,
-            user_id: event.user,
-            rating: event.rating
-        }).then((res) => {
-            userRating();
+    const handleCancel = (event) => {
+        console.log(event);
+        axios_api.put('/appointments/deleteAppointment/' + event.user + '/' + event.property).then((res) => {
+            userAppointment();
+            navigate(ROUTES.CANCEL_APPOINTMENT);
         });
     }
 
@@ -78,7 +64,7 @@ function Ratings() {
                 }}
             >
                 <Container maxWidth="lg">
-                    <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3}}>
+                    <Grid container columnSpacing={{ xs: 1, sm: 2, md: 2}}>
                         <Grid item xs={4}>
                             <Card>
                                 <CardContent>
@@ -181,26 +167,24 @@ function Ratings() {
                                 </CardContent>
                             </Card>
                         </Grid>
-                        <Grid item xs={8}>
-                            <Button variant={"outlined"} onClick={() => navigate(ROUTES.REVIEW)}>Add Reviews</Button>
-                            <Button variant={"contained"} onClick={() => navigate(ROUTES.RATING)}>Add Ratings</Button>
+                        <Grid item xs={8} style={{textAlign: "center"}}>
+                            <Typography style={{textAlign: "left"}}><h2>Appointments</h2></Typography>
                             <Divider variant={"fullWidth"}/>
-                            {userRatings.length < 1 ? (
+                            {userAppointments.length < 1 ? (
                                 <div style={{textAlign: "center", margin: "20%"}}>
-                                    <p style={{color: "gray"}}>No Property is available for Ratings</p>
+                                    <p style={{color: "gray"}}>No Appointments</p>
                                 </div>
                             ) : (
-                                <div style={{marginTop: "2%"}}>
-                                    {userRatings.map(value => (
+                                <div>
+                                    {userAppointments.map(value => (
                                         <Grid style={{margin: "5%"}}>
-                                            <Card style={{marginTop: "5%"}} variant={"outlined"}>
+                                            <Card>
                                                 <CardContent>
-                                                    <img src={value.images} alt={"image"} style={{width: "300px", height: "200px", paddingRight: "20px"}}/>
-                                                    {(!value.rating) ? (
-                                                        <Rating precision={0.5} onChange={ (event, rateNumber) => {handleClick({user: value.user_id, property: value.property_id, rating: rateNumber})}}/>
-                                                    ) : (
-                                                        <Rating precision={0.5} value={value.rating} onChange={(event, rateNumber) => {handleEdit({user: value.user_id, property: value.property_id, rating: rateNumber})}}/>
-                                                    )}
+                                                    <img src={value.property_image} alt={"image"} style={{width: "200px", height: "200px", margin: "5%"}}/>
+                                                    <p style={{margin: "2%"}}><b>Property Address: </b>{value.property_location}</p>
+                                                    <p style={{margin: "2%"}}><b>Appointment Date: </b>{value.appointment_date.toString().substring(0, 10)}</p>
+                                                    <p style={{margin: "2%"}}><b>Appointment Time: </b>{value.appointment_time}</p>
+                                                    <Button variant={"contained"} style={{margin: "5%"}} onClick={() => {handleCancel({user: value.user_id, property: value.property_id})}}>Cancel Appointment</Button>
                                                 </CardContent>
                                             </Card>
                                         </Grid>
@@ -215,4 +199,4 @@ function Ratings() {
     )
 }
 
-export default Ratings;
+export default Appointments;

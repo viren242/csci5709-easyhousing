@@ -1,3 +1,5 @@
+// Author: Arvinder Singh (B00878415)
+
 const { ratings, appointments, properties} = require("../models");
 
 const getAllRatings = async (req, res) => {
@@ -208,4 +210,38 @@ const getUserRatings = async (req, res) => {
     }
 }
 
-module.exports = { addRating, getAllRatings, getRating, updateRating, deleteRating, getUserRatings };
+const getAvgPropertyRatings = async (req, res) => {
+    try {
+        const property = req.params.propertyId;
+        const propertRatings = await ratings.findAll({
+            where: {property_id: property}
+        })
+
+        if (!propertRatings || !propertRatings.length) {
+            res.status(404).json({
+                message: "No rating available",
+                success: false
+            })
+        } else {
+            const numOfRatings = propertRatings.length;
+            let sumOfRatings = 0;
+            for (let i=0; i<numOfRatings; i++) {
+                sumOfRatings = sumOfRatings + Number(propertRatings[i].dataValues.rating);
+            }
+            const avgRating = sumOfRatings / numOfRatings;
+            res.status(200).json({
+                property_id: property,
+                averageRating: avgRating,
+                success: true
+            })
+        }
+    } catch (err) {
+        res.status(500).json({
+            message: "Internal Server Error!!",
+            success: false,
+            error: err.message
+        })
+    }
+}
+
+module.exports = { addRating, getAllRatings, getRating, updateRating, deleteRating, getUserRatings, getAvgPropertyRatings };

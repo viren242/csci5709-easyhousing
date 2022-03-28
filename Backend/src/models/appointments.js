@@ -1,3 +1,5 @@
+// Author: Arvinder Singh (B00878415)
+
 module.exports = (sequelize, DataTypes) => {
     const Appointments = sequelize.define('appointments', {
         appointment_id: {
