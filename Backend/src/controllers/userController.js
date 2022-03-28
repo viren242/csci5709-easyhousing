@@ -221,7 +221,6 @@ const forgotPassword = async (req, res) => {
     };
     let token = jwt.sign(jwtPayload, JWT_SECRET, { expiresIn: "1h" });
     const link = `${WEBSITE_LINK}/api/user/reset/${userExist.id}/${token}`;
-    console.log(link);
     sendEmail(
       userExist.email,
       "Reset Password For Easy Housing",
