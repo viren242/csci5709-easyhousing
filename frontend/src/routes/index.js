@@ -31,6 +31,9 @@ import ForgetPassword from "../pages/UserManagement/components/ForgetPassword";
 import ResetPassword from "../pages/UserManagement/components/ResetPassword";
 import Appointments from "../pages/Appointment/Appointments/Appointments";
 
+import ViewFavorites from "../pages/Favorites/ViewFavorites/ViewFavorites";
+import FavoriteInfo from "../pages/Favorites/ViewFavorites/FavoriteInfo";
+
 // import PrivateRoute from "PrivateRoute";
 import Homepage from "../pages/HomePage/index";
 import PropertyInfo from "../pages/PropertyManagement/ViewProperty/PropertyInfo";
@@ -125,7 +128,15 @@ function Routing() {
     },
     {
       pageLink: ROUTES.APPOINTMENTS,
-      view: Appointments
+      view: Appointments,
+    },
+    {
+      pageLink: ROUTES.VIEW_FAVORITES,
+      view: ViewFavorites,
+    },
+    {
+      pageLink: ROUTES.VIEW_FAVORITES_DETAILS,
+      view: FavoriteInfo,
     },
     {
       pageLink: ROUTES.ERROR,
