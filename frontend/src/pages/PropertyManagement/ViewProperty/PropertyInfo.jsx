@@ -93,140 +93,137 @@ const PropertyInfo = () => {
 
     return (
         <>
-            {openDialog ? (
-                <Dialog open={openDialog} fullWidth={true}>
-                    <p style={{textAlign: "center", margin: "20px"}}>Appointment Cancelled!!!</p>
-                    <div style={{textAlign: "center"}}>
-                        <Button variant={"contained"} style={{marginBottom: "20px", width: "200px"}} onClick={handleClose}>
-                            Close
-                        </Button>
-                    </div>
-                </Dialog>
-            ) : (
-                <>
-                    <NavigationBar />
-                    {property ? property.id ? <>
-                        <Grid container>
-                            <Container component="main" maxWidth="md" sx={{ mt: 5 }}>
-                                <img src={property.image} width="100%" style={{ marginRight: 'auto', marginLeft: 'auto' }} />
-                                <div className={classes.paper} >
-                                    <Box margin="10px"
-                                         sx={{
+            <NavigationBar />
+            <Dialog open={openDialog} fullWidth={true}>
+                <p style={{textAlign: "center", margin: "20px"}}>Appointment Cancelled!!!</p>
+                <div style={{textAlign: "center"}}>
+                    <Button variant={"contained"} style={{marginBottom: "20px", width: "200px"}} onClick={handleClose}>
+                        Close
+                    </Button>
+                </div>
+            </Dialog>
+            {property ? property.id ? <>
+                <Grid container>
+                    <Container component="main" maxWidth="md" sx={{ mt: 5 }}>
+                        <img src={property.image} width="100%" style={{ marginRight: 'auto', marginLeft: 'auto' }} />
+                        <div className={classes.paper} >
+                            <Box margin="10px"
+                                 sx={{
 
-                                             //marginTop: 0,
-                                             display: 'flex',
-                                             flexDirection: 'column',
-                                             //alignItems: 'center',
-                                         }}
-                                    >
+                                     //marginTop: 0,
+                                     display: 'flex',
+                                     flexDirection: 'column',
+                                     //alignItems: 'center',
+                                 }}
+                            >
 
-                                        <Typography gutterBottom variant="h5" component="div">
-                                            {property.title}
-                                        </Typography>
+                                <Typography gutterBottom variant="h5" component="div">
+                                    {property.title}
+                                </Typography>
 
-                                        <Typography gutterBottom variant="subtitle1" component="div" sx={{ color: 'gray', display: 'flex', alignItems: 'center' }}>
-                                            <LocationOnOutlinedIcon />
-                                            {property.location}
+                                <Typography gutterBottom variant="subtitle1" component="div" sx={{ color: 'gray', display: 'flex', alignItems: 'center' }}>
+                                    <LocationOnOutlinedIcon />
+                                    {property.location}
+                                </Typography>
+                                <Divider />
+                                <Typography gutterBottom variant="h6" component="div" sx={{ color: 'purple' }}>
+                                    The Unit
+                                </Typography>
+                                <Box sx={{ display: 'flex' }}>
+                                    <Box width="50%">
+                                        <Typography gutterBottom variant="body2" component="div" sx={{ display: 'flex', alignItems: 'center', }}>
+                                            <HotelOutlinedIcon style={{ marginRight: 5 }} />
+                                            Unit Type
                                         </Typography>
-                                        <Divider />
-                                        <Typography gutterBottom variant="h6" component="div" sx={{ color: 'purple' }}>
-                                            The Unit
+                                        <Typography gutterBottom variant="subtitle1" component="div" sx={{ color: 'gray' }}>
+                                            {property.unit_type}
                                         </Typography>
-                                        <Box sx={{ display: 'flex' }}>
-                                            <Box width="50%">
-                                                <Typography gutterBottom variant="body2" component="div" sx={{ display: 'flex', alignItems: 'center', }}>
-                                                    <HotelOutlinedIcon style={{ marginRight: 5 }} />
-                                                    Unit Type
-                                                </Typography>
-                                                <Typography gutterBottom variant="subtitle1" component="div" sx={{ color: 'gray' }}>
-                                                    {property.unit_type}
-                                                </Typography>
-                                                <Typography gutterBottom variant="body2" component="div" sx={{ display: 'flex', alignItems: 'center', }}>
-                                                    <HotelOutlinedIcon style={{ marginRight: 5 }} />
-                                                    Bedrooms
-                                                </Typography>
-                                                <Typography gutterBottom variant="subtitle1" component="div" sx={{ color: 'gray' }}>
-                                                    {property.bedrooms}
-                                                </Typography>
-                                                <Typography gutterBottom variant="body2" component="div" sx={{ display: 'flex', alignItems: 'center', }}>
-                                                    <BathtubOutlinedIcon style={{ marginRight: 5 }} />
-                                                    Bathrooms
-                                                </Typography>
-                                                <Typography gutterBottom variant="subtitle1" component="div" sx={{ color: 'gray' }}>
-                                                    {property.bathrooms}
-                                                </Typography>
-                                            </Box>
-                                            <Divider />
+                                        <Typography gutterBottom variant="body2" component="div" sx={{ display: 'flex', alignItems: 'center', }}>
+                                            <HotelOutlinedIcon style={{ marginRight: 5 }} />
+                                            Bedrooms
+                                        </Typography>
+                                        <Typography gutterBottom variant="subtitle1" component="div" sx={{ color: 'gray' }}>
+                                            {property.bedrooms}
+                                        </Typography>
+                                        <Typography gutterBottom variant="body2" component="div" sx={{ display: 'flex', alignItems: 'center', }}>
+                                            <BathtubOutlinedIcon style={{ marginRight: 5 }} />
+                                            Bathrooms
+                                        </Typography>
+                                        <Typography gutterBottom variant="subtitle1" component="div" sx={{ color: 'gray' }}>
+                                            {property.bathrooms}
+                                        </Typography>
+                                    </Box>
+                                    <Divider />
 
-                                            <Box width="50%">
-                                                <Typography gutterBottom variant="body2" component="div" sx={{ display: 'flex', alignItems: 'center' }}>
-                                                    <SquareFootOutlinedIcon style={{ marginRight: 5 }} />
-                                                    Size(sqft)
-                                                </Typography>
-                                                <Typography gutterBottom variant="subtitle1" component="div" sx={{ color: 'gray' }}>
-                                                    {property.sq_feet}
-                                                </Typography>
-                                                <Typography gutterBottom variant="body2" component="div" sx={{ display: 'flex', alignItems: 'center' }}>
-                                                    <ChairOutlinedIcon style={{ marginRight: 5 }} />
-                                                    Furnished
-                                                </Typography>
-                                                <Typography gutterBottom variant="subtitle1" component="div" sx={{ color: 'gray' }}>
-                                                    {property.furnished ? "Yes" : "No"}
-                                                </Typography>
-                                                <Typography gutterBottom variant="body2" component="div" sx={{ display: 'flex', alignItems: 'center' }}>
-                                                    <LocalLaundryServiceOutlined style={{ marginRight: 5 }} />
-                                                    Appliances
-                                                </Typography>
-                                                <Typography gutterBottom variant="subtitle1" component="div" sx={{ color: 'gray' }}>
-                                                    {property.appliances}
-                                                </Typography>
-                                            </Box>
-                                        </Box>
-                                        <Divider />
-                                        <Typography gutterBottom variant="h6" component="div" >
-                                            Price
+                                    <Box width="50%">
+                                        <Typography gutterBottom variant="body2" component="div" sx={{ display: 'flex', alignItems: 'center' }}>
+                                            <SquareFootOutlinedIcon style={{ marginRight: 5 }} />
+                                            Size(sqft)
                                         </Typography>
-                                        <Typography gutterBottom variant="h5" component="div" sx={{ color: 'green' }}>
-                                            $ {property.price}
+                                        <Typography gutterBottom variant="subtitle1" component="div" sx={{ color: 'gray' }}>
+                                            {property.sq_feet}
                                         </Typography>
-                                        <Divider />
-                                        <Box sx={{ display: 'flex', alignItems: 'center', marginLeft: 'auto', marginRight: 'auto' }}>
-                                            {/* <Box width="50%" sx={{ marginRight: 'auto', marginLeft: 'auto', justifyContent: "center" }} > */}
-                                            {((userAppointment !== "") && (userId)) ? (
-                                                <Button
-                                                    //fullWidth
-                                                    variant="contained"
-                                                    onClick={handleCancel}
-                                                    sx={{ mt: 3, mb: 2, mr: 2 }}
-                                                >
-                                                    Cancel Appointment
-                                                </Button>
-                                            ) : (
-                                                <Button
-                                                    //fullWidth
-                                                    variant="contained"
-                                                    onClick={handleBook}
-                                                    sx={{ mt: 3, mb: 2, mr: 2 }}
-                                                >
-                                                    Book Appointment
-                                                </Button>
-                                            )}
-                                            {/* </Box>
+                                        <Typography gutterBottom variant="body2" component="div" sx={{ display: 'flex', alignItems: 'center' }}>
+                                            <ChairOutlinedIcon style={{ marginRight: 5 }} />
+                                            Furnished
+                                        </Typography>
+                                        <Typography gutterBottom variant="subtitle1" component="div" sx={{ color: 'gray' }}>
+                                            {property.furnished ? "Yes" : "No"}
+                                        </Typography>
+                                        <Typography gutterBottom variant="body2" component="div" sx={{ display: 'flex', alignItems: 'center' }}>
+                                            <LocalLaundryServiceOutlined style={{ marginRight: 5 }} />
+                                            Appliances
+                                        </Typography>
+                                        <Typography gutterBottom variant="subtitle1" component="div" sx={{ color: 'gray' }}>
+                                            {property.appliances}
+                                        </Typography>
+                                    </Box>
+                                </Box>
+                                <Divider />
+                                <Typography gutterBottom variant="h6" component="div" >
+                                    Price
+                                </Typography>
+                                <Typography gutterBottom variant="h5" component="div" sx={{ color: 'green' }}>
+                                    $ {property.price}
+                                </Typography>
+                                <Divider />
+                                <Box sx={{ display: 'flex', alignItems: 'center', marginLeft: 'auto', marginRight: 'auto' }}>
+                                    {/* <Box width="50%" sx={{ marginRight: 'auto', marginLeft: 'auto', justifyContent: "center" }} > */}
+                                    {((userAppointment !== "") && (userId)) ? (
+                                        <Button
+                                            //fullWidth
+                                            variant="contained"
+                                            onClick={handleCancel}
+                                            sx={{ mt: 3, mb: 2, mr: 2 }}
+                                        >
+                                            Cancel Appointment
+                                        </Button>
+                                    ) : (
+                                        <Button
+                                            //fullWidth
+                                            variant="contained"
+                                            onClick={handleBook}
+                                            sx={{ mt: 3, mb: 2, mr: 2 }}
+                                        >
+                                            Book Appointment
+                                        </Button>
+                                    )}
+                                    {/* </Box>
                                             <Box width="50%"> */}
-                                            <Button
-                                                //fullWidth
-                                                variant="contained"
-                                                onClick={(event) => {
-                                                    navigate("/");
-                                                }}
-                                                color="warning"
-                                                sx={{ mt: 3, mb: 2, mr: 2 }}
-                                            >
-                                                Review
-                                            </Button>
-                                            <FavoriteButton propertyId={property.id}/>
+                                    <Button
+                                        //fullWidth
+                                        variant="contained"
+                                        onClick={(event) => {
+                                            navigate("/");
+                                        }}
+                                        color="warning"
+                                        sx={{ mt: 3, mb: 2, mr: 2 }}
+                                    >
+                                        Review
+                                    </Button>
+                                    <FavoriteButton propertyId={property.id}/>
 
-                                            {/* <Button
+                                    {/* <Button
                                                 //fullWidth
                                                 variant="contained"
                                                 onClick={(event) => {
@@ -237,16 +234,14 @@ const PropertyInfo = () => {
                                             >
                                                 Report
                                             </Button> */}
-                                            {/* </Box> */}
-                                        </Box>
+                                    {/* </Box> */}
+                                </Box>
 
-                                    </Box>
-                                </div>
-                            </Container>
-                        </Grid>
-                    </> : "Cannot find requested property." : "Fetching property details."}
-                </>
-            )}
+                            </Box>
+                        </div>
+                    </Container>
+                </Grid>
+            </> : "Cannot find requested property." : "Fetching property details."}
         </>
     )
 }
