@@ -1,5 +1,6 @@
+// Author: Viren Babubhai Malavia (B00895669)
 
-import React, {useState, useEffect, useContext} from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import axios_api from '../../../common/axios';
 import { useNavigate, useParams } from "react-router-dom";
 import NavigationBar from "../../NavigationBar/Navbar";
@@ -14,9 +15,7 @@ import ChairOutlinedIcon from '@mui/icons-material/ChairOutlined';
 import LocalLaundryServiceOutlinedIcon from '@material-ui/icons/LocalLaundryServiceOutlined';
 import { Divider } from '@material-ui/core';
 import LocalLaundryServiceOutlined from '@material-ui/icons/LocalLaundryServiceOutlined';
-import {AppContext} from "../../../context/userContext";
-import {ROUTES} from "../../../common/constants";
-
+import { AppContext } from "../../../context/userContext";
 import FavoriteButton from '../../Favorites/FavoriteButton/FavoriteButton';
 
 const useStyles = makeStyles((theme) => ({
@@ -34,50 +33,37 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const PropertyInfo = () => {
+const FavoriteInfo = () => {
     const navigate = useNavigate();
     const classes = useStyles();
-    const [property, setProperty] = useState([])
+    const [favProperty, setFavProperty] = useState([])
     const { propertyId } = useParams();
-
+    
     useEffect(async () => {
         await axios_api.get(`/properties/getProperty/${propertyId}`)
             .then(response => {
                 if (response.data.success) {
                     //console.log(response.data.data);
-                    setProperty(response.data.data);
+                    setFavProperty(response.data.data);
                 }
                 //console.log("success");
 
             }).catch((err) => {
-                setProperty([])
+                setFavProperty([])
                 //toast.error(err?.response?.data?.message || "Something went wrong")
             })
         
-        
         //handleSearch(searchText)
-    }, [])
+    }, []);
 
-    const {
-        state: { authenticated, authToken, currentUser, userId },
-        dispatch,
-    } = useContext(AppContext);
-
-    const handleClick = (e) => {
-        if (userId) {
-            navigate(`/book-appointment/${userId}/${propertyId}`);
-        } else {
-            navigate(ROUTES.LOGIN);
-        }
-    }
 
     return (
         <>
             <NavigationBar />
-            {property ? property.id ? <>
+            {favProperty ? favProperty.id ? <>
                 <Grid container>
                     <Container component="main" maxWidth="md" sx={{ mt: 5 }}>
-                        <img src={property.image} width="100%" style={{ marginRight: 'auto', marginLeft: 'auto' }} />
+                        <img src={favProperty.image} width="100%" style={{ marginRight: 'auto', marginLeft: 'auto' }} />
                         <div className={classes.paper} >
                             <Box margin="10px"
                                 sx={{
@@ -90,12 +76,12 @@ const PropertyInfo = () => {
                             >
 
                                 <Typography gutterBottom variant="h5" component="div">
-                                    {property.title}
+                                    {favProperty.title}
                                 </Typography>
 
                                 <Typography gutterBottom variant="subtitle1" component="div" sx={{ color: 'gray', display: 'flex', alignItems: 'center' }}>
                                     <LocationOnOutlinedIcon />
-                                    {property.location}
+                                    {favProperty.location}
                                 </Typography>
                                 <Divider />
                                 <Typography gutterBottom variant="h6" component="div" sx={{ color: 'purple' }}>
@@ -108,21 +94,21 @@ const PropertyInfo = () => {
                                             Unit Type
                                         </Typography>
                                         <Typography gutterBottom variant="subtitle1" component="div" sx={{ color: 'gray' }}>
-                                            {property.unit_type}
+                                            {favProperty.unit_type}
                                         </Typography>
                                         <Typography gutterBottom variant="body2" component="div" sx={{ display: 'flex', alignItems: 'center', }}>
                                             <HotelOutlinedIcon style={{ marginRight: 5 }} />
                                             Bedrooms
                                         </Typography>
                                         <Typography gutterBottom variant="subtitle1" component="div" sx={{ color: 'gray' }}>
-                                            {property.bedrooms}
+                                            {favProperty.bedrooms}
                                         </Typography>
                                         <Typography gutterBottom variant="body2" component="div" sx={{ display: 'flex', alignItems: 'center', }}>
                                             <BathtubOutlinedIcon style={{ marginRight: 5 }} />
                                             Bathrooms
                                         </Typography>
                                         <Typography gutterBottom variant="subtitle1" component="div" sx={{ color: 'gray' }}>
-                                            {property.bathrooms}
+                                            {favProperty.bathrooms}
                                         </Typography>
                                     </Box>
                                     <Divider />
@@ -133,21 +119,21 @@ const PropertyInfo = () => {
                                             Size(sqft)
                                         </Typography>
                                         <Typography gutterBottom variant="subtitle1" component="div" sx={{ color: 'gray' }}>
-                                            {property.sq_feet}
+                                            {favProperty.sq_feet}
                                         </Typography>
                                         <Typography gutterBottom variant="body2" component="div" sx={{ display: 'flex', alignItems: 'center' }}>
                                             <ChairOutlinedIcon style={{ marginRight: 5 }} />
                                             Furnished
                                         </Typography>
                                         <Typography gutterBottom variant="subtitle1" component="div" sx={{ color: 'gray' }}>
-                                            {property.furnished ? "Yes" : "No"}
+                                            {favProperty.furnished ? "Yes" : "No"}
                                         </Typography>
                                         <Typography gutterBottom variant="body2" component="div" sx={{ display: 'flex', alignItems: 'center' }}>
                                             <LocalLaundryServiceOutlined style={{ marginRight: 5 }} />
                                             Appliances
                                         </Typography>
                                         <Typography gutterBottom variant="subtitle1" component="div" sx={{ color: 'gray' }}>
-                                            {property.appliances}
+                                            {favProperty.appliances}
                                         </Typography>
                                     </Box>
                                 </Box>
@@ -156,7 +142,7 @@ const PropertyInfo = () => {
                                     Price
                                 </Typography>
                                 <Typography gutterBottom variant="h5" component="div" sx={{ color: 'green' }}>
-                                    $ {property.price}
+                                    $ {favProperty.price}
                                 </Typography>
                                 <Divider />
                                 <Box sx={{ display: 'flex', alignItems: 'center', marginLeft: 'auto', marginRight: 'auto' }}>
@@ -168,7 +154,6 @@ const PropertyInfo = () => {
                                             navigate("/");
                                         }}
                                         sx={{ mt: 3, mb: 2, mr: 2 }}
-                                        onClickCapture={handleClick}
                                     >
                                         Book Appointment
                                     </Button>
@@ -185,7 +170,7 @@ const PropertyInfo = () => {
                                     >
                                         Review
                                     </Button>
-                                    <FavoriteButton propertyId={property.id}/>
+                                    <FavoriteButton propertyId={favProperty.id}/>
                                     
                                     {/* <Button
                                         //fullWidth
@@ -210,4 +195,4 @@ const PropertyInfo = () => {
     )
 }
 
-export default PropertyInfo
+export default FavoriteInfo
