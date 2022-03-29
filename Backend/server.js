@@ -1,12 +1,15 @@
 const express = require("express");
 const cors = require("cors");
+
 const userRoute = require("./src/routes/userRoute");
 const propertyRoute = require("./src/routes/propertyRoute");
 const ratingRoute = require("./src/routes/ratingRoute");
 const reviewRoute = require("./src/routes/reviewRoute");
 const appointmentRoute = require("./src/routes/appointmentRoute");
 const favoriteRoute = require("./src/routes/favoriteRoute");
+const roommateFinderRoute = require("./src/routes/roommateFinderRoute");
 const db = require("./src/models");
+
 const passport = require("passport");
 const path = require("path");
 const fs = require("fs");
@@ -36,6 +39,7 @@ app.use("/api/users", userRoute);
 
 app.use("/api/properties", propertyRoute);
 
+app.use("/api/roomatefinder",roommateFinderRoute);
 app.use("/api/ratings", ratingRoute);
 
 app.use("/api/reviews", reviewRoute);

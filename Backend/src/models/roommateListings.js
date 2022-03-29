@@ -1,7 +1,5 @@
-// Author: Pankti Vyas (B00886309)
-
 module.exports = (sequelize, DataTypes) => {
-    const Services = sequelize.define("services", {
+    const roommateListings = sequelize.define("roommateListings", {
         title: {
             type: DataTypes.STRING,
             allowNull: false
@@ -9,22 +7,24 @@ module.exports = (sequelize, DataTypes) => {
         description: {
             type: DataTypes.STRING,
         },
+        postedBy: {
+            type: DataTypes.STRING,
+        },
         location: {
             type: DataTypes.STRING,
         },
-        price: {
-            type: DataTypes.INTEGER,
-        },
-        userid: {
-            type: DataTypes.INTEGER,
-        },
-        image: {
+        imageUrl: {
             type: DataTypes.STRING,
         },
-        email: {
+        postedUserId:{
+            type: DataTypes.INTEGER,
+        },
+        moveInDate:{
             type: DataTypes.STRING,
         }
+        
     });
 
-    return Services;
+    return roommateListings;
+
 };

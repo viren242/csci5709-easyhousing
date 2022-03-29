@@ -33,6 +33,9 @@ import Appointments from "../pages/Appointment/Appointments/Appointments";
 
 // import PrivateRoute from "PrivateRoute";
 import Homepage from "../pages/HomePage/index";
+import RoommateHomepage from "../pages/RoommateFinder/RoomateHomePage";
+import MyListings from "../pages/RoommateFinder/MyListings";
+import EditRoomatesAd from "../pages/RoommateFinder/EditRoomatesAd";
 import PropertyInfo from "../pages/PropertyManagement/ViewProperty/PropertyInfo";
 import UserProperty from "../pages/PropertyManagement/UserProperty/UserProperty";
 
@@ -132,6 +135,20 @@ function Routing() {
       pageLink: ROUTES.ERROR,
       view: Error,
     },
+    {
+      pageLink: ROUTES.ROOMMATE_FINDER,
+      view: RoommateHomepage
+    },
+    {
+      pageLink: ROUTES.ROOMMATE_FINDER_MY_LISTINGS,
+      view: MyListings
+    },
+    {
+      pageLink: ROUTES.ROOMMATE_FINDER_EDIT_LISTINGS,
+      view: EditRoomatesAd
+    }
+
+
   ];
 
   useEffect(() => {
