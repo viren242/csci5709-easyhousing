@@ -2,6 +2,7 @@
 
 const { reviews, appointments, properties } = require("../models");
 
+// get all review based on user_id
 const getAllReviews = async (req, res) => {
     try {
         const listOfReviews = await reviews.findAll({
@@ -30,6 +31,7 @@ const getAllReviews = async (req, res) => {
     }
 };
 
+// get the review details based on user_id and property_id
 const getReview = async (req, res) => {
     try {
         const user = req.params.userId;
@@ -59,6 +61,7 @@ const getReview = async (req, res) => {
     }
 };
 
+// add new review
 const addReview = async (req, res) => {
     try {
         await reviews.create(req.body).then(() => {
@@ -76,6 +79,7 @@ const addReview = async (req, res) => {
     }
 };
 
+// update existing review
 const updateReview = async (req, res) => {
     try {
         const user = req.params.userId;
@@ -108,6 +112,7 @@ const updateReview = async (req, res) => {
     }
 };
 
+// delete a review
 const deleteReview = async (req, res) => {
     try {
         const user = req.params.userId;
@@ -140,6 +145,7 @@ const deleteReview = async (req, res) => {
     }
 };
 
+// get the list of properties available for particular user to provide or update reviews
 const getUserReviews = async (req, res) => {
     try {
         const listMyAppointments = await appointments.findAll({
@@ -163,36 +169,40 @@ const getUserReviews = async (req, res) => {
                     const propertyImg = await properties.findOne({
                         where: { id: property }
                     })
-                    let image = "";
-                    if (!propertyImg || !propertyImg.dataValues.image || propertyImg.dataValues.image === "") {
-                        image = 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
-                    } else {
-                        image = propertyImg.dataValues.image;
+                    if (propertyImg) {
+                        let image = "";
+                        if (!propertyImg.dataValues.image || propertyImg.dataValues.image === "") {
+                            image = 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
+                        } else {
+                            image = propertyImg.dataValues.image;
+                        }
+                        listOfReviews.push({
+                            user_id: user,
+                            property_id: property,
+                            images: image,
+                            review_id: "",
+                            review: ""
+                        })
                     }
-                    listOfReviews.push({
-                        user_id: user,
-                        property_id: property,
-                        images: image,
-                        review_id: "",
-                        review: ""
-                    })
                 } else {
                     const propertyImg = await properties.findOne({
                         where: { id: property }
                     })
-                    let image = "";
-                    if (!propertyImg || !propertyImg.dataValues.image || propertyImg.dataValues.image === "") {
-                        image = 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
-                    } else {
-                        image = propertyImg.dataValues.image;
+                    if (propertyImg) {
+                        let image = "";
+                        if (!propertyImg.dataValues.image || propertyImg.dataValues.image === "") {
+                            image = 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
+                        } else {
+                            image = propertyImg.dataValues.image;
+                        }
+                        listOfReviews.push({
+                            user_id: user,
+                            property_id: property,
+                            images: image,
+                            review_id: review.dataValues.review_id,
+                            review: review.dataValues.review
+                        })
                     }
-                    listOfReviews.push({
-                        user_id: user,
-                        property_id: property,
-                        images: image,
-                        review_id: review.dataValues.review_id,
-                        review: review.dataValues.review
-                    })
                 }
             }
             res.status(200).json({
@@ -210,6 +220,7 @@ const getUserReviews = async (req, res) => {
     }
 }
 
+// get the list of all reviews of a property
 const getAllPropertyReviews = async (req, res) => {
     try {
         const property = req.params.propertyId;
