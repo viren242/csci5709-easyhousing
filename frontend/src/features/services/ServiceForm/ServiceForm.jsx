@@ -6,7 +6,7 @@ import "./ServiceForm.css";
 
 const ServiceForm = (props) => {
   const [selectedFile, setSelectedFile] = React.useState(null);
-  const [formError, setFormError] = React.useState("");
+  const [formError, setFormError] = React.useState([]);
   const [formState, setFormState] = React.useState(props.defaultFormFieldsState || {
     title: "",
     description: "",
@@ -24,6 +24,46 @@ const ServiceForm = (props) => {
     }
   }
 
+  const validateServiceForm = (values) => {
+
+    // ref: https://stackoverflow.com/questions/46155/whats-the-best-way-to-validate-an-email-address-in-javascript
+    const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+
+    const {title, description, location, email, price, image, isImageUpdated} = values;
+
+    let validationErrors = [];
+
+    if (title === undefined || title === null || title.length === 0) {
+      validationErrors.push("Title cannot be empty.");
+    }
+ 
+    if (description === undefined || description === null || description.length === 0) {
+      validationErrors.push("Description cannot be empty.");
+    }
+ 
+    if (location === undefined || location === null || location.length === 0) {
+      validationErrors.push("Location cannot be empty.");
+    }
+ 
+    if (email === undefined || email === null || email.length === 0) {
+      validationErrors.push("Email cannot be empty.");
+    } else if (!emailRegex.test(email)) {
+      validationErrors.push("Email should be valid.");
+    }
+
+    if (price === undefined || price === null || price.length === 0) {
+      validationErrors.push("Price cannot be empty.");
+    }
+
+    if (isImageUpdated && (image === undefined || image === null)) {
+      validationErrors.push("Please select an image");
+    } else if (isImageUpdated && !image.type.startsWith("image/")) {
+      validationErrors.push("The file uploaded should be an image");
+    }
+
+    return validationErrors;
+  }
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
     const title = e.target.title.value;
@@ -34,15 +74,23 @@ const ServiceForm = (props) => {
     const image = e.target.serviceFile.files[0];
     const isImageUpdated = savedImageName.length === 0;
 
-    if (!title || !description || !location || !email || price <= 0) {
-      setFormError("Please enter all values");
+    const validationErrors = validateServiceForm({
+      title,
+      description,
+      location,
+      email,
+      price,
+      image,
+      isImageUpdated
+    });
+
+    console.log(validationErrors);
+
+    if (validationErrors.length !== 0) {
+      setFormError(validationErrors);
       return;
-    } else if (isImageUpdated && (image === undefined || image === null)) {
-      setFormError("Please select an image");
-      return;
-    } else if (isImageUpdated && !image.type.startsWith("image/")) {
-      setFormError("The file uploaded should be an image");
-      return;
+    } else {
+      setFormError([]);
     }
 
     const formData = new FormData();
@@ -158,18 +206,20 @@ const ServiceForm = (props) => {
           )}
         </label>
 
+        {formError.length > 0 ? (
+          <ul className="form-error">
+            {formError.map((error, index) => (
+              <li key={index}>{error}</li>
+            ))}
+          </ul>
+        ) : null}
+
         <input
           type="submit"
           name="submit"
           id="submit"
           value="Post Ad"
         />
-
-        {formError && (
-          <p className="form-error">
-            {formError}
-          </p>
-        )}
       </form>
     </div>
   )
