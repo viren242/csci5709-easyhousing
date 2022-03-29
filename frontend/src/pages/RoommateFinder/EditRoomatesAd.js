@@ -8,7 +8,7 @@ import DatePicker from '@mui/lab/DatePicker';
 import DateAdapter from '@mui/lab/AdapterDateFns';
 import axios_api from "../../common/axios";
 import { AppContext } from "../../context/userContext";
-
+import { useForm } from "react-hook-form";
 
 export default function PostRoomatesAd() {
     const [selectedFiles, setFile] = useState(null);
@@ -20,11 +20,26 @@ export default function PostRoomatesAd() {
     const [alert, setAlert] = useState(null);
 
     const {
-        state: { authenticated, currentUser },
+        state: { authenticated, currentUser , editItem},
         dispatch,
       } = useContext(AppContext);
 
-      
+      const {
+        register,
+        handleSubmit,
+        //formState: { errors },
+        reset,
+        trigger,
+        watch,
+      } = useForm(); 
+
+      const intialDetails = {
+        title: editItem.title,
+        location: editItem.location,
+        description: editItem.description,
+        //phoneNumber: editItem.phoneNumber,
+      };
+
     const handleImageUpload = (event) => {
         let images = [];
         for (let i = 0; i < event.target.files.length; i++) {
@@ -35,64 +50,30 @@ export default function PostRoomatesAd() {
         setImages(images);
     }
 
-    const onSubmitForm = (e) => {
-        console.log("There" , previewImages, title, Location ,description );
-        e.preventDefault();
-
-        const formData = new FormData();
-        formData.append("image", selectedFiles);
-       // formData.append("fileName", fileName)
-
-        if(selectedFiles){
-            axios_api
-             .post("/roomatefinder/imageUpload", formData)
-             .then((response)=>{
-                const path = response.data;
-                console.log(path);
-    
-        const listingDetails = {
-        title: title,
-        imageUrl: previewImages[0],
-        description: description,
-        location: Location,
-        moveInDate: startDate,
-        postedBy: currentUser.firstName,
-        postedUserId: currentUser.user_id  
-        }
-      
+    const onSubmitForm = (data) => {
         axios_api
-      .post("/roomatefinder/", listingDetails)
+      .put(`/roomatefinder/${editItem.id}`, data)
       .then((response) => {
-          console.log(response);
         if ((response.data.success = true)) {
          toast.success(response?.data?.message);
-         // reset();
-         // navigate(ROUTES.LOGIN);
         } else {
          toast.error(response?.data?.message);
         }
-      })
-      .catch((err) => {
-      
+     })
+     .catch((err) => {
         toast.error(err?.response?.data?.message || "Something went wrong");
-      });
+     });
       
-
-        setAlert(true);
-    })
-}
-
-
     }
 
    
-
     useEffect(() => {
         // when the component is mounted, the alert is displayed for 3 seconds
         setTimeout(() => {
             setAlert(false);
         }, 3000);
     }, []);
+
     const today = new Date();
     const [startDate, setStartDate] = useState(today);
 
@@ -102,7 +83,7 @@ export default function PostRoomatesAd() {
             {/* {alert && <Alert variant="outlined" severity="success">Post submitted successfully!</Alert>} */}
             <div style={{ display: 'flex', flexGrow: 1, marginLeft: '10%', justifyContent: 'space-between', marginRight: '10%', marginTop: '5%', marginBottom: '5%', justifyContent: 'center', alignItems: 'center' }}>
 
-                <form style={{ display: 'flex', flexDirection: 'column' }} onSubmit={onSubmitForm}>
+                <form style={{ display: 'flex', flexDirection: 'column' }} onSubmit={handleSubmit(onSubmitForm)}>
                 <div style={{marginBottom:'2%' ,display: 'flex', flexDirection: 'column'  }}>
                     {previewImages && previewImages.length > 0 && (
                         <ImageList sx={{ width: '80%', height: '100%' }} cols={2} rowHeight={200}>
@@ -117,13 +98,12 @@ export default function PostRoomatesAd() {
                             ))}
                         </ImageList>
                     )}
-                    
                     <Button
                         variant="outlined"
                         component="h6"
                     >
                         Upload Image
-                        <input type={"file"} name="image" multiple onChange={handleImageUpload} accept="image/*" />
+                        <input type={"file"} multiple onChange={handleImageUpload} accept="image/*" />
                     </Button>
                     </div>
                     <Typography  component="h6" variant="h6" >
@@ -134,10 +114,21 @@ export default function PostRoomatesAd() {
                         margin="normal"
                         required
                         fullWidth
-                        id="email"
+                        id="title"
+                        defaultValue={intialDetails.title}
                         label="Ad Title"
-                        name="email"
-                        onChange={(e) => { setTitle(e.target.value) }}
+                        name="title"
+                        {...register("title", {
+                            required: "Title is Required"
+                            // pattern: {
+                            //   value: /^[a-zA-Z ]*$/,
+                            //   message: "Please enter alphabet characters only",
+                            // },
+                          })}
+                          onKeyUp={() => {
+                            trigger("title");
+                          }}
+                       // onChange={(e) => { setTitle(e.target.value) }}
                     />
                     <Typography  component="h6" variant="h6" >
                         Location
@@ -147,10 +138,21 @@ export default function PostRoomatesAd() {
                         margin="normal"
                         required
                         fullWidth
+                        defaultValue={intialDetails.location}
                         id="location"
                         label="location"
-                        name="Location"
-                        onChange={(e) => { setLocation(e.target.value) }}
+                        name="location"
+                        {...register("location"
+                            // pattern: {
+                            //   value: /^[a-zA-Z ]*$/,
+                            //   message: "Please enter alphabet characters only",
+                            // },
+                          )}
+                          onKeyUp={() => {
+                            trigger("location");
+                          }}
+                        //value={editItem.location}
+                        //onChange={(e) => { setLocation(e.target.value) }}
                     />
                     
                     <Typography  component="h6" variant="h6">
@@ -160,7 +162,7 @@ export default function PostRoomatesAd() {
                     <LocalizationProvider dateAdapter={DateAdapter}>
                         <DatePicker
                             label="Choose a Date"
-                            value={startDate}
+                           // value={startDate}
                             onChange={(newValue) => {
                                 setStartDate(newValue);
                             }}
@@ -178,12 +180,23 @@ export default function PostRoomatesAd() {
                         margin="normal"
                         required
                         fullWidth
+                        defaultValue={intialDetails.description}
                         name="description"
                         label="Description"
                         type="text"
                         id="description"
                         maxRows={4}
-                        onChange={(e) => { setDescription(e.target.value) }}
+                        {...register("description"
+                        // pattern: {
+                        //   value: /^[a-zA-Z ]*$/,
+                        //   message: "Please enter alphabet characters only",
+                        // },
+                      )}
+                      onKeyUp={() => {
+                        trigger("description");
+                      }}
+                        
+                        //onChange={(e) => { setDescription(e.target.value) }}
                     />
 
                     <Button

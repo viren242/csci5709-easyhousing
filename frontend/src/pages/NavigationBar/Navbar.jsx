@@ -85,11 +85,22 @@ const Navbar = () => {
                 display: { xs: "block", md: "none", color: "black" },
               }}
             >
-              {pages.map((page) => (
+               <MenuItem onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">Property Rental</Typography>
+                </MenuItem>
+                <MenuItem  onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">Services</Typography>
+                </MenuItem>
+                <MenuItem  onClick={() => {
+                  console.log("test");
+                  navigate(ROUTES.ROOMMATE_FINDER)}}>
+                  <Typography textAlign="center">Roommate Finder</Typography>
+                </MenuItem>
+              {/* {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
-              ))}
+              ))} */}
             </Menu>
           </Box>
           <Box noWrap sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>

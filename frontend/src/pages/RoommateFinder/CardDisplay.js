@@ -1,44 +1,170 @@
-import { useState, form, Fragment, useEffect } from "react";
-import { AppBar, Button, IconButton, Toolbar, Typography, Tabs, Tab, CardContent, Grid } from "@material-ui/core";
+import React, { useState, form, Fragment, useEffect,useContext } from "react";
+import { AppBar, Button, IconButton, Toolbar, Typography, Tabs, Tab, CardContent, Grid, Box } from "@material-ui/core";
 import Card from '@mui/material/Card';
 import { CardActions, CardMedia, TextField, ImageListItem, ImageList, Alert } from "@mui/material";
-
+import Modal from '@mui/material/Modal';
 import sampleImage from "../../assets/images/Sample.jpg"
+import axios_api from "../../common/axios";
+import { ROUTES } from "../../common/constants";
+import { AppContext } from "../../context/userContext";
+import { useNavigate } from "react-router-dom";
+import * as ActionTypes from "../../common/actionTypes";
 
-export default function CardDisplay ()  {
+export default function CardDisplay(props) {
     //Sample Json Data
-const roomDetails = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus rhoncus lorem nec dapibus egestas. Morbi faucibus ut odio vel gravida. Mauris vel eleifend ipsum"
+   // console.log(props);
+   const {
+    state: { authenticated, currentUser , listings},
+    dispatch,
+  } = useContext(AppContext);
+
+    const { listing, isMyListing } = props;
+    const [modalOpen, setModalOpen] = useState(false);
+    let navigate = useNavigate();
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        pt: 2,
+        px: 4,
+        pb: 3,
+    };
+
+    const deleteListing = () => {
+        console.log("test here delete");
+        if (window.confirm('Are you sure you wish to delete this item?')) {
+            axios_api
+                .delete(`/roomatefinder/${listing.id}`)
+                .then((response) => {
+                    console.log(response);
+                    if ((response.data.success = true)) {
+                        // dispatch({ type: ActionTypes.SET_ROOMMATE_LISTINGS, data: response.data });
+                        // console.log(listings);
+                        // toast.success(response?.data?.message);
+                        // reset();
+                        // navigate(ROUTES.LOGIN);
+                    } else {
+                        // toast.error(response?.data?.message);
+                    }
+                });
+        }
+
+    }
+
+    const editListing = () => {
+        
+            axios_api
+                .get(`/roomatefinder/${listing.id}`)
+                .then((response) => {
+                    console.log(response);
+                    if ((response.data.success = true)) {
+                        dispatch({ type: ActionTypes.SET_EDIT_LISTING_DETAILS, data: response.data });
+                        // console.log(listings);
+                        // toast.success(response?.data?.message);
+                        // reset();
+                         navigate(ROUTES.ROOMMATE_FINDER_EDIT_LISTINGS , {
+                             isEditPage: true
+                         });
+                    } else {
+                        // toast.error(response?.data?.message);
+                    }
+                });  
+
+    }
+
+
+
+    const roomDetails = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus rhoncus lorem nec dapibus egestas. Morbi faucibus ut odio vel gravida. Mauris vel eleifend ipsum"
     return (
         <Fragment>
-        <Card sx={{ minWidth: '20%' }}>
-            <CardMedia
-                component="img"
-                height="140"
-                width="100%"
-                src={sampleImage}
-                
-            />
-            <CardContent>
+            <Card sx={{ minWidth: '20%' }}>
+                <CardMedia
+                    component="img"
+                    height="140"
+                    width="100%"
+                    src={sampleImage}
 
-                <Typography variant="h6" component="div">
-                    Room available in Halifax
-                </Typography>
+                />
+                <CardContent>
 
-                <Typography variant="subtitle2" component="div">
-                    Posted By: user | Halifax , NS
-                </Typography>
-                <Typography variant="subtitle2" component="div">
-                    Available: Immediate
-                </Typography>
-                <Typography variant="body2">
-                    {roomDetails}
-                    <br />
-                </Typography>
-            </CardContent>
-            <CardActions>
-                <Button size="small">See More</Button>
-            </CardActions>
-        </Card>
+                    <Typography variant="h6" component="div">
+                        {listing.title}
+                        {/* Room available in Halifax */}
+                    </Typography>
+
+                    <Typography variant="subtitle2" component="div">
+                        Posted By: {listing.postedBy} | {listing.location}
+                    </Typography>
+                    <Typography variant="subtitle2" component="div">
+                        Available: Immediate
+                    </Typography>
+                    <Typography variant="body2">
+                        {listing.description}
+                        <br />
+                    </Typography>
+                </CardContent>
+                {isMyListing ? (
+                    <CardActions>
+                        <Button size="small" onClick={deleteListing}>Delete Listing</Button>
+                        <Button size="small" onClick={editListing}>Edit Listing</Button>
+
+                    </CardActions>
+                ) : (
+                    <CardActions>
+                        {
+                            <Button size="small" onClick={() => {
+                                setModalOpen(true);
+                            }}>See More</Button>
+
+                        }
+                    </CardActions>
+                )}
+
+            </Card>
+
+            <Modal
+                open={modalOpen}
+                onClose={() => {
+                    setModalOpen(false);
+                }}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style}>
+                    <Card sx={{ minWidth: '20%' }}>
+                        <CardMedia
+                            component="img"
+                            height="140"
+                            width="100%"
+                            src={sampleImage}
+
+                        />
+                        <CardContent>
+
+                            <Typography variant="h6" component="div">
+                                {listing.title}
+                                {/* Room available in Halifax */}
+                            </Typography>
+
+                            <Typography variant="subtitle2" component="div">
+                                Posted By: {listing.postedBy} | {listing.location}
+                            </Typography>
+                            <Typography variant="subtitle2" component="div">
+                                Available: Immediate
+                            </Typography>
+                            <Typography variant="body2">
+                                {listing.description}
+                                <br />
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                </Box>
+            </Modal>
         </Fragment>
     );
 }

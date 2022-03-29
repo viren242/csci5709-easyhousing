@@ -13,30 +13,40 @@ import CardDisplay from "./CardDisplay";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../context/userContext";
 import * as ActionTypes from "../../common/actionTypes";
+import NavigationBar from "../NavigationBar/Navbar";
 
-export default function ListRoomates  () {
+export default function MyListings  () {
     const {
         state: { authenticated, currentUser , listings},
         dispatch,
       } = useContext(AppContext);
+     // console.log(currentUser);
       
       let navigate = useNavigate();
     useEffect(() => {
- axios_api
+        
+        axios_api
         .get("/roomatefinder/")
         .then((response) => {
-            console.log(response);
+           
           if ((response.data.success = true)) {
             dispatch({ type: ActionTypes.SET_ROOMMATE_LISTINGS, data: response.data });
-            console.log(listings);
+            //console.log(listings);
            // toast.success(response?.data?.message);
-           //            // navigate(ROUTES.LOGIN);
+           // reset();
+           // navigate(ROUTES.LOGIN);
           } else {
            // toast.error(response?.data?.message);
           }
       });
     });
     return (
+        <Fragment>
+        <NavigationBar />
+        <Typography variant="h6" component="h6">
+                       My listings
+                        
+        </Typography>
         <div style={{ display: 'flex', flexGrow: 1, marginLeft: '10%', marginRight: '10%', marginTop: '5%', marginBottom: '5%' }}>
             <Grid
                 container
@@ -49,10 +59,11 @@ export default function ListRoomates  () {
             >
                 {listings && listings.map((listing)=>(
                 <Grid item xs={12} sm={4}>
-                    <CardDisplay listing={listing}/>
+                    <CardDisplay listing={listing} isMyListing={true}/>
                 </Grid>
                 ))}
             </Grid>
         </div>
+        </Fragment>
     );
 }

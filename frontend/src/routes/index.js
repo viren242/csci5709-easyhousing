@@ -21,6 +21,8 @@ import Profile from "../pages/UserProfile/Profile";
 // import PrivateRoute from "PrivateRoute";
 import Homepage from "../pages/HomePage/index";
 import RoommateHomepage from "../pages/RoommateFinder/RoomateHomePage";
+import MyListings from "../pages/RoommateFinder/MyListings";
+import EditRoomatesAd from "../pages/RoommateFinder/EditRoomatesAd";
 
 function Routing() {
   const { initializeAuth, dispatch } = useContext(AppContext);
@@ -60,9 +62,19 @@ function Routing() {
       view: Error,
     },
     {
-      pageLink: ROUTES.ROOMATEFINDER,
+      pageLink: ROUTES.ROOMMATE_FINDER,
       view: RoommateHomepage
+    },
+    {
+      pageLink: ROUTES.ROOMMATE_FINDER_MY_LISTINGS,
+      view: MyListings
+    },
+    {
+      pageLink: ROUTES.ROOMMATE_FINDER_EDIT_LISTINGS,
+      view: EditRoomatesAd
     }
+
+
   ];
 
   useEffect(() => {

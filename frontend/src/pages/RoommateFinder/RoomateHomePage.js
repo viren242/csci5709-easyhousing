@@ -1,4 +1,4 @@
-import { useState, form, Fragment, useEffect } from "react";
+import React, { useState, form, Fragment, useEffect } from "react";
 import { AppBar, Button, IconButton, Toolbar, Typography, Tabs, Tab, CardContent, Grid } from "@material-ui/core";
 import Box from '@mui/material/Box';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -6,6 +6,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PostRoomatesAd from "./PostRoomatesAd";
 import ListRoomates from "./ListRoomates";
+import NavigationBar from "../NavigationBar/Navbar";
 
 
 export default function RoomateHomePage() {
@@ -15,39 +16,13 @@ export default function RoomateHomePage() {
         //console.log(newValue);
         setValue(newValue);
         console.log("value", value);
+        
     };
 
     return (
         <div>
-            <AppBar position="static">
-                <Toolbar>
-                    <Box display='flex' flexGrow={1} alignItems='center'>
-                        {/* whatever is on the left side */}
-
-                        <IconButton
-                            size="large"
-                            edge="start"
-                            color="inherit"
-                            aria-label="menu"
-                            sx={{ mr: 8 }}
-                        // disabled
-                        >
-                            <MenuIcon />
-
-                        </IconButton>
-                        <Typography variant="h6" component="div" sx={{ flexGrow: 1, justifyContent: 'center', backgroundColor: 'yellow' }}>
-                            Easy Housing
-                        </Typography>
-
-                    </Box>
-                    <Box display='flex' flex={0.2} alignItems='center' justifyContent='flex-end' >
-                        <AccountCircleIcon fontSize="large" />
-                        <Typography variant="h6" component="div" sx={{ flexGrow: 1, justifyContent: 'center', backgroundColor: 'yellow' }}>
-                            user
-                        </Typography>
-                    </Box>
-                </Toolbar>
-            </AppBar>
+        <NavigationBar />
+           
             <div>
                 <Tabs
                     onChange={onHandleChange}

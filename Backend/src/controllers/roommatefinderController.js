@@ -23,12 +23,12 @@ const getAllListing = async (req, res) => {
 }
 
 const addListing = async (req, res) => {
-    try {
-        const listingBody = req.body;
-        await roommateListings.create(listingBody).then(() => {
+    try {  
+        await roommateListings.create(req.body).then(() => {
             res.status(200).json({ message: "Listing added", success: true });
         });
     } catch (error) {
+        console.log(error);
         res.status(500).json({ message: error.message, success: false });
     }
 }
@@ -36,16 +36,12 @@ const addListing = async (req, res) => {
 const editListing = async (req, res) => {
     try {
         const id = req.params.id;
-        const listingWithId = await roommateListings.findByPk(id);
-
-      
-
-        await properties.update(req.body, {
+        await roommateListings.update(req.body, {
             where: {
-                id: property_id
+                id: id
             }
         }).then(() => {
-            return res.status(200).json({ message: "Property Details Updated", success: true });
+            return res.status(200).json({ message: "Listing Updated", success: true });
         });
     } catch (error) {
         res.status(500).json({ message: error.message, success: false });
@@ -79,4 +75,4 @@ const deleteListing = async (req, res) => {
 }
 
 module.exports = { RoomateFinderListingRoot };
-module.exports = { getAllListing, addListing, editListing, getListing, deleteListing };
+module.exports = { getAllListing, addListing, editListing, getListing, deleteListing  };

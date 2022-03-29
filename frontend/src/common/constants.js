@@ -11,9 +11,10 @@ export const ROUTES = {
   EDIT_PROFILE: "/editprofile",
   CHANGEPASSWORD: "/changepassword",
   LOGOUT: "/logout",
-
+  ROOMMATE_FINDER_MY_LISTINGS: "/myListingPage",
   NOT_FOUND: "*",
   ERROR: "/error",
+  ROOMMATE_FINDER_EDIT_LISTINGS: "/editListingPage",
 
   //Private Route
   USER_PROFILE: "/profile",

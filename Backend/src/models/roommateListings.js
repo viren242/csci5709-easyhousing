@@ -13,11 +13,14 @@ module.exports = (sequelize, DataTypes) => {
         location: {
             type: DataTypes.STRING,
         },
-        price: {
+        imageUrl: {
+            type: DataTypes.STRING,
+        },
+        postedUserId:{
             type: DataTypes.INTEGER,
         },
-        imageUrl: {
-            type: DataTypes.STRING
+        moveInDate:{
+            type: DataTypes.STRING,
         }
         
     });
