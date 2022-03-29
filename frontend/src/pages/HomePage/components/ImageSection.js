@@ -4,8 +4,12 @@ import * as React from "react";
 import { Button, Typography } from "@mui/material";
 import ImageSectionLayout from "../components/ImageSectionLayout";
 import MainScreen from "../../../assets/images/Signup.jpg";
+import { ROUTES } from "../../../common/constants";
+import { useNavigate } from "react-router";
 
 export default function ProductHero() {
+  const navigate = useNavigate();
+
   return (
     <ImageSectionLayout
       sxBackground={{
@@ -28,6 +32,7 @@ export default function ProductHero() {
         variant="contained"
         size="large"
         component="a"
+        onClick={(event) => navigate(ROUTES.PROPERTY_LISTING)}
         sx={{ minWidth: 200, mt: 15 }}
       >
         View All Properties
