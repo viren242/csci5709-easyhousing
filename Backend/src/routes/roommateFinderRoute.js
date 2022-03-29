@@ -4,7 +4,7 @@ const router = express.Router();
 
 var multer  = require('multer')
 const path = require('path');
-
+const { IMAGE_URL } = require('../config/constants');
 const { getAllListing } = require("../controllers/roommatefinderController");
 const { addListing } = require("../controllers/roommatefinderController");
 const { editListing } = require("../controllers/roommatefinderController");
@@ -34,7 +34,7 @@ router.post(
     "/imageUpload",
     upload.single('image'), (req, res) => {
         console.log(req.file.path)
-        res.send( `${req.file.path}`)
+        res.send( IMAGE_URL + `${req.file.path}`)
     },
 )
 

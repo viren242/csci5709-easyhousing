@@ -67,7 +67,7 @@ export default function PostRoomatesAd() {
                             if ((response.data.success = true)) {
                                 toast.success(response?.data?.message);
                                 // reset();
-                                // navigate(ROUTES.LOGIN);
+                                 navigate(ROUTES.ROOMMATE_FINDER);
                             } else {
                                 toast.error(response?.data?.message);
                             }

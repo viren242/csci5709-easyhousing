@@ -78,7 +78,8 @@ export default function CardDisplay(props) {
 
 
 
-    const roomDetails = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus rhoncus lorem nec dapibus egestas. Morbi faucibus ut odio vel gravida. Mauris vel eleifend ipsum"
+    const moveDate = listing.moveInDate;
+    const trimMoveDate = moveDate.substring(0,10);
     return (
         <Fragment>
             <Card sx={{ minWidth: '20%' }}>
@@ -86,12 +87,10 @@ export default function CardDisplay(props) {
                     component="img"
                     height="140"
                     width="100%"
-                   // src={listing.imageUrl ? listing.imageUrl : placeholder}
-                    src={placeholder}
-
+                   src={listing.imageUrl ? listing.imageUrl : placeholder}
+                    //src={placeholder}
                 />
                 <CardContent>
-
                     <Typography variant="h6" component="div">
                         {listing.title}
                         {/* Room available in Halifax */}
@@ -101,7 +100,7 @@ export default function CardDisplay(props) {
                         Posted By: {listing.postedBy} | {listing.location}
                     </Typography>
                     <Typography variant="subtitle2" component="div">
-                        Available: Immediate
+                        Available: {trimMoveDate}
                     </Typography>
                     <Typography variant="body2">
                         {listing.description}
@@ -156,7 +155,7 @@ export default function CardDisplay(props) {
                                 Posted By: {listing.postedBy} | {listing.location}
                             </Typography>
                             <Typography variant="subtitle2" component="div">
-                                Available: Immediate
+                                Available: {listing.moveInDate}
                             </Typography>
                             <Typography variant="body2">
                                 {listing.description}
