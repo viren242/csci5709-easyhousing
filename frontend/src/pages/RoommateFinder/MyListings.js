@@ -1,4 +1,6 @@
-import React,{ useState, form, Fragment, useEffect ,useContext} from "react";
+//Author: Lins George (B00895654)
+
+import React, { useState, form, Fragment, useEffect, useContext } from "react";
 import { AppBar, Button, IconButton, Toolbar, Typography, Tabs, Tab, CardContent, Grid } from "@material-ui/core";
 import Box from '@mui/material/Box';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -15,55 +17,60 @@ import { AppContext } from "../../context/userContext";
 import * as ActionTypes from "../../common/actionTypes";
 import NavigationBar from "../NavigationBar/Navbar";
 
-export default function MyListings  () {
+export default function MyListings() {
     const {
-        state: { authenticated, currentUser , listings},
+        state: { authenticated, currentUser, listings },
         dispatch,
-      } = useContext(AppContext);
-     // console.log(currentUser);
-      
-      let navigate = useNavigate();
+    } = useContext(AppContext);
+    
+    // console.log(currentUser);
+
+    let navigate = useNavigate();
     useEffect(() => {
-        
+
         axios_api
-        .get("/roomatefinder/")
-        .then((response) => {
-           
-          if ((response.data.success = true)) {
-            dispatch({ type: ActionTypes.SET_ROOMMATE_LISTINGS, data: response.data });
-            //console.log(listings);
-           // toast.success(response?.data?.message);
-           // reset();
-           // navigate(ROUTES.LOGIN);
-          } else {
-           // toast.error(response?.data?.message);
-          }
-      });
+            .get(`/roomatefinder/${currentUser.user_id}`)
+            .then((response) => {
+               // console.log(response);
+                if ((response.data.success = true)) {
+                    dispatch({ type: ActionTypes.SET_ROOMMATE_LISTINGS, data: response.data });
+
+                    //console.log(listings);
+                    // toast.success(response?.data?.message);
+                    // reset();
+                    // navigate(ROUTES.LOGIN);
+                } else {
+                    // toast.error(response?.data?.message);
+                }
+            });
     });
     return (
         <Fragment>
-        <NavigationBar />
-        <Typography variant="h6" component="h6">
-                       My listings
-                        
-        </Typography>
-        <div style={{ display: 'flex', flexGrow: 1, marginLeft: '10%', marginRight: '10%', marginTop: '5%', marginBottom: '5%' }}>
-            <Grid
-                container
-                spacing={3}
-                direction="row"
-                justify="flex-start"
-                alignItems="flex-start"
-                display='flex'
-                flexGrow='1'
-            >
-                {listings && listings.map((listing)=>(
-                <Grid item xs={12} sm={4}>
-                    <CardDisplay listing={listing} isMyListing={true}/>
+            <NavigationBar />
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                <Typography textAlign="center" variant="h6" component="h6">
+                    My listings
+                </Typography>
+            </div>
+            <div style={{ display: 'flex', flexGrow: 1, marginLeft: '10%', marginRight: '10%', marginTop: '5%', marginBottom: '5%' }}>
+                <Grid
+                    container
+                    spacing={3}
+                    direction="row"
+                    justify="flex-start"
+                    alignItems="flex-start"
+                    display='flex'
+                    flexGrow='1'
+                >
+                    
+
+                    {listings &&  listings.map((listing) => (
+                        <Grid item xs={12} sm={4}>
+                            <CardDisplay listing={listing} isMyListing={true} />
+                        </Grid>
+                    ))}
                 </Grid>
-                ))}
-            </Grid>
-        </div>
+            </div>
         </Fragment>
     );
 }

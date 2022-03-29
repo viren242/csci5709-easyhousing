@@ -51,8 +51,8 @@ const editListing = async (req, res) => {
 const getListing = async (req, res) => {
     try {
         const id = req.params.id;
-        const s = await roommateListings.findByPk(id);
-        res.status(200).json(s);
+        const getMyListing = await roommateListings.findAll({ where: { postedUserId: id } });
+        res.status(200).json(getMyListing);
     } catch (error) {
         res.status(500).json({ message: error.message, success: false });
     }

@@ -12,17 +12,32 @@ import Error from "../common/error";
 import { AppContext } from "../context/userContext";
 import { ROUTES, TOKEN } from "../common/constants";
 import Login from "../pages/UserManagement/Login/Login";
+import AddProperty from "../pages/PropertyManagement/AddProperty/AddProperty";
+import ViewProperty from "../pages/PropertyManagement/ViewProperty/ViewProperty";
 import Signup from "../pages/UserManagement/Signup/Signup";
 import EditUserProfile from "../pages/UserProfile/EditProfile";
 import Logout from "../Components/Logout";
 import ChangePassword from "../pages/UserProfile/ChangePassword";
 import Profile from "../pages/UserProfile/Profile";
+import BookAppointment from "../pages/Appointment/BookAppointment/BookAppointment";
+import CancelAppointment from "../pages/Appointment/CancelAppointment/CancelAppointment";
+import Review from "../pages/Review/Review";
+import Ratings from "../pages/Rating/Ratings";
+import AllServices from "../pages/AllServices/AllServices";
+import CreateService from "../pages/CreateService/CreateService";
+import EditService from "../pages/EditService/EditService";
+
+import ForgetPassword from "../pages/UserManagement/components/ForgetPassword";
+import ResetPassword from "../pages/UserManagement/components/ResetPassword";
+import Appointments from "../pages/Appointment/Appointments/Appointments";
 
 // import PrivateRoute from "PrivateRoute";
 import Homepage from "../pages/HomePage/index";
 import RoommateHomepage from "../pages/RoommateFinder/RoomateHomePage";
 import MyListings from "../pages/RoommateFinder/MyListings";
 import EditRoomatesAd from "../pages/RoommateFinder/EditRoomatesAd";
+import PropertyInfo from "../pages/PropertyManagement/ViewProperty/PropertyInfo";
+import UserProperty from "../pages/PropertyManagement/UserProperty/UserProperty";
 
 function Routing() {
   const { initializeAuth, dispatch } = useContext(AppContext);
@@ -41,6 +56,34 @@ function Routing() {
       view: Signup,
     },
     {
+      pageLink: ROUTES.ADD_PROPERTY,
+      view: AddProperty,
+    },
+    {
+      pageLink: ROUTES.UPDATE_PROPERTY,
+      view: AddProperty,
+    },
+    {
+      pageLink: ROUTES.PROPERTY_LISTING,
+      view: ViewProperty,
+    },
+    {
+      pageLink: ROUTES.USER_PROPERTY_LISTING,
+      view: UserProperty,
+    },
+    {
+      pageLink: ROUTES.PROPERTY_DETAILS,
+      view: PropertyInfo,
+    },
+    {
+      pageLink: ROUTES.FORGOT_PASSWORD,
+      view: ForgetPassword,
+    },
+    {
+      pageLink: ROUTES.RESET_PASSWORD,
+      view: ResetPassword,
+    },
+    {
       pageLink: ROUTES.PROFILE,
       view: Profile,
     },
@@ -56,7 +99,38 @@ function Routing() {
       pageLink: ROUTES.LOGOUT,
       view: Logout,
     },
-
+    {
+      pageLink: ROUTES.BOOK_APPOINTMENT,
+      view: BookAppointment,
+    },
+    {
+      pageLink: ROUTES.CANCEL_APPOINTMENT,
+      view: CancelAppointment,
+    },
+    {
+      pageLink: ROUTES.REVIEW,
+      view: Review,
+    },
+    {
+      pageLink: ROUTES.RATING,
+      view: Ratings,
+    },
+    {
+      pageLink: ROUTES.VIEW_SERVICES,
+      view: AllServices,
+    },
+    {
+      pageLink: ROUTES.ADD_SERVICE,
+      view: CreateService,
+    },
+    {
+      pageLink: ROUTES.EDIT_SERVICE,
+      view: EditService,
+    },
+    {
+      pageLink: ROUTES.APPOINTMENTS,
+      view: Appointments
+    },
     {
       pageLink: ROUTES.ERROR,
       view: Error,

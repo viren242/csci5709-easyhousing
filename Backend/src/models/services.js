@@ -1,5 +1,7 @@
+// Author: Pankti Vyas (B00886309)
+
 module.exports = (sequelize, DataTypes) => {
-    const Services = sequelize.define("Services", {
+    const Services = sequelize.define("services", {
         title: {
             type: DataTypes.STRING,
             allowNull: false
@@ -15,10 +17,14 @@ module.exports = (sequelize, DataTypes) => {
         },
         userid: {
             type: DataTypes.INTEGER,
+        },
+        image: {
+            type: DataTypes.STRING,
+        },
+        email: {
+            type: DataTypes.STRING,
         }
-        
     });
 
     return Services;
-
 };

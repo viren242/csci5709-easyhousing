@@ -21,7 +21,7 @@ import { ROUTES } from "../../common/constants";
 
 const ChangePassword = (props) => {
   const {
-    state: { authenticated },
+    state: { authenticated, authToken },
   } = useContext(AppContext);
   let navigate = useNavigate();
   const {
@@ -36,19 +36,20 @@ const ChangePassword = (props) => {
     if (!authenticated) {
       navigate(ROUTES.HOMEPAGE);
     }
-  });
+  }, [authenticated]);
   const onSubmit = (data) => {
-    console.log(data);
     const { oldPassword, newPassword, confirmNewPassword } = data;
     const changePasswordDetails = {
       oldPassword,
       newPassword,
       confirmNewPassword,
     };
+    const config = {
+      headers: { Authorization: `${authToken}` },
+    };
     axios_api
-      .post("/users/changePassword", changePasswordDetails)
+      .post("/users/changePassword", changePasswordDetails, config)
       .then((response) => {
-        debugger;
         if ((response.data.success = true)) {
           toast.success(response?.data?.message);
           reset();
@@ -58,7 +59,6 @@ const ChangePassword = (props) => {
         }
       })
       .catch((err) => {
-        debugger;
         toast.error(err?.response?.data?.message || "Something went wrong");
       });
   };

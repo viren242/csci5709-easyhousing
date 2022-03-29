@@ -1,3 +1,5 @@
+//Author: Lins George (B00895654)
+
 import React,{ useState, form, Fragment, useEffect ,useContext} from "react";
 import { AppBar, Button, IconButton, Toolbar, Typography, Tabs, Tab, CardContent, Grid } from "@material-ui/core";
 import Card from '@mui/material/Card';
@@ -52,7 +54,7 @@ export default function PostRoomatesAd() {
     
         const listingDetails = {
         title: title,
-        imageUrl: previewImages[0],
+        imageUrl: path,
         description: description,
         location: Location,
         moveInDate: startDate,

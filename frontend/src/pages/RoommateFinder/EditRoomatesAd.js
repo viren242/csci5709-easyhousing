@@ -1,3 +1,5 @@
+//Author: Lins George (B00895654)
+
 import React,{ useState, form, Fragment, useEffect ,useContext} from "react";
 import { AppBar, Button, IconButton, Toolbar, Typography, Tabs, Tab, CardContent, Grid } from "@material-ui/core";
 import Card from '@mui/material/Card';
@@ -9,6 +11,7 @@ import DateAdapter from '@mui/lab/AdapterDateFns';
 import axios_api from "../../common/axios";
 import { AppContext } from "../../context/userContext";
 import { useForm } from "react-hook-form";
+import NavigationBar from "../NavigationBar/Navbar";
 
 export default function PostRoomatesAd() {
     const [selectedFiles, setFile] = useState(null);
@@ -80,6 +83,7 @@ export default function PostRoomatesAd() {
     return (
        
         <Fragment>
+            <NavigationBar />
             {/* {alert && <Alert variant="outlined" severity="success">Post submitted successfully!</Alert>} */}
             <div style={{ display: 'flex', flexGrow: 1, marginLeft: '10%', justifyContent: 'space-between', marginRight: '10%', marginTop: '5%', marginBottom: '5%', justifyContent: 'center', alignItems: 'center' }}>
 

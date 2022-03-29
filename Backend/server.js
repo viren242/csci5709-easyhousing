@@ -1,27 +1,38 @@
 const express = require("express");
 const cors = require("cors");
-const userRoute = require("../Backend/src/routes/userRoute");
-const propertyRoute = require("../Backend/src/routes/propertyRoute");
-const ratingRoute = require("../Backend/src/routes/ratingRoute");
-const reviewRoute = require("../Backend/src/routes/reviewRoute");
-const roommateFinderRoute = require("../Backend/src/routes/roommateFinderRoute");
-const db = require("../Backend/src/models");
+
+const userRoute = require("./src/routes/userRoute");
+const propertyRoute = require("./src/routes/propertyRoute");
+const ratingRoute = require("./src/routes/ratingRoute");
+const reviewRoute = require("./src/routes/reviewRoute");
+const appointmentRoute = require("./src/routes/appointmentRoute");
+const favoriteRoute = require("./src/routes/favoriteRoute");
+const roommateFinderRoute = require("./src/routes/roommateFinderRoute");
+const db = require("./src/models");
+
 const passport = require("passport");
+const path = require("path");
+const fs = require("fs");
 
 var corsOptions = {
-  origin: "http://localhost:3000",
+  origin: [
+    "http://localhost:3000",
+    "https://easyhousingapi.herokuapp.com",
+    "https://easy-housing-web.herokuapp.com",
+  ],
 };
 
 const app = express();
 app.use(cors(corsOptions));
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true }));
 db.sequelize.sync();
 app.use(passport.initialize());
+app.use("/src/images", express.static(path.join(__dirname, "src/images")));
 
 require("./src/middleware/passport")(passport);
 //Routes
-const serviceRouter = require("../Backend/src/routes/serviceRoute");
+const serviceRouter = require("./src/routes/serviceRoute");
 app.use("/services", serviceRouter);
 
 app.use("/api/users", userRoute);
@@ -32,6 +43,27 @@ app.use("/api/roomatefinder",roommateFinderRoute);
 app.use("/api/ratings", ratingRoute);
 
 app.use("/api/reviews", reviewRoute);
+
+app.use("/api/appointments", appointmentRoute);
+
+app.get("/image/:name", async (req, res) => {
+  try {
+    const fileName = req.params.name;
+
+    const filePath = path.join("images", fileName);
+
+    if (!fs.existsSync(filePath)) {
+      throw new Error(`Image at path images/${fileName} does not exist.`);
+    }
+
+    const readStream = fs.createReadStream(filePath);
+    readStream.pipe(res);
+  } catch (error) {
+    console.log(error.message);
+    res.status(404).send("Image not found.");
+  }
+});
+app.use("/api/favorites", favoriteRoute);
 
 // app.use((req, res, next) => {
 //   res.status(404).send({

@@ -1,4 +1,6 @@
-import React,{ useState, form, Fragment, useEffect ,useContext} from "react";
+//Author: Lins George (B00895654)
+
+import React, { useState, form, Fragment, useEffect, useContext } from "react";
 import { AppBar, Button, IconButton, Toolbar, Typography, Tabs, Tab, CardContent, Grid } from "@material-ui/core";
 import Box from '@mui/material/Box';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -13,29 +15,29 @@ import CardDisplay from "./CardDisplay";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../context/userContext";
 import * as ActionTypes from "../../common/actionTypes";
+import { toast } from "react-toastify";
 
-export default function ListRoomates  () {
+export default function ListRoomates() {
     const {
-        state: { authenticated, currentUser , listings},
+        state: { authenticated, currentUser, listings },
         dispatch,
-      } = useContext(AppContext);
-      
-      let navigate = useNavigate();
+    } = useContext(AppContext);
+    let emptyList = false;
+    let navigate = useNavigate();
     useEffect(() => {
- axios_api
-        .get("/roomatefinder/")
-        .then((response) => {
-            console.log(response);
-          if ((response.data.success = true)) {
-            dispatch({ type: ActionTypes.SET_ROOMMATE_LISTINGS, data: response.data });
-            console.log(listings);
-           // toast.success(response?.data?.message);
-           //            // navigate(ROUTES.LOGIN);
-          } else {
-           // toast.error(response?.data?.message);
-          }
-      });
+        axios_api
+            .get("/roomatefinder/")
+            .then((response) => {
+                console.log(response);
+                if ((response.data.success = true && response.data.data && response.data.data.length > 0)) {
+                    dispatch({ type: ActionTypes.SET_ROOMMATE_LISTINGS, data: response.data });
+                    emptyList =true;
+                } else {
+                     toast.error(response?.data?.message);
+                }
+            });
     });
+    console.log(listings);
     return (
         <div style={{ display: 'flex', flexGrow: 1, marginLeft: '10%', marginRight: '10%', marginTop: '5%', marginBottom: '5%' }}>
             <Grid
@@ -47,11 +49,16 @@ export default function ListRoomates  () {
                 display='flex'
                 flexGrow='1'
             >
-                {listings && listings.map((listing)=>(
-                <Grid item xs={12} sm={4}>
-                    <CardDisplay listing={listing}/>
-                </Grid>
-                ))}
+                {listings? listings &&  listings.length>0 && listings.map((listing) => (
+                    <Grid item xs={12} sm={4}>
+                        <CardDisplay listing={listing} />
+                    </Grid>
+                )):
+                <Typography textAlign="center" variant="h6" component="h6">
+                No Listings available
+                </Typography>
+           
+                }
             </Grid>
         </div>
     );

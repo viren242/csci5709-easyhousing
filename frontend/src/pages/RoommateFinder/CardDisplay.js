@@ -1,9 +1,12 @@
+//Author: Lins George (B00895654)
+
 import React, { useState, form, Fragment, useEffect,useContext } from "react";
 import { AppBar, Button, IconButton, Toolbar, Typography, Tabs, Tab, CardContent, Grid, Box } from "@material-ui/core";
 import Card from '@mui/material/Card';
 import { CardActions, CardMedia, TextField, ImageListItem, ImageList, Alert } from "@mui/material";
 import Modal from '@mui/material/Modal';
 import sampleImage from "../../assets/images/Sample.jpg"
+import placeholder from "../../assets/images/placeholder.png"
 import axios_api from "../../common/axios";
 import { ROUTES } from "../../common/constants";
 import { AppContext } from "../../context/userContext";
@@ -57,6 +60,8 @@ export default function CardDisplay(props) {
     }
 
     const editListing = () => {
+
+        console.log("test");
         
             axios_api
                 .get(`/roomatefinder/${listing.id}`)
@@ -87,7 +92,7 @@ export default function CardDisplay(props) {
                     component="img"
                     height="140"
                     width="100%"
-                    src={sampleImage}
+                    src={listing.imageUrl ? listing.imageUrl : placeholder}
 
                 />
                 <CardContent>

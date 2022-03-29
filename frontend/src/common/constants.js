@@ -6,19 +6,34 @@ export const ROUTES = {
   HOMEPAGE: "/",
   LOGIN: "/login",
   FORGOT_PASSWORD: "/forgotPassword",
+  RESET_PASSWORD: "/api/user/reset/:userId/:jwtToken",
   SIGNUP: "/signup",
+  ADD_PROPERTY: "/add_property",
+  UPDATE_PROPERTY: "/update_property/:propertyId",
+  PROPERTY_LISTING: "/property_list",
+  PROPERTY_DETAILS: "/propertyDetails/:propertyId",
+  USER_PROPERTY_LISTING: "/user_property_list/:userId",
   PROFILE: "/profile",
   EDIT_PROFILE: "/editprofile",
   CHANGEPASSWORD: "/changepassword",
   LOGOUT: "/logout",
   ROOMMATE_FINDER_MY_LISTINGS: "/myListingPage",
+  REVIEW: "/review",
+  RATING: "/rating",
+  BOOK_APPOINTMENT: "/book-appointment",
+  CANCEL_APPOINTMENT: "/cancel-appointment",
+  APPOINTMENTS: "/appointments",
+  VIEW_SERVICES: "/services",
+  ADD_SERVICE: "/services/create",
+  EDIT_SERVICE: "services/edit/:id",
+
   NOT_FOUND: "*",
   ERROR: "/error",
   ROOMMATE_FINDER_EDIT_LISTINGS: "/editListingPage",
 
   //Private Route
   USER_PROFILE: "/profile",
-  ROOMMATE_FINDER:"/roommateHomepage"
+  ROOMMATE_FINDER:"/roommateHomepage" ,
   // USER_PROFILE: "/profile",
 };
 
