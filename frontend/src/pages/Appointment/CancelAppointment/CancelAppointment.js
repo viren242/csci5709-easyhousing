@@ -5,7 +5,7 @@ import {Button, Dialog} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {ROUTES} from "../../../common/constants";
 
-function CancelAppointment(props) {
+function CancelAppointment() {
 
     let navigate = useNavigate();
 
@@ -18,7 +18,6 @@ function CancelAppointment(props) {
 
     return (
         <div>
-            {/*<Button variant={"contained"} onClick={handleButton}>Cancel Appointment</Button>*/}
             <Dialog open={openDialog} fullWidth={true}>
                 <p style={{textAlign: "center", margin: "20px"}}>Appointment Cancelled!!!</p>
                 <div style={{textAlign: "center"}}>

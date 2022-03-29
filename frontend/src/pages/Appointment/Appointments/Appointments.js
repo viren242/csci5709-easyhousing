@@ -34,7 +34,7 @@ function Appointments() {
     const userAppointment = async () => {
         axios_api.get("/appointments/getAllAppointments/" + userId).then((res) => {
             setUserAppointments(res.data.appointments);
-        })
+        });
     }
 
     useEffect(() => {
@@ -45,7 +45,6 @@ function Appointments() {
     }, []);
 
     const handleCancel = (event) => {
-        console.log(event);
         axios_api.put('/appointments/deleteAppointment/' + event.user + '/' + event.property).then((res) => {
             userAppointment();
             navigate(ROUTES.CANCEL_APPOINTMENT);

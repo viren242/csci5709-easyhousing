@@ -169,36 +169,40 @@ const getUserRatings = async (req, res) => {
                     const propertyImg = await properties.findOne({
                         where: { id: property }
                     })
-                    let image = "";
-                    if (!propertyImg || !propertyImg.dataValues.image || propertyImg.dataValues.image === "") {
-                        image = 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
-                    } else {
-                        image = propertyImg.dataValues.image;
+                    if (propertyImg) {
+                        let image = "";
+                        if (!propertyImg.dataValues.image || propertyImg.dataValues.image === "") {
+                            image = 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
+                        } else {
+                            image = propertyImg.dataValues.image;
+                        }
+                        listOfRatings.push({
+                            user_id: user,
+                            property_id: property,
+                            images: image,
+                            rating_id: "",
+                            rating: false
+                        })
                     }
-                    listOfRatings.push({
-                        user_id: user,
-                        property_id: property,
-                        images: image,
-                        rating_id: "",
-                        rating: false
-                    })
                 } else {
                     const propertyImg = await properties.findOne({
                         where: { id: property }
                     })
-                    let image = "";
-                    if (!propertyImg || !propertyImg.dataValues.image || propertyImg.dataValues.image === "") {
-                        image = 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
-                    } else {
-                        image = propertyImg.dataValues.image;
+                    if (propertyImg) {
+                        let image = "";
+                        if (!propertyImg.dataValues.image || propertyImg.dataValues.image === "") {
+                            image = 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
+                        } else {
+                            image = propertyImg.dataValues.image;
+                        }
+                        listOfRatings.push({
+                            user_id: user,
+                            property_id: property,
+                            images: image,
+                            rating_id: rating.dataValues.rating_id,
+                            rating: rating.dataValues.rating
+                        })
                     }
-                    listOfRatings.push({
-                        user_id: user,
-                        property_id: property,
-                        images: image,
-                        rating_id: rating.dataValues.rating_id,
-                        rating: rating.dataValues.rating
-                    })
                 }
             }
             res.status(200).json({

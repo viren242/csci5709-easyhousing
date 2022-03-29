@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import axios_api from '../../../common/axios';
 import { useNavigate, useParams } from "react-router-dom";
 import NavigationBar from "../../NavigationBar/Navbar";
@@ -13,6 +13,8 @@ import ChairOutlinedIcon from '@mui/icons-material/ChairOutlined';
 import LocalLaundryServiceOutlinedIcon from '@material-ui/icons/LocalLaundryServiceOutlined';
 import { Divider } from '@material-ui/core';
 import LocalLaundryServiceOutlined from '@material-ui/icons/LocalLaundryServiceOutlined';
+import {AppContext} from "../../../context/userContext";
+import {ROUTES} from "../../../common/constants";
 const useStyles = makeStyles((theme) => ({
     paper: {
         width: "100%",
@@ -49,6 +51,18 @@ const PropertyInfo = () => {
         //handleSearch(searchText)
     }, [])
 
+    const {
+        state: { authenticated, authToken, currentUser, userId },
+        dispatch,
+    } = useContext(AppContext);
+
+    const handleClick = (e) => {
+        if (userId) {
+            navigate(`/book-appointment/${userId}/${propertyId}`);
+        } else {
+            navigate(ROUTES.LOGIN);
+        }
+    }
 
     return (
         <>
@@ -147,6 +161,7 @@ const PropertyInfo = () => {
                                             navigate("/");
                                         }}
                                         sx={{ mt: 3, mb: 2, mr: 2 }}
+                                        onClickCapture={handleClick}
                                     >
                                         Book Appointment
                                     </Button>
