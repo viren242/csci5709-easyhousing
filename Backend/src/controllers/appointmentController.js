@@ -1,5 +1,8 @@
-const { appointments } = require("../models");
+// Author: Arvinder Singh (B00878415)
 
+const { appointments, properties } = require("../models");
+
+// get all appointments of a user based on user_id
 const getAllAppointments = async (req, res) => {
     try {
         const listOfAppointments = await appointments.findAll({
@@ -12,10 +15,37 @@ const getAllAppointments = async (req, res) => {
                 success: false
             })
         } else {
+            const numOfAppointments = listOfAppointments.length;
+            let appointmentList = [];
+            for (let i=0; i<numOfAppointments; i++) {
+                const user = listOfAppointments[i].user_id;
+                const property = listOfAppointments[i].property_id;
+                const propertyDetails = await properties.findOne({
+                    where: { id: property }
+                })
+                let image = "";
+                if (!propertyDetails || !propertyDetails.dataValues.image || propertyDetails.dataValues.image === "") {
+                    image = 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
+                } else {
+                    image = propertyDetails.dataValues.image
+                }
+                appointmentList.push({
+                    appointment_id: listOfAppointments[i].appointment_id,
+                    property_id: property,
+                    user_id: user,
+                    appointment_date: listOfAppointments[i].appointment_date,
+                    appointment_time: listOfAppointments[i].appointment_time,
+                    isDeleted: listOfAppointments[i].isDeleted,
+                    property_image: image,
+                    property_location: propertyDetails.location,
+                    property_city: propertyDetails.city,
+                    property_price: propertyDetails.property_price
+                })
+            }
             res.status(200).json({
                 message: "Appointments Retrieved",
                 success: true,
-                appointments: listOfAppointments
+                appointments: appointmentList
             })
         }
     } catch (err) {
@@ -27,6 +57,7 @@ const getAllAppointments = async (req, res) => {
     }
 };
 
+// get appointment details based on user_id and property_id
 const getAppointment = async (req, res) => {
     try {
         const user = req.params.userId;
@@ -56,6 +87,7 @@ const getAppointment = async (req, res) => {
     }
 };
 
+// add an appointment
 const addAppointment = async (req, res) => {
     try {
         await  appointments.create(req.body).then(() => {
@@ -73,6 +105,7 @@ const addAppointment = async (req, res) => {
     }
 };
 
+// update the appointment details
 const updateAppointment = async (req, res) => {
     try {
         const user = req.params.userId;
@@ -106,6 +139,7 @@ const updateAppointment = async (req, res) => {
     }
 };
 
+// mark the appointment as deleted
 const deleteAppointment = async (req, res) => {
     try {
         const user = req.params.userId;
@@ -113,6 +147,8 @@ const deleteAppointment = async (req, res) => {
         const appointment = await appointments.findOne({
             where: { user_id: user, property_id: property, isDeleted: false }
         })
+
+        console.log(appointment);
 
         if (!appointment) {
             res.status(404).json({

@@ -1,3 +1,5 @@
+// Author: Arvinder Singh (B00878415)
+
 module.exports = (sequelize, DataTypes) => {
     const Ratings = sequelize.define('ratings', {
         rating_id: {

@@ -89,7 +89,7 @@ const Navbar = () => {
                 </MenuItem>
               ))}
               <MenuItem onClick={() => navigate(ROUTES.PROPERTY_LISTING)}>
-                <Typography textAlign="center">PROPERTY RENTAL</Typography>
+                <Typography textAlign="center">Property Rental</Typography>
               </MenuItem>
               <MenuItem onClick={() => navigate(ROUTES.VIEW_SERVICES)}>
                 <Typography textAlign="center">Services</Typography>

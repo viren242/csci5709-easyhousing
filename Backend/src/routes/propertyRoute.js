@@ -42,7 +42,7 @@ router.post(
 router.post(
     "/uploadImage",
     upload.single('image'), (req, res) => {
-        // console.log(IMAGE_URL + `${req.file.filename}`)
+        console.log(req.file.path)
         res.send(IMAGE_URL + `${req.file.filename}`)
     },
 )
