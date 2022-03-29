@@ -12,7 +12,7 @@ export const ROUTES = {
   UPDATE_PROPERTY: "/update_property/:propertyId",
   PROPERTY_LISTING: "/property_list",
   PROPERTY_DETAILS: "/propertyDetails/:propertyId",
-  USER_PROPERTY_LISTING: "/user_property_list/:userId",
+  USERS_PROPERTY: "/user_property",
   PROFILE: "/profile",
   EDIT_PROFILE: "/editprofile",
   CHANGEPASSWORD: "/changepassword",

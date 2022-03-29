@@ -1,8 +1,8 @@
 // Author: Arvinder Singh (B00878415)
 
-import React, {useContext, useEffect, useState} from "react";
-import {AppContext} from "../../context/userContext";
-import {useNavigate} from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { AppContext } from "../../context/userContext";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../NavigationBar/Navbar";
 import {
     Avatar,
@@ -16,7 +16,7 @@ import {
     Grid,
     Typography
 } from "@mui/material";
-import {ROUTES} from "../../common/constants";
+import { ROUTES } from "../../common/constants";
 import EditIcon from "@mui/icons-material/Edit";
 import HouseIcon from "@mui/icons-material/House";
 import ReviewsIcon from "@mui/icons-material/Reviews";
@@ -25,7 +25,7 @@ import axios_api from "../../common/axios";
 function Review() {
 
     const {
-        state: { authenticated, userId, currentUser}
+        state: { authenticated, userId, currentUser }
     } = useContext(AppContext);
     let navigate = useNavigate();
 
@@ -63,7 +63,7 @@ function Review() {
     }
 
     const [review, setReview] = useState("");
-    
+
     const handleText = (event) => {
         setReview(event.target.value);
     }
@@ -80,7 +80,7 @@ function Review() {
                 }}
             >
                 <Container maxWidth="lg">
-                    <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3}}>
+                    <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                         <Grid item xs={4}>
                             <Card>
                                 <CardContent>
@@ -133,6 +133,7 @@ function Review() {
                                             fullWidth
                                             variant="text"
                                             startIcon={<HouseIcon />}
+                                            onClick={() => navigate(ROUTES.USERS_PROPERTY)}
                                         >
                                             My Properties
                                         </Button>
@@ -187,45 +188,45 @@ function Review() {
                         <Grid item xs={8}>
                             <Button variant={"contained"} onClick={() => navigate(ROUTES.REVIEW)}>Add Reviews</Button>
                             <Button variant={"outlined"} onClick={() => navigate(ROUTES.RATING)}>Add Ratings</Button>
-                            <Divider variant={"fullWidth"}/>
+                            <Divider variant={"fullWidth"} />
                             {userReviews.length < 1 ? (
-                                <div style={{textAlign: "center", margin: "20%"}}>
-                                    <p style={{color: "gray"}}>No Property is available for Review</p>
+                                <div style={{ textAlign: "center", margin: "20%" }}>
+                                    <p style={{ color: "gray" }}>No Property is available for Review</p>
                                 </div>
                             ) : (
                                 <div>
-                                    <table style={{borderSpacing: "1em", flexDirection: "row"}}>
+                                    <table style={{ borderSpacing: "1em", flexDirection: "row" }}>
                                         <tbody>
-                                        {userReviews.map(value => (
-                                            <Card style={{margin: "1%"}} variant={"outlined"}>
-                                                <Box sx={{alignItems: "left", display: "flex", flexDirection: "column"}}>
-                                                    <CardContent>
-                                                        <tr style={{padding: '40%'}}>
-                                                            <td style={{width: '30%', marginRight: '50%'}}>
-                                                                <img src={value.images} alt={"image"} style={{width: "300px", height: "200px"}}/>
-                                                            </td>
-                                                            <td style={{width: '70%'}} valign={"top"}>
-                                                                <div>
-                                                                    {value.review.length > 0 ? (
-                                                                        <p style={{width: "400px", height: "150px"}}>{value.review}</p>
-                                                                    ) : (
-                                                                        <input type={"text"} style={{width: "400px", height: "150px"}} onChange={handleText}/>
-                                                                    )}
-                                                                </div>
-                                                                <br/>
-                                                                <div style={{textAlign: "end"}}>
-                                                                    {value.review.length > 0 ? (
-                                                                        <Button variant={"contained"} onClick={() => handleEdit({ user: value.user_id, property: value.property_id})}>Edit Review</Button>
-                                                                    ) : (
-                                                                        <Button variant={"contained"} onClick={() => handleClick({ user: value.user_id, property: value.property_id})}>Post Review</Button>
-                                                                    )}
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    </CardContent>
-                                                </Box>
-                                            </Card>
-                                        ))}
+                                            {userReviews.map(value => (
+                                                <Card style={{ margin: "1%" }} variant={"outlined"}>
+                                                    <Box sx={{ alignItems: "left", display: "flex", flexDirection: "column" }}>
+                                                        <CardContent>
+                                                            <tr style={{ padding: '40%' }}>
+                                                                <td style={{ width: '30%', marginRight: '50%' }}>
+                                                                    <img src={value.images} alt={"image"} style={{ width: "300px", height: "200px" }} />
+                                                                </td>
+                                                                <td style={{ width: '70%' }} valign={"top"}>
+                                                                    <div>
+                                                                        {value.review.length > 0 ? (
+                                                                            <p style={{ width: "400px", height: "150px" }}>{value.review}</p>
+                                                                        ) : (
+                                                                            <input type={"text"} style={{ width: "400px", height: "150px" }} onChange={handleText} />
+                                                                        )}
+                                                                    </div>
+                                                                    <br />
+                                                                    <div style={{ textAlign: "end" }}>
+                                                                        {value.review.length > 0 ? (
+                                                                            <Button variant={"contained"} onClick={() => handleEdit({ user: value.user_id, property: value.property_id })}>Edit Review</Button>
+                                                                        ) : (
+                                                                            <Button variant={"contained"} onClick={() => handleClick({ user: value.user_id, property: value.property_id })}>Post Review</Button>
+                                                                        )}
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </CardContent>
+                                                    </Box>
+                                                </Card>
+                                            ))}
                                         </tbody>
                                     </table>
                                 </div>
