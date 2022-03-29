@@ -1,3 +1,5 @@
+// Author: Purvilkumar Bharthania (B00901605)
+
 const bcrypt = require("bcryptjs");
 const { Op } = require('sequelize');
 const { SALT_VALUE } = require("../config/index");

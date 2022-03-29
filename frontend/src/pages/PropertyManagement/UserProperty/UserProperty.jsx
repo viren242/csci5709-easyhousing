@@ -1,3 +1,5 @@
+// Author: Purvilkumar Bharthania (B00901605)
+
 import React, { useState, useEffect } from 'react'
 import axios_api from '../../../common/axios';
 import { useNavigate, useParams } from "react-router-dom";
@@ -84,10 +86,10 @@ const UserProperty = () => {
                                         alt="property image"
                                     />
                                     <CardContent>
-                                        <Typography gutterBottom variant="h5" component="div">
+                                        <Typography gutterBottom variant="h5" component="div" textOverflow="ellipsis" overflow="hidden" whiteSpace="nowrap">
                                             {property.title}
                                         </Typography>
-                                        <Typography variant="body2" color="text.secondary">
+                                        <Typography variant="body2" color="text.secondary" textOverflow="ellipsis" overflow="hidden" whiteSpace="nowrap">
                                             {property.location}
                                         </Typography>
                                         <br />
