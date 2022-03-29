@@ -20,7 +20,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import axios_api from "../../common/axios";
 
-export const AccountProfileDetails = () => {
+export const AccountProfileDetails = (props) => {
   const {
     state: { authenticated, currentUser, authToken },
   } = useContext(AppContext);
@@ -40,33 +40,78 @@ export const AccountProfileDetails = () => {
   };
   let navigate = useNavigate();
   const onSubmit = (data) => {
-    const { firstName, lastName, phoneNumber } = data;
-    const updateDetails = {
-      firstName,
-      lastName,
-      phoneNumber,
-    };
-    const config = {
-      headers: { Authorization: `${authToken}` },
-    };
-    axios_api
-      .put(
-        `/users/updateProfile/${currentUser.user_id}`,
-        updateDetails,
-        authToken
-      )
-      .then((response) => {
-        if ((response.data.success = true)) {
-          toast.success(response?.data?.message);
-          reset();
-          navigate(ROUTES.PROFILE);
-        } else {
-          toast.error(response?.data?.message);
-        }
-      })
-      .catch((err) => {
-        toast.error(err?.response?.data?.message || "Something went wrong");
-      });
+    let path = "";
+    const imageData = new FormData();
+    imageData.append("image", props.fileData);
+    if (props.fileData) {
+      axios_api
+        .post("/properties/uploadImage", imageData)
+        .then((response) => {
+          path = response.data;
+          const { firstName, lastName, phoneNumber } = data;
+          const updateDetails = {
+            firstName,
+            lastName,
+            phoneNumber,
+            imgURL: path,
+          };
+          console.log(updateDetails);
+          const config = {
+            headers: { Authorization: `${authToken}` },
+          };
+          axios_api
+            .put(
+              `/users/updateProfile/${currentUser.user_id}`,
+              updateDetails,
+              config
+            )
+            .then((response) => {
+              if ((response.data.success = true)) {
+                toast.success(response?.data?.message);
+                reset();
+                navigate(ROUTES.PROFILE);
+              } else {
+                toast.error(response?.data?.message);
+              }
+            })
+            .catch((err) => {
+              toast.error(
+                err?.response?.data?.message || "Something went wrong"
+              );
+            });
+        })
+        .catch((err) => {
+          console.log(err?.response?.data?.message);
+        });
+    } else {
+      const { firstName, lastName, phoneNumber } = data;
+      const updateDetails = {
+        firstName,
+        lastName,
+        phoneNumber,
+      };
+      const config = {
+        headers: { Authorization: `${authToken}` },
+      };
+      axios_api
+        .put(
+          `/users/updateProfile/${currentUser.user_id}`,
+          updateDetails,
+          config
+        )
+        .then((response) => {
+          if ((response.data.success = true)) {
+            toast.success(response?.data?.message);
+            reset();
+            navigate(ROUTES.PROFILE);
+          } else {
+            toast.error(response?.data?.message);
+          }
+        })
+        .catch((err) => {
+          toast.error(err?.response?.data?.message || "Something went wrong");
+        });
+    }
   };
 
   return (

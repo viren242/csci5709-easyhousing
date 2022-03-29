@@ -1,6 +1,9 @@
 import React, { useState, useContext } from "react";
 import NavigationBar from "../NavigationBar/Navbar";
 import { AppContext } from "../../context/userContext";
+import ImageSection from "./components/ImageSection";
+import PropertiesHomePage from "./components/PropertiesHomePage";
+import Footer from "../Footer/Footer";
 
 const HomePage = () => {
   const {
@@ -10,6 +13,9 @@ const HomePage = () => {
   return (
     <>
       <NavigationBar />
+      <ImageSection />
+      <PropertiesHomePage />
+      <Footer />
     </>
   );
 };

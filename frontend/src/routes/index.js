@@ -36,9 +36,11 @@ import FavoriteInfo from "../pages/Favorites/ViewFavorites/FavoriteInfo";
 
 // import PrivateRoute from "PrivateRoute";
 import Homepage from "../pages/HomePage/index";
+import RoommateHomepage from "../pages/RoommateFinder/RoomateHomePage";
+import MyListings from "../pages/RoommateFinder/MyListings";
+import EditRoomatesAd from "../pages/RoommateFinder/EditRoomatesAd";
 import PropertyInfo from "../pages/PropertyManagement/ViewProperty/PropertyInfo";
-import UserProperty from "../pages/PropertyManagement/UserProperty/UserProperty";
-
+import UserPropertyListing from "../pages/PropertyManagement/UserProperty/UserPropertyListing";
 function Routing() {
   const { initializeAuth, dispatch } = useContext(AppContext);
   const location = useLocation();
@@ -68,8 +70,8 @@ function Routing() {
       view: ViewProperty,
     },
     {
-      pageLink: ROUTES.USER_PROPERTY_LISTING,
-      view: UserProperty,
+      pageLink: ROUTES.USERS_PROPERTY,
+      view: UserPropertyListing,
     },
     {
       pageLink: ROUTES.PROPERTY_DETAILS,
@@ -143,6 +145,20 @@ function Routing() {
       pageLink: ROUTES.ERROR,
       view: Error,
     },
+    {
+      pageLink: ROUTES.ROOMMATE_FINDER,
+      view: RoommateHomepage
+    },
+    {
+      pageLink: ROUTES.ROOMMATE_FINDER_MY_LISTINGS,
+      view: MyListings
+    },
+    {
+      pageLink: ROUTES.ROOMMATE_FINDER_EDIT_LISTINGS,
+      view: EditRoomatesAd
+    }
+
+
   ];
 
   useEffect(() => {

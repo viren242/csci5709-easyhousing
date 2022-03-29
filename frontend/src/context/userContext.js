@@ -56,6 +56,10 @@ const reducer = (state, action) => {
         authToken: null,
         currentUser: {},
       };
+    case ActionTypes.SET_ROOMMATE_LISTINGS:
+      return {...state , listings: action.data};
+    case ActionTypes.SET_EDIT_LISTING_DETAILS:
+      return {...state , editItem: action.data};
     default:
       return { ...state };
   }

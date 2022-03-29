@@ -1,5 +1,5 @@
 // Author: Anuj Dev (B00900887)
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Box, Container, Grid, Typography, Button } from "@mui/material";
 import AccountProfile from "../../Components/profile/AccountProfile";
 import { AccountProfileDetails } from "../../Components/profile/AccountProfileDetails";
@@ -15,6 +15,7 @@ const EditUserProfile = () => {
     state: { authenticated, authToken },
   } = useContext(AppContext);
   let navigate = useNavigate();
+  const [fileData, setFileData] = useState();
   useEffect(() => {
     if (!authenticated) {
       navigate(ROUTES.HOMEPAGE);
@@ -49,10 +50,13 @@ const EditUserProfile = () => {
 
           <Grid container spacing={3}>
             <Grid item lg={4} md={6} xs={12}>
-              <AccountProfile />
+              <AccountProfile fileData={fileData} setFileData={setFileData} />
             </Grid>
             <Grid item lg={8} md={6} xs={12}>
-              <AccountProfileDetails />
+              <AccountProfileDetails
+                fileData={fileData}
+                setFileData={setFileData}
+              />
             </Grid>
           </Grid>
         </Container>

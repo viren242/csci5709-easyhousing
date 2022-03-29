@@ -1,5 +1,6 @@
+// Author: Purvilkumar Bharthania (B00901605)
 
-import React, {useState, useEffect, useContext} from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import axios_api from '../../../common/axios';
 import { useNavigate, useParams } from "react-router-dom";
 import NavigationBar from "../../NavigationBar/Navbar";
@@ -14,8 +15,8 @@ import ChairOutlinedIcon from '@mui/icons-material/ChairOutlined';
 import LocalLaundryServiceOutlinedIcon from '@material-ui/icons/LocalLaundryServiceOutlined';
 import { Divider } from '@material-ui/core';
 import LocalLaundryServiceOutlined from '@material-ui/icons/LocalLaundryServiceOutlined';
-import {AppContext} from "../../../context/userContext";
-import {ROUTES} from "../../../common/constants";
+import { AppContext } from "../../../context/userContext";
+import { ROUTES } from "../../../common/constants";
 
 import FavoriteButton from '../../Favorites/FavoriteButton/FavoriteButton';
 
@@ -211,7 +212,7 @@ const PropertyInfo = () => {
                                                 </Button>
                                             )}
                                             {/* </Box>
-                                <Box width="50%"> */}
+                                            <Box width="50%"> */}
                                             <Button
                                                 //fullWidth
                                                 variant="contained"
@@ -226,16 +227,16 @@ const PropertyInfo = () => {
                                             <FavoriteButton propertyId={property.id}/>
 
                                             {/* <Button
-                                        //fullWidth
-                                        variant="contained"
-                                        onClick={(event) => {
-                                            navigate("/");
-                                        }}
-                                        color="error"
-                                        sx={{ mt: 3, mb: 2, mr: 2, }}
-                                    >
-                                        Report
-                                    </Button> */}
+                                                //fullWidth
+                                                variant="contained"
+                                                onClick={(event) => {
+                                                    navigate("/");
+                                                 }}
+                                                color="error"
+                                                sx={{ mt: 3, mb: 2, mr: 2, }}
+                                            >
+                                                Report
+                                            </Button> */}
                                             {/* </Box> */}
                                         </Box>
 

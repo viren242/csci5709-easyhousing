@@ -120,9 +120,32 @@ const Profile = () => {
                       fullWidth
                       variant="text"
                       startIcon={<HouseIcon />}
-                      onClick={() => navigate(`/user_property_list/${currentUser.user_id}`)}
+                      onClick={() => navigate(ROUTES.USERS_PROPERTY)}
                     >
                       My Properties
+                    </Button>
+                  </Box>
+                </CardContent>
+              </Card>
+              <Card sx={{ mt: 2 }}>
+              <CardContent>
+                  <Box
+                    sx={{
+                      alignItems: "left",
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <Button
+                      color="primary"
+                      onClick={()=>{
+                        navigate(ROUTES.ROOMMATE_FINDER_MY_LISTINGS)
+                      }}
+                      fullWidth
+                      variant="text"
+                      startIcon={<HouseIcon />}
+                    >
+                      My Roommate listings
                     </Button>
                   </Box>
                 </CardContent>
@@ -153,18 +176,18 @@ const Profile = () => {
               <Card sx={{ mt: 2 }}>
                 <CardContent>
                   <Box
-                      sx={{
-                        alignItems: "left",
-                        display: "flex",
-                        flexDirection: "column",
-                      }}
+                    sx={{
+                      alignItems: "left",
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
                   >
                     <Button
-                        color="primary"
-                        fullWidth
-                        variant="text"
-                        startIcon={<ReviewsIcon />}
-                        onClick={() => navigate(ROUTES.APPOINTMENTS)}
+                      color="primary"
+                      fullWidth
+                      variant="text"
+                      startIcon={<ReviewsIcon />}
+                      onClick={() => navigate(ROUTES.APPOINTMENTS)}
                     >
                       My Appointments
                     </Button>
