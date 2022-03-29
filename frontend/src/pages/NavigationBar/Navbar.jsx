@@ -51,7 +51,13 @@ const Navbar = () => {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box noWrap sx={{ mr: 2, display: { xs: "none", md: "flex" } }}>
-            <img height={44} width={104} src={Logo} alt="logo" />
+            <img
+              onClick={(event) => navigate(ROUTES.HOMEPAGE)}
+              height={44}
+              width={104}
+              src={Logo}
+              alt="logo"
+            />
           </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
