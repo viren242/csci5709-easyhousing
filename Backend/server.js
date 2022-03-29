@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const userRoute = require("./src/routes/userRoute");
 const propertyRoute = require("./src/routes/propertyRoute");
+const reportRoute = require("./src/routes/reportRoute");
 const ratingRoute = require("./src/routes/ratingRoute");
 const reviewRoute = require("./src/routes/reviewRoute");
 const appointmentRoute = require("./src/routes/appointmentRoute");
@@ -35,6 +36,8 @@ app.use("/services", serviceRouter);
 app.use("/api/users", userRoute);
 
 app.use("/api/properties", propertyRoute);
+
+app.use("/api/reports/", reportRoute);
 
 app.use("/api/ratings", ratingRoute);
 

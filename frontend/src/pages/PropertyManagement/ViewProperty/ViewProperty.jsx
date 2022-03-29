@@ -1,3 +1,5 @@
+// Author: Purvilkumar Bharthania (B00901605)
+
 import React, { useEffect, useState } from 'react'
 import NavigationBar from "../../NavigationBar/Navbar";
 import { Container, Box, CssBaseline, TextField, Grid } from '@mui/material';
@@ -111,7 +113,7 @@ const ViewProperty = () => {
                                             alt="property image"
                                         />
                                         <CardContent>
-                                            <Typography gutterBottom variant="h5" component="div">
+                                            <Typography gutterBottom variant="h5" component="div" textOverflow="ellipsis" overflow="hidden" whiteSpace="nowrap">
                                                 {property.title}
                                             </Typography>
                                             <Typography variant="body2" color="text.secondary" textOverflow="ellipsis" overflow="hidden" whiteSpace="nowrap">
