@@ -4,7 +4,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import axios_api from '../../../common/axios';
 import { useNavigate, useParams } from "react-router-dom";
 import NavigationBar from "../../NavigationBar/Navbar";
-import { Container, Box, TextField, Grid, Typography, Button } from '@mui/material';
+import { Container, Box, CssBaseline, TextField, Grid, Typography, Button, Dialog } from '@mui/material';
 import { makeStyles } from "@mui/styles";
 import LocationOnOutlinedIcon from '@material-ui/icons/LocationOnOutlined';
 import HotelOutlinedIcon from '@material-ui/icons/HotelOutlined';
@@ -37,6 +37,8 @@ const PropertyInfo = () => {
     const classes = useStyles();
     const [property, setProperty] = useState([])
     const { propertyId } = useParams();
+    const [userAppointment, setUserAppointment] = useState("");
+    const [openDialog, setOpenDialog] = useState(false);
 
     useEffect(async () => {
         await axios_api.get(`/properties/getProperty/${propertyId}`)
@@ -48,14 +50,22 @@ const PropertyInfo = () => {
             }).catch((err) => {
                 setProperty([])
             })
+        //handleSearch(searchText)
     }, [])
 
     const {
-        state: { authenticated, authToken, currentUser, userId },
-        dispatch,
+        state: { userId }
     } = useContext(AppContext);
 
-    const handleClick = (e) => {
+    useEffect(() => {
+        axios_api.get(`/appointments/getAppointment/${userId}/${propertyId}`).then((res) => {
+            if (res.data.success) {
+                setUserAppointment(res.data.appointment);
+            }
+        });
+    }, []);
+
+    const handleBook = () => {
         if (userId) {
             navigate(`/book-appointment/${userId}/${propertyId}`);
         } else {
@@ -63,9 +73,29 @@ const PropertyInfo = () => {
         }
     }
 
+    const handleCancel = () => {
+        axios_api.put(`/appointments/deleteAppointment/${userId}/${propertyId}`).then((res) => {
+            setOpenDialog(true);
+            setUserAppointment("");
+        })
+    }
+
+    const handleClose = () => {
+        setOpenDialog(false);
+        navigate(`/propertyDetails/${propertyId}`);
+    }
+
     return (
         <>
             <NavigationBar />
+            <Dialog open={openDialog} fullWidth={true}>
+                <p style={{ textAlign: "center", margin: "20px" }}>Appointment Cancelled!!!</p>
+                <div style={{ textAlign: "center" }}>
+                    <Button variant={"contained"} style={{ marginBottom: "20px", width: "200px" }} onClick={handleClose}>
+                        Close
+                    </Button>
+                </div>
+            </Dialog>
             {property ? property.id ? <>
                 <Grid container>
                     <Container component="main" maxWidth="md" sx={{ mt: 5 }}>
@@ -73,8 +103,11 @@ const PropertyInfo = () => {
                         <div className={classes.paper} >
                             <Box margin="10px"
                                 sx={{
+
+                                    //marginTop: 0,
                                     display: 'flex',
                                     flexDirection: 'column',
+                                    //alignItems: 'center',
                                 }}
                             >
 
@@ -149,16 +182,28 @@ const PropertyInfo = () => {
                                 </Typography>
                                 <Divider />
                                 <Box sx={{ display: 'flex', alignItems: 'center', marginLeft: 'auto', marginRight: 'auto' }}>
-                                    <Button
-                                        variant="contained"
-                                        onClick={(event) => {
-                                            navigate("/");
-                                        }}
-                                        sx={{ mt: 3, mb: 2, mr: 2 }}
-                                        onClickCapture={handleClick}
-                                    >
-                                        Book Appointment
-                                    </Button>
+                                    {/* <Box width="50%" sx={{ marginRight: 'auto', marginLeft: 'auto', justifyContent: "center" }} > */}
+                                    {((userAppointment !== "") && (userId)) ? (
+                                        <Button
+                                            //fullWidth
+                                            variant="contained"
+                                            onClick={handleCancel}
+                                            sx={{ mt: 3, mb: 2, mr: 2 }}
+                                        >
+                                            Cancel Appointment
+                                        </Button>
+                                    ) : (
+                                        <Button
+                                            //fullWidth
+                                            variant="contained"
+                                            onClick={handleBook}
+                                            sx={{ mt: 3, mb: 2, mr: 2 }}
+                                        >
+                                            Book Appointment
+                                        </Button>
+                                    )}
+                                    {/* </Box>
+                                            <Box width="50%"> */}
                                     <Button
                                         variant="contained"
                                         onClick={(event) => {
@@ -172,16 +217,16 @@ const PropertyInfo = () => {
                                     <FavoriteButton propertyId={property.id} />
 
                                     {/* <Button
-                                        //fullWidth
-                                        variant="contained"
-                                        onClick={(event) => {
-                                            navigate("/");
-                                        }}
-                                        color="error"
-                                        sx={{ mt: 3, mb: 2, mr: 2, }}
-                                    >
-                                        Report
-                                    </Button> */}
+                                                //fullWidth
+                                                variant="contained"
+                                                onClick={(event) => {
+                                                    navigate("/");
+                                                 }}
+                                                color="error"
+                                                sx={{ mt: 3, mb: 2, mr: 2, }}
+                                            >
+                                                Report
+                                            </Button> */}
                                     {/* </Box> */}
                                 </Box>
 
