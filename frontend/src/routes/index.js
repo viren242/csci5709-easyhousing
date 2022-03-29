@@ -31,14 +31,16 @@ import ForgetPassword from "../pages/UserManagement/components/ForgetPassword";
 import ResetPassword from "../pages/UserManagement/components/ResetPassword";
 import Appointments from "../pages/Appointment/Appointments/Appointments";
 
+import ViewFavorites from "../pages/Favorites/ViewFavorites/ViewFavorites";
+import FavoriteInfo from "../pages/Favorites/ViewFavorites/FavoriteInfo";
+
 // import PrivateRoute from "PrivateRoute";
 import Homepage from "../pages/HomePage/index";
 import RoommateHomepage from "../pages/RoommateFinder/RoomateHomePage";
 import MyListings from "../pages/RoommateFinder/MyListings";
 import EditRoomatesAd from "../pages/RoommateFinder/EditRoomatesAd";
 import PropertyInfo from "../pages/PropertyManagement/ViewProperty/PropertyInfo";
-import UserProperty from "../pages/PropertyManagement/UserProperty/UserProperty";
-
+import UserPropertyListing from "../pages/PropertyManagement/UserProperty/UserPropertyListing";
 function Routing() {
   const { initializeAuth, dispatch } = useContext(AppContext);
   const location = useLocation();
@@ -68,8 +70,8 @@ function Routing() {
       view: ViewProperty,
     },
     {
-      pageLink: ROUTES.USER_PROPERTY_LISTING,
-      view: UserProperty,
+      pageLink: ROUTES.USERS_PROPERTY,
+      view: UserPropertyListing,
     },
     {
       pageLink: ROUTES.PROPERTY_DETAILS,
@@ -129,7 +131,15 @@ function Routing() {
     },
     {
       pageLink: ROUTES.APPOINTMENTS,
-      view: Appointments
+      view: Appointments,
+    },
+    {
+      pageLink: ROUTES.VIEW_FAVORITES,
+      view: ViewFavorites,
+    },
+    {
+      pageLink: ROUTES.VIEW_FAVORITES_DETAILS,
+      view: FavoriteInfo,
     },
     {
       pageLink: ROUTES.ERROR,

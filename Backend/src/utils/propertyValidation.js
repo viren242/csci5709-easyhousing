@@ -1,3 +1,5 @@
+// Author: Purvilkumar Bharthania (B00901605)
+
 const { body, validationResult, param } = require("express-validator");
 
 const propertyValidationRules = () => {

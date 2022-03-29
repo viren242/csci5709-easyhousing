@@ -1,3 +1,5 @@
+// Author: Purvilkumar Bharthania (B00901605)
+
 module.exports = (sequelize, Sequelize) => {
     const Properties = sequelize.define("properties", {
         title: {

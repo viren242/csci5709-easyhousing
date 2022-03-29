@@ -109,6 +109,10 @@ const Navbar = () => {
                   navigate(ROUTES.ROOMMATE_FINDER)}>
                   <Typography textAlign="center">Roommate Finder</Typography>
                 </MenuItem>
+              <MenuItem onClick={() => navigate(ROUTES.VIEW_FAVORITES)}>
+                <Typography textAlign="center">Favorites</Typography>
+              </MenuItem>
+
             </Menu>
           </Box>
           <Box noWrap sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -132,6 +136,12 @@ const Navbar = () => {
               sx={{ my: 2, color: "black", display: "block" }}
             >
               ROOMMATE FINDER
+              </Button>
+              <Button
+              onClick={() => authenticated ? (navigate(ROUTES.VIEW_FAVORITES)) : (navigate(ROUTES.LOGIN))}
+              sx={{ my: 2, color: "black", display: "block" }}
+            >
+              Favorites
             </Button>
           </Box>
           <Box

@@ -1,4 +1,6 @@
-import React, { useEffect, useState, useContext } from 'react'
+// Author: Purvilkumar Bharthania (B00901605)
+
+import React, { useEffect, useState, useContext, useCallback } from 'react'
 import NavigationBar from "../../NavigationBar/Navbar";
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
@@ -72,31 +74,6 @@ const AddProperty = () => {
     let navigate = useNavigate();
     const { propertyId } = useParams();
 
-
-    useEffect(() => {
-        if (!authenticated) {
-            navigate(ROUTES.LOGIN);
-        }
-        const post = { ...newPost, user_id: userId };
-        setNewPost(post);
-        if (propertyId) {
-            // toast.info("You are already Authenticated");
-            axios_api.get(`/properties/getProperty/${propertyId}`)
-                .then((response) => {
-                    if ((response.data.success = true)) {
-                        setNewPost(response.data.data);
-                    } else {
-                        console.log("Error")
-                    }
-                })
-                .catch((err) => {
-                    debugger;
-                    console.log(err?.response?.data?.message);
-                    //toast.error(err?.response?.data?.message || "Something went wrong");
-                });
-        }
-    }, []);
-
     const {
         register,
         formState: { errors },
@@ -107,11 +84,38 @@ const AddProperty = () => {
         resolver: yupResolver(PropertySchema),
     });
 
-    const classes = useStyles();
+    const resetAsyncForm = useCallback(async () => {
+        // const result = await fetch('./api/formValues.json'); // result: { firstName: 'test', lastName: 'test2' }
+        axios_api.get(`/properties/getProperty/${propertyId}`)
+            .then((response) => {
+                if ((response.data.success = true)) {
+                    setNewPost(response.data.data);
+                    reset(response.data.data)
+                } else {
+                    console.log("Error")
+                }
+            })
+            .catch((err) => {
+                //debugger;
+                console.log(err?.response?.data?.message);
+                //toast.error(err?.response?.data?.message || "Something went wrong");
+            });
+    }, [reset]);
 
-    const isStepOptional = (step) => {
-        return step === 1;
-    };
+    useEffect(() => {
+        if (!authenticated) {
+            navigate(ROUTES.LOGIN);
+        }
+        const post = { ...newPost, user_id: userId };
+        reset(post)
+        setNewPost(post);
+        if (propertyId) {
+            resetAsyncForm()
+        }
+    }, []);
+
+
+    const classes = useStyles();
 
     const isStepSkipped = (step) => {
         return skipped.has(step);
@@ -146,66 +150,21 @@ const AddProperty = () => {
                 setActiveStep((prevActiveStep) => prevActiveStep + 1);
                 setSkipped(newSkipped);
             }
-
         }
-
     };
 
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-    const handleSkip = () => {
-        if (!isStepOptional(activeStep)) {
-            // You probably want to guard against something like this,
-            // it should never occur unless someone's actively trying to break something.
-            throw new Error("You can't skip a step that isn't optional.");
-        }
 
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        setSkipped((prevSkipped) => {
-            const newSkipped = new Set(prevSkipped.values());
-            newSkipped.add(activeStep);
-            return newSkipped;
-        });
-    };
-
-    const handleReset = () => {
-        setActiveStep(0);
-    };
     const handleOnChange = (e) => {
         const { name, value } = e.target;
-        //console.log(e.target.name);
-        //console.log(e.target.checked);
-        //trigger(name);
-        //console.log(name);
-
         const post = { ...newPost, [name]: value };
         setNewPost(post);
-        //console.log(post);
     }
 
-    const handleOnCheck = (e) => {
-        //const { name, value } = e.target;
-        //console.log(e.target.name);
-        if (e.target.checked) {
-            console.log(e.target.name);
-            //cbox.concat(e.target.name)
-        } else {
-            //cbox.delete(e.target.name)
-        }
-        //console.log(e.target.checked);
-        //trigger(name);
-        //console.log(name);
-        //console.log(cbox)
-        //const post = { ...newPost, appliances: cbox };
-        //setNewPost(post);
-        //console.log(post);
-    }
     const handleChange = (address) => {
-        //console.log("ad")
-        //console.log(address);
-
         setAddress(address);
     };
 
@@ -217,47 +176,20 @@ const AddProperty = () => {
     const handleSelect = (address) => {
         const post1 = { ...newPost, location: address };
         setNewPost(post1);
-        //console.log(post1);
-        //console.log(address)
         setAddress(address);
         geocodeByAddress(address)
             .then(results => {
                 const post2 = { ...post1, city: results[0]["address_components"][3]["long_name"] };
                 setNewPost(post2);
-                //console.log(post2);
             })
             .catch(error => console.error('Error', error));
 
 
     };
-    const handleImagePath = () => {
-        const data = new FormData();
-        data.append('image', fileData);
-        axios_api.post("/properties/uploadImage", data)
-            .then((response) => {
-                //if ((response.status = true)) {
-                //toast.success(response?.data?.message);
-                //reset();
-                console.log("Hello");
-                const path = response.data.path;
-                const post = { ...newPost, image: path }
-                setNewPost(post);
-                //console.log(response.data.path);
-
-                //navigate(ROUTES.HOMEPAGE);
-                //}
-            })
-            .catch((err) => {
-                debugger;
-                console.log(err?.response?.data?.message);
-                //toast.error(err?.response?.data?.message || "Something went wrong");
-            });
-    };
 
     const onSubmit = () => {
         //handleImagePath();
         const data = new FormData();
-        //console.log(fileData);
         data.append('image', fileData);
         if (fileData) {
             axios_api.post("/properties/uploadImage", data)
@@ -355,11 +287,7 @@ const AddProperty = () => {
                     });
             }
         }
-
-
-
     };
-    //console.log(newPost);
 
     const bedrooms = [
         'Bachelor/Studio',
@@ -435,6 +363,7 @@ const AddProperty = () => {
                                                     //defaultValue="Best hosue in halifax"
                                                     label="Title"
                                                     id="title"
+                                                    // defaultValue={newPost.title}
                                                     value={newPost.title}
                                                     error={!!errors.title}
                                                     helperText={errors.title ? errors.title.message : ""}
@@ -733,13 +662,7 @@ const AddProperty = () => {
                                                     </Typography>
                                                 </Grid>
                                                 <Grid item xs={12} sm={9} sx={{ marginTop: 1 }}>
-                                                    {/* <label htmlFor="contained-button-file">
-                        {/* <FileBase type="file" multiple={false} onDone={({ base64 }) => { }} /> 
-                    <Input accept="image/*" id="contained-button-file" multiple type="file" />
-                    <Button variant="contained" component="span">
-                        Upload
-                    </Button>
-                </label> */}
+
                                                     {/* <div className={classes.fileInput}><FileBase type="file" multiple={false} onDone={({ base64 }) => { setNewPost({ ...newPost, image: base64 }) }} /></div> */}
                                                     <div><input type="file" name="image" onChange={handleUpload} /></div>
                                                     {/* setPostData({...postData, selectedFile: base64 }) */}

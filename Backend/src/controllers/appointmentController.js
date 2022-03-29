@@ -23,24 +23,26 @@ const getAllAppointments = async (req, res) => {
                 const propertyDetails = await properties.findOne({
                     where: { id: property }
                 })
-                let image = "";
-                if (!propertyDetails || !propertyDetails.dataValues.image || propertyDetails.dataValues.image === "") {
-                    image = 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
-                } else {
-                    image = propertyDetails.dataValues.image
+                if (propertyDetails) {
+                    let image = "";
+                    if (!propertyDetails.dataValues.image || propertyDetails.dataValues.image === "") {
+                        image = 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
+                    } else {
+                        image = propertyDetails.dataValues.image
+                    }
+                    appointmentList.push({
+                        appointment_id: listOfAppointments[i].appointment_id,
+                        property_id: property,
+                        user_id: user,
+                        appointment_date: listOfAppointments[i].appointment_date,
+                        appointment_time: listOfAppointments[i].appointment_time,
+                        isDeleted: listOfAppointments[i].isDeleted,
+                        property_image: image,
+                        property_location: propertyDetails.location,
+                        property_city: propertyDetails.city,
+                        property_price: propertyDetails.property_price
+                    })
                 }
-                appointmentList.push({
-                    appointment_id: listOfAppointments[i].appointment_id,
-                    property_id: property,
-                    user_id: user,
-                    appointment_date: listOfAppointments[i].appointment_date,
-                    appointment_time: listOfAppointments[i].appointment_time,
-                    isDeleted: listOfAppointments[i].isDeleted,
-                    property_image: image,
-                    property_location: propertyDetails.location,
-                    property_city: propertyDetails.city,
-                    property_price: propertyDetails.property_price
-                })
             }
             res.status(200).json({
                 message: "Appointments Retrieved",

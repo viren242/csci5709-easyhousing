@@ -6,11 +6,11 @@ const { favorites } = require("../models");
 const favoriteRoot = (req, res) => {
   try {
     res.setHeader("Content_type", "application/json");
-    res
+    return res
       .status(200)
       .json({ message: "Welcome to Favorites Module", success: true });
   } catch (error) {
-    res.status(500).json({ message: error.message, success: false });
+    return res.status(500).json({ message: error.message, success: false });
   }
 };
 
@@ -23,16 +23,17 @@ const getAllFavorites = async (req, res) => {
     });
 
     if (!listOfFavorites || !listOfFavorites.length) {
-      res.status(404).json({
+      return res.status(404).json({
         message: "Favorites not found!",
         success: false,
       });
+    } else {
+      return res.status(200).json({
+        message: "Favorites retrieved successfully",
+        success: true,
+        favorites: listOfFavorites,
+      });
     }
-    res.status(200).json({
-      message: "Favorites retrieved successfully",
-      success: true,
-      favorites: listOfFavorites,
-    });
   } catch (error) {
     return res.status(500).json({
       message: "Internal server error!",
@@ -53,16 +54,17 @@ const getFavorite = async (req, res) => {
     });
 
     if (!retrievedFavorite) {
-      res.status(404).json({
+      return res.status(200).json({
         message: "Favorite not found!",
         success: false,
       });
+    } else {
+      return res.status(200).json({
+        message: "Favorite retrieved successfully",
+        success: true,
+        favorite: retrievedFavorite,
+      });
     }
-    res.status(200).json({
-      message: "Favorite retrieved successfully",
-      success: true,
-      favorite: retrievedFavorite,
-    });
   } catch (error) {
     return res.status(500).json({
       message: "Internal server error!",
@@ -105,14 +107,17 @@ const removeFavorite = async (req, res) => {
         message: "Post with the given ids not found in Favorites!",
         success: false,
       });
+    } else {
+      const favoriteID = retrievedFavorite.dataValues.favorite_id;
+      await favorites
+        .destroy({ where: { favorite_id: favoriteID } })
+        .then(() => {
+          return res.status(200).json({
+            message: "Post removed from Favorites",
+            success: true,
+          });
+        });
     }
-    const favoriteID = retrievedFavorite.dataValues.favorite_id;
-    await favorites.destroy({ where: { favorite_id: favoriteID } }).then(() => {
-      return res.status(200).json({
-        message: "Post removed from Favorites",
-        success: true,
-      });
-    });
   } catch (error) {
     return res.status(500).json({
       message: "Internal server error!",

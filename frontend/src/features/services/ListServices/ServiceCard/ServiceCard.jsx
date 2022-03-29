@@ -1,3 +1,5 @@
+// Author: Pankti Vyas (B00886309)
+
 import React from "react";
 
 import { HiOutlinePencil, HiOutlineTrash, HiOutlineLocationMarker } from "react-icons/hi";
