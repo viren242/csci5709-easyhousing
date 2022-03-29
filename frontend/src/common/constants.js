@@ -25,6 +25,8 @@ export const ROUTES = {
   VIEW_SERVICES: "/services",
   ADD_SERVICE: "/services/create",
   EDIT_SERVICE: "services/edit/:id",
+  VIEW_FAVORITES: "/view_favorites",
+  VIEW_FAVORITES_DETAILS: "/view_favorites_details/:propertyId",
 
   NOT_FOUND: "*",
   ERROR: "/error",

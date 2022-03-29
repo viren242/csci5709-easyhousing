@@ -94,6 +94,9 @@ const Navbar = () => {
               <MenuItem onClick={() => navigate(ROUTES.VIEW_SERVICES)}>
                 <Typography textAlign="center">Services</Typography>
               </MenuItem>
+              <MenuItem onClick={() => navigate(ROUTES.VIEW_FAVORITES)}>
+                <Typography textAlign="center">Favorites</Typography>
+              </MenuItem>
             </Menu>
           </Box>
           <Box noWrap sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -120,6 +123,12 @@ const Navbar = () => {
               sx={{ my: 2, color: "black", display: "block" }}
             >
               Services
+            </Button>
+            <Button
+              onClick={() => authenticated ? (navigate(ROUTES.VIEW_FAVORITES)) : (navigate(ROUTES.LOGIN))}
+              sx={{ my: 2, color: "black", display: "block" }}
+            >
+              Favorites
             </Button>
           </Box>
           <Box
