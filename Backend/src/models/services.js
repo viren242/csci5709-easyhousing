@@ -1,3 +1,5 @@
+// Author: Pankti Vyas (B00886309)
+
 module.exports = (sequelize, DataTypes) => {
     const Services = sequelize.define("services", {
         title: {
