@@ -12,16 +12,17 @@ import { ROUTES } from "../../common/constants";
 import { AppContext } from "../../context/userContext";
 import { useNavigate } from "react-router-dom";
 import * as ActionTypes from "../../common/actionTypes";
+import { toast } from "react-toastify";
 
 export default function CardDisplay(props) {
-    //Sample Json Data
-   // console.log(props);
+    
    const {
     state: { authenticated, currentUser , listings},
     dispatch,
   } = useContext(AppContext);
 
     const { listing, isMyListing } = props;
+   
     const [modalOpen, setModalOpen] = useState(false);
     let navigate = useNavigate();
     const style = {
@@ -39,20 +40,16 @@ export default function CardDisplay(props) {
     };
 
     const deleteListing = () => {
-        console.log("test here delete");
+       
         if (window.confirm('Are you sure you wish to delete this item?')) {
             axios_api
                 .delete(`/roomatefinder/${listing.id}`)
                 .then((response) => {
-                    console.log(response);
+                    
                     if ((response.data.success = true)) {
-                        // dispatch({ type: ActionTypes.SET_ROOMMATE_LISTINGS, data: response.data });
-                        // console.log(listings);
-                        // toast.success(response?.data?.message);
-                        // reset();
-                        // navigate(ROUTES.LOGIN);
+                        
                     } else {
-                        // toast.error(response?.data?.message);
+                        toast.error(response?.data?.message);
                     }
                 });
         }
@@ -60,25 +57,22 @@ export default function CardDisplay(props) {
     }
 
     const editListing = () => {
-
-        console.log("test");
         
-            axios_api
-                .get(`/roomatefinder/${listing.id}`)
+            axios_api.get(`/roomatefinder/ListingById/${listing.id}`)
                 .then((response) => {
-                    console.log(response);
+                   
                     if ((response.data.success = true)) {
                         dispatch({ type: ActionTypes.SET_EDIT_LISTING_DETAILS, data: response.data });
-                        // console.log(listings);
-                        // toast.success(response?.data?.message);
-                        // reset();
                          navigate(ROUTES.ROOMMATE_FINDER_EDIT_LISTINGS , {
                              isEditPage: true
                          });
                     } else {
-                        // toast.error(response?.data?.message);
+                        toast.error(response?.data?.message);
                     }
-                });  
+                })
+                .catch((err) => {
+                    toast.error(err?.response?.data?.message || "Something went wrong");
+                 });
 
     }
 
@@ -92,7 +86,8 @@ export default function CardDisplay(props) {
                     component="img"
                     height="140"
                     width="100%"
-                    src={listing.imageUrl ? listing.imageUrl : placeholder}
+                   // src={listing.imageUrl ? listing.imageUrl : placeholder}
+                    src={placeholder}
 
                 />
                 <CardContent>
@@ -116,7 +111,8 @@ export default function CardDisplay(props) {
                 {isMyListing ? (
                     <CardActions>
                         <Button size="small" onClick={deleteListing}>Delete Listing</Button>
-                        <Button size="small" onClick={editListing}>Edit Listing</Button>
+                        <Button size="small" onClick={()=>{
+                            editListing()}}>Edit Listing</Button>
 
                     </CardActions>
                 ) : (
@@ -146,7 +142,7 @@ export default function CardDisplay(props) {
                             component="img"
                             height="140"
                             width="100%"
-                            src={sampleImage}
+                            src={placeholder}
 
                         />
                         <CardContent>

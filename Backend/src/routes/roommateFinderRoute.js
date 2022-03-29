@@ -1,3 +1,4 @@
+//Author: Lins George (B00895654)
 const express = require("express");
 const router = express.Router();
 
@@ -9,14 +10,14 @@ const { addListing } = require("../controllers/roommatefinderController");
 const { editListing } = require("../controllers/roommatefinderController");
 const { getListing } = require("../controllers/roommatefinderController");
 const { deleteListing } = require("../controllers/roommatefinderController");
+const { getListingById } = require("../controllers/roommatefinderController");
 
 router.get("/", getAllListing);
 router.get("/:id",getListing);
 router.post("/",addListing);
 router.put("/:id",editListing);
 router.delete("/:id",deleteListing);
-
-
+router.get("/ListingById/:id", getListingById);
 
 var imageStorage = multer.diskStorage({
     destination: function (req, file, cb) {

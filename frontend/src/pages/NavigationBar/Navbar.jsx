@@ -20,7 +20,7 @@ import Logo from "../../assets/images/Logo.png";
 import { ROUTES } from "../../common/constants";
 import Settings from "./components/Settings";
 
-const pages = ["Roomate Finder"];
+
 const settings = ["Profile", "Change Password", "Logout"];
 
 const Navbar = () => {
@@ -109,15 +109,6 @@ const Navbar = () => {
             <img height={40} width={80} src={Logo} alt="logo" />
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "black", display: "block" }}
-              >
-                {page}
-              </Button>
-            ))}
             <Button
               onClick={() => navigate(ROUTES.PROPERTY_LISTING)}
               sx={{ my: 2, color: "black", display: "block" }}
@@ -129,6 +120,12 @@ const Navbar = () => {
               sx={{ my: 2, color: "black", display: "block" }}
             >
               Services
+            </Button>
+            <Button
+              onClick={() => navigate(ROUTES.ROOMMATE_FINDER)}
+              sx={{ my: 2, color: "black", display: "block" }}
+            >
+              ROOMMATE FINDER
             </Button>
           </Box>
           <Box

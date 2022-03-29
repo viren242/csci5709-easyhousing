@@ -28,8 +28,7 @@ export default function ListRoomates() {
         axios_api
             .get("/roomatefinder/")
             .then((response) => {
-                console.log(response);
-                if ((response.data.success = true && response.data.data && response.data.data.length > 0)) {
+                if ((response.data.success = true && response.data && response.data.length > 0)) {
                     dispatch({ type: ActionTypes.SET_ROOMMATE_LISTINGS, data: response.data });
                     emptyList =true;
                 } else {
@@ -37,7 +36,7 @@ export default function ListRoomates() {
                 }
             });
     });
-    console.log(listings);
+    
     return (
         <div style={{ display: 'flex', flexGrow: 1, marginLeft: '10%', marginRight: '10%', marginTop: '5%', marginBottom: '5%' }}>
             <Grid

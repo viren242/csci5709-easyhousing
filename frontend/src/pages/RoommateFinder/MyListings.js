@@ -16,6 +16,8 @@ import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../context/userContext";
 import * as ActionTypes from "../../common/actionTypes";
 import NavigationBar from "../NavigationBar/Navbar";
+import { ROUTES } from "../../common/constants";
+import { toast } from "react-toastify";
 
 export default function MyListings() {
     const {
@@ -23,24 +25,21 @@ export default function MyListings() {
         dispatch,
     } = useContext(AppContext);
     
-    // console.log(currentUser);
+    
 
     let navigate = useNavigate();
     useEffect(() => {
-
+        if (!authenticated) {
+            navigate(ROUTES.LOGIN);
+        }
         axios_api
             .get(`/roomatefinder/${currentUser.user_id}`)
             .then((response) => {
-               // console.log(response);
                 if ((response.data.success = true)) {
                     dispatch({ type: ActionTypes.SET_ROOMMATE_LISTINGS, data: response.data });
 
-                    //console.log(listings);
-                    // toast.success(response?.data?.message);
-                    // reset();
-                    // navigate(ROUTES.LOGIN);
                 } else {
-                    // toast.error(response?.data?.message);
+                     toast.error(response?.data?.message);
                 }
             });
     });

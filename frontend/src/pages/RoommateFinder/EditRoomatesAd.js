@@ -21,6 +21,7 @@ export default function PostRoomatesAd() {
     const [Location, setLocation] = useState(null);
     const [description, setDescription] = useState(null);
     const [alert, setAlert] = useState(null);
+    const [moveInDate, setMoveInDate] = useState(null);
 
     const {
         state: { authenticated, currentUser , editItem},
@@ -166,10 +167,20 @@ export default function PostRoomatesAd() {
                     <LocalizationProvider dateAdapter={DateAdapter}>
                         <DatePicker
                             label="Choose a Date"
-                           // value={startDate}
                             onChange={(newValue) => {
                                 setStartDate(newValue);
                             }}
+                            id="moveInDate"
+                            name="moveInDate"
+                            {...register("moveInDate"
+                            // pattern: {
+                            //   value: /^[a-zA-Z ]*$/,
+                            //   message: "Please enter alphabet characters only",
+                            // },
+                          )}
+                          onKeyUp={() => {
+                            trigger("moveInDate");
+                          }}
                             minDate={today}
                             required
                             renderInput={(params) => <TextField {...params} />}

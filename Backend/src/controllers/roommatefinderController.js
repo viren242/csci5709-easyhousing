@@ -1,3 +1,5 @@
+//Author: Lins George (B00895654)
+
 const { roommateListings } = require("../models");
 const { use } = require("../routes/roommateFinderRoute");
 
@@ -58,6 +60,16 @@ const getListing = async (req, res) => {
     }
 }
 
+const getListingById = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const getMyListing = await roommateListings.findByPk(id);
+        res.status(200).json(getMyListing);
+    } catch (error) {
+        res.status(500).json({ message: error.message, success: false });
+    }
+}
+
 const deleteListing = async (req, res) => {
     try {
         const id = req.params.id;
@@ -75,4 +87,4 @@ const deleteListing = async (req, res) => {
 }
 
 module.exports = { RoomateFinderListingRoot };
-module.exports = { getAllListing, addListing, editListing, getListing, deleteListing  };
+module.exports = { getAllListing, addListing, editListing, getListing, deleteListing,getListingById  };
