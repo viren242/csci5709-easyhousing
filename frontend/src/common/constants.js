@@ -17,6 +17,7 @@ export const ROUTES = {
   EDIT_PROFILE: "/editprofile",
   CHANGEPASSWORD: "/changepassword",
   LOGOUT: "/logout",
+  ROOMMATE_FINDER_MY_LISTINGS: "/myListingPage",
   REVIEW: "/review",
   RATING: "/rating",
   BOOK_APPOINTMENT: "/book-appointment/:userId/:propertyId",
@@ -30,8 +31,11 @@ export const ROUTES = {
 
   NOT_FOUND: "*",
   ERROR: "/error",
+  ROOMMATE_FINDER_EDIT_LISTINGS: "/editListingPage",
 
   //Private Route
+  USER_PROFILE: "/profile",
+  ROOMMATE_FINDER:"/roommateHomepage" ,
   // USER_PROFILE: "/profile",
 };
 
