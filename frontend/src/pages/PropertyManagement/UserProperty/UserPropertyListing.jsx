@@ -42,11 +42,6 @@ const UserPropertyListing = () => {
         getProfile();
         getPropertyData();
     }, [authenticated]);
-    //Comment
-    //const { userId } = useParams();
-
-
-    //const navigate = useNavigate();
 
     const handleDelete = async (propertyId) => {
         await axios_api.delete(`/properties/deleteProperty/${propertyId}`)
@@ -54,21 +49,15 @@ const UserPropertyListing = () => {
                 if (response.data.success) {
                     console.log(response.data.message);
                     toast.success(response?.data?.message);
-                    //setProperties(response.data.data);
-                    // window.location.reload(false);
                     getPropertyData();
                 }
-                //console.log("success");
 
             }).catch((err) => {
                 console.log(err.response.data.error);
-                //setProperties([])
                 toast.error(err?.response?.data?.message || "Something went wrong")
             })
-        //navigate(`/propertyDetails/${propertyId}`);
     };
     const handleUpdate = (propertyId) => {
-        // console.log("Hello");
         navigate(`/update_property/${propertyId}`);
     };
 
@@ -76,16 +65,12 @@ const UserPropertyListing = () => {
         axios_api.get(`/properties/getMyProperties/${userId}`)
             .then(response => {
                 if (response.data.success) {
-                    //console.log(response.data.data);
                     setProperties(response.data.data);
                 }
-                //console.log("success");
 
             }).catch((err) => {
                 setProperties([])
-                //toast.error(err?.response?.data?.message || "Something went wrong")
             })
-        //handleSearch(searchText)
     }
 
 

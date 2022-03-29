@@ -7,7 +7,7 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
-import { Container, CssBaseline, autocompleteClasses, TextareaAutosize } from '@mui/material';
+import { Container, CssBaseline } from '@mui/material';
 import { FormControl, FormLabel, RadioGroup, Radio, FormGroup, FormControlLabel, Autocomplete, TextField, Grid, Checkbox, Typography, Select, MenuItem } from '@mui/material';
 import propertyImage from "../../../assets/images/property.jpg";
 import { makeStyles } from "@mui/styles";
@@ -16,7 +16,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { PropertySchema } from '../../../common/validationSchema';
 import PlacesAutocomplete, {
     geocodeByAddress,
-    getLatLng,
 
 } from 'react-places-autocomplete';
 import { ROUTES } from '../../../common/constants';
@@ -44,7 +43,6 @@ const initialState = {
     user_id: ''
 };
 const steps = ['Ad Details', 'Property Details', 'Post Ad'];
-//let navigate = useNavigate();
 const useStyles = makeStyles((theme) => ({
     paper: {
         width: "100%",
@@ -65,7 +63,7 @@ const AddProperty = () => {
         state: { userId, authenticated },
         dispatch,
     } = useContext(AppContext);
-    //console.log(userId);
+
     const [activeStep, setActiveStep] = React.useState(0);
     const [skipped, setSkipped] = React.useState(new Set());
     const [address, setAddress] = useState('');
@@ -85,7 +83,6 @@ const AddProperty = () => {
     });
 
     const resetAsyncForm = useCallback(async () => {
-        // const result = await fetch('./api/formValues.json'); // result: { firstName: 'test', lastName: 'test2' }
         axios_api.get(`/properties/getProperty/${propertyId}`)
             .then((response) => {
                 if ((response.data.success = true)) {
@@ -96,9 +93,7 @@ const AddProperty = () => {
                 }
             })
             .catch((err) => {
-                //debugger;
                 console.log(err?.response?.data?.message);
-                //toast.error(err?.response?.data?.message || "Something went wrong");
             });
     }, [reset]);
 
@@ -137,7 +132,6 @@ const AddProperty = () => {
 
         if (isValid) {
             if (activeStep === 2) {
-                //console.log("h");
                 onSubmit();
             }
             else {
@@ -188,14 +182,12 @@ const AddProperty = () => {
     };
 
     const onSubmit = () => {
-        //handleImagePath();
         const data = new FormData();
         data.append('image', fileData);
         if (fileData) {
             axios_api.post("/properties/uploadImage", data)
                 .then((response) => {
                     const path = response.data;
-                    //console.log(path);
                     const post = { ...newPost, image: path }
                     setNewPost(post);
 
@@ -241,7 +233,6 @@ const AddProperty = () => {
 
                 })
                 .catch((err) => {
-                    //debugger;
                     console.log(err?.response?.data?.message);
                 });
 
@@ -289,29 +280,8 @@ const AddProperty = () => {
         }
     };
 
-    const bedrooms = [
-        'Bachelor/Studio',
-        '1',
-        '1 + Den',
-        '2',
-        '2 + Den',
-        '3',
-        '3 + Den',
-        '4',
-        '4 + Den',
-        '5+',
-    ];
-    const bathrooms = [
-        '1',
-        '1.5',
-        '2',
-        '2.5',
-        '3',
-        '3.5',
-        '4',
-        '4.5',
-        '5+',
-    ];
+    const bedrooms = ['Bachelor/Studio', '1', '1 + Den', '2', '2 + Den', '3', '3 + Den', '4', '4 + Den', '5+',];
+    const bathrooms = ['1', '1.5', '2', '2.5', '3', '3.5', '4', '4.5', '5+',];
 
     return (
         <>
@@ -360,17 +330,11 @@ const AddProperty = () => {
                                                     variant="outlined"
                                                     fullWidth
                                                     name="title"
-                                                    //defaultValue="Best hosue in halifax"
                                                     label="Title"
                                                     id="title"
-                                                    // defaultValue={newPost.title}
                                                     value={newPost.title}
                                                     error={!!errors.title}
                                                     helperText={errors.title ? errors.title.message : ""}
-
-                                                    // onKeyUp={() => {
-                                                    //     trigger("title");
-                                                    // }}
                                                     onChange={handleOnChange}
                                                 />
                                             </Grid>
@@ -382,16 +346,11 @@ const AddProperty = () => {
                                                     name="description"
                                                     label="Description"
                                                     value={newPost.description}
-                                                    //defaultValue="Best hosue in halifax"
                                                     id="description"
                                                     multiline
                                                     rows={3}
                                                     error={!!errors.description}
                                                     helperText={errors.description ? errors.description.message : ""}
-
-                                                    // onKeyUp={() => {
-                                                    //     trigger("description");
-                                                    // }}
                                                     onChange={handleOnChange}
                                                 />
                                             </Grid>
@@ -410,7 +369,6 @@ const AddProperty = () => {
                                     </Button>
                                     <Box sx={{ flex: '1 1 auto' }} />
                                     <Button onClick={handleNext}>
-                                        {/* onClick={handleNext} */}
                                         {activeStep === steps.length - 1 ? 'Post Ad' : 'Next'}
                                     </Button>
                                 </Box>
@@ -429,7 +387,6 @@ const AddProperty = () => {
                                                 marginTop: 0,
                                                 display: 'flex',
                                                 flexDirection: 'column',
-                                                //alignItems: 'center',
                                             }}
                                         >
                                             <Grid container spacing={2}>
@@ -443,7 +400,6 @@ const AddProperty = () => {
                                                         <FormLabel id="unit_type" name="unittype" error={!!errors.unit_type}>Unit Type</FormLabel>
                                                         <RadioGroup
                                                             aria-labelledby="unitType"
-                                                            //defaultValue="apartment"
                                                             name="unit_type"
                                                             onChange={handleOnChange}
                                                             value={newPost.unit_type}
@@ -461,16 +417,12 @@ const AddProperty = () => {
                                                     <Autocomplete
                                                         disablePortal
                                                         onChange={(event, value) => {
-                                                            //console.log(value);
                                                             setNewPost({ ...newPost, bedrooms: value });
                                                         }}
-                                                        //value="1"
                                                         id="bedrooms"
                                                         name="bedrooms"
                                                         value={newPost.bedrooms}
                                                         options={bedrooms}
-                                                        //onChange={handleOnChange}
-                                                        // sx={{ width: 300 }}
                                                         renderInput={(params) => <TextField {...params} {...register("bedrooms")} error={!!errors.bedrooms} label="Bedrooms" />}
                                                     />
                                                 </Grid>
@@ -478,14 +430,12 @@ const AddProperty = () => {
                                                     <Autocomplete
                                                         disablePortal
                                                         onChange={(event, value) => {
-                                                            //console.log(value);
                                                             setNewPost({ ...newPost, bathrooms: value });
                                                         }}
                                                         id="bathrooms"
                                                         name="bathrooms"
                                                         value={newPost.bathrooms}
                                                         options={bathrooms}
-                                                        // sx={{ width: 300 }}
                                                         renderInput={(params) => <TextField {...params} {...register("bathrooms")} error={!!errors.bathrooms} label="Bathrooms" />}
                                                     />
                                                 </Grid>
@@ -497,9 +447,6 @@ const AddProperty = () => {
                                                         label="Appliances"
                                                         value={newPost.appliances}
                                                         id="appliances"
-                                                        // onKeyUp={() => {
-                                                        //     trigger("title");
-                                                        // }}
                                                         onChange={handleOnChange}
                                                     />
                                                 </Grid>
@@ -515,15 +462,11 @@ const AddProperty = () => {
                                                         fullWidth
                                                         value={newPost.sq_feet}
                                                         name="sq_feet"
-                                                        //onChange={handleOnChange}
                                                         label="sq_feet"
                                                         id="sq_feet"
                                                         error={!!errors.sq_feet}
                                                         helperText={errors.sq_feet ? errors.sq_feet.message : ""}
                                                         onChange={handleOnChange}
-                                                    // onKeyUp={() => {
-                                                    //     trigger("sq_feet");
-                                                    // }}
                                                     />
                                                 </Grid>
                                                 <Grid item xs={12}>
@@ -544,7 +487,6 @@ const AddProperty = () => {
 
                                             </Grid>
                                         </Box>
-                                        {/* <PropertyDetails /> */}
                                     </div>
                                     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                                         <Button
@@ -598,10 +540,6 @@ const AddProperty = () => {
                                                         id="price"
                                                         error={!!errors.price}
                                                         helperText={errors.price ? errors.price.message : ""}
-
-                                                    // onKeyUp={() => {
-                                                    //     trigger("price");
-                                                    // }}
                                                     />
                                                 </Grid>
                                                 <Grid item xs={12} sm={3} sx={{ marginTop: "12px" }}>
@@ -619,14 +557,12 @@ const AddProperty = () => {
                                                             <div>
                                                                 <TextField
                                                                     {...getInputProps({
-                                                                        //placeholder: 'Search Places ...',
                                                                         className: 'location-search-input',
                                                                     })}
                                                                     fullWidth
                                                                     variant="outlined"
                                                                     value={address}
                                                                     name="location"
-                                                                    //onChange={handleOnChange}
                                                                     label="Location"
                                                                     id="location"
                                                                 />
@@ -636,7 +572,6 @@ const AddProperty = () => {
                                                                         const className = suggestion.active
                                                                             ? 'suggestion-item--active'
                                                                             : 'suggestion-item';
-                                                                        // inline style for demonstration purpose
                                                                         const style = suggestion.active
                                                                             ? { backgroundColor: '#fafafa', cursor: 'pointer' }
                                                                             : { backgroundColor: '#ffffff', cursor: 'pointer' };
@@ -662,10 +597,7 @@ const AddProperty = () => {
                                                     </Typography>
                                                 </Grid>
                                                 <Grid item xs={12} sm={9} sx={{ marginTop: 1 }}>
-
-                                                    {/* <div className={classes.fileInput}><FileBase type="file" multiple={false} onDone={({ base64 }) => { setNewPost({ ...newPost, image: base64 }) }} /></div> */}
                                                     <div><input type="file" name="image" onChange={handleUpload} /></div>
-                                                    {/* setPostData({...postData, selectedFile: base64 }) */}
                                                 </Grid>
                                                 <Grid item xs={12} sm={3} sx={{ marginTop: "12px" }}>
                                                     <Typography component="h1" variant="subtitle1">
@@ -684,10 +616,6 @@ const AddProperty = () => {
                                                         id="email"
                                                         error={!!errors.email}
                                                         helperText={errors.email ? errors.email.message : ""}
-
-                                                    // onKeyUp={() => {
-                                                    //     trigger("email");
-                                                    // }}
                                                     />
                                                 </Grid>
                                                 <Grid item xs={12} sm={3} sx={{ marginTop: "12px" }}>
@@ -707,10 +635,6 @@ const AddProperty = () => {
                                                         id="phone_no"
                                                         error={!!errors.phone_no}
                                                         helperText={errors.phone_no ? errors.phone_no.message : ""}
-
-                                                    // onKeyUp={() => {
-                                                    //     trigger("phone_no");
-                                                    // }}
                                                     />
                                                 </Grid>
                                             </Grid>

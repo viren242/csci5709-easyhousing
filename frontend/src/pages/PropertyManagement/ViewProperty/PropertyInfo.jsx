@@ -4,15 +4,13 @@ import React, { useState, useEffect, useContext } from 'react'
 import axios_api from '../../../common/axios';
 import { useNavigate, useParams } from "react-router-dom";
 import NavigationBar from "../../NavigationBar/Navbar";
-import { Container, Box, CssBaseline, TextField, Grid, Typography, Button } from '@mui/material';
+import { Container, Box, TextField, Grid, Typography, Button } from '@mui/material';
 import { makeStyles } from "@mui/styles";
 import LocationOnOutlinedIcon from '@material-ui/icons/LocationOnOutlined';
-import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
 import HotelOutlinedIcon from '@material-ui/icons/HotelOutlined';
 import BathtubOutlinedIcon from '@material-ui/icons/BathtubOutlined';
 import SquareFootOutlinedIcon from '@material-ui/icons/SquareFootOutlined';
 import ChairOutlinedIcon from '@mui/icons-material/ChairOutlined';
-import LocalLaundryServiceOutlinedIcon from '@material-ui/icons/LocalLaundryServiceOutlined';
 import { Divider } from '@material-ui/core';
 import LocalLaundryServiceOutlined from '@material-ui/icons/LocalLaundryServiceOutlined';
 import { AppContext } from "../../../context/userContext";
@@ -25,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
         width: "100%",
         backgroundColor: "#fff",
         transition: "box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-        //padding: "1rem",
         boxShadow: "rgb(100 116 139 / 12%) 0px 10px 15px",
         borderRadius: 8,
     },
@@ -45,18 +42,12 @@ const PropertyInfo = () => {
         await axios_api.get(`/properties/getProperty/${propertyId}`)
             .then(response => {
                 if (response.data.success) {
-                    //console.log(response.data.data);
                     setProperty(response.data.data);
                 }
-                //console.log("success");
 
             }).catch((err) => {
                 setProperty([])
-                //toast.error(err?.response?.data?.message || "Something went wrong")
             })
-
-
-        //handleSearch(searchText)
     }, [])
 
     const {
@@ -82,11 +73,8 @@ const PropertyInfo = () => {
                         <div className={classes.paper} >
                             <Box margin="10px"
                                 sx={{
-
-                                    //marginTop: 0,
                                     display: 'flex',
                                     flexDirection: 'column',
-                                    //alignItems: 'center',
                                 }}
                             >
 
@@ -161,9 +149,7 @@ const PropertyInfo = () => {
                                 </Typography>
                                 <Divider />
                                 <Box sx={{ display: 'flex', alignItems: 'center', marginLeft: 'auto', marginRight: 'auto' }}>
-                                    {/* <Box width="50%" sx={{ marginRight: 'auto', marginLeft: 'auto', justifyContent: "center" }} > */}
                                     <Button
-                                        //fullWidth
                                         variant="contained"
                                         onClick={(event) => {
                                             navigate("/");
@@ -173,10 +159,7 @@ const PropertyInfo = () => {
                                     >
                                         Book Appointment
                                     </Button>
-                                    {/* </Box>
-                                <Box width="50%"> */}
                                     <Button
-                                        //fullWidth
                                         variant="contained"
                                         onClick={(event) => {
                                             navigate("/");
