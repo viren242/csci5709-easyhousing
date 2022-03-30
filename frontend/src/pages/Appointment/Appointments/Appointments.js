@@ -21,6 +21,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import HouseIcon from "@mui/icons-material/House";
 import ReviewsIcon from "@mui/icons-material/Reviews";
 import axios_api from "../../../common/axios";
+import CancelAppointment from "../CancelAppointment/CancelAppointment";
 
 function Appointments() {
 
@@ -34,6 +35,8 @@ function Appointments() {
     const userAppointment = async () => {
         axios_api.get("/appointments/getAllAppointments/" + userId).then((res) => {
             setUserAppointments(res.data.appointments);
+        }).catch((err) => {
+            setUserAppointments([]);
         });
     }
 
@@ -43,13 +46,6 @@ function Appointments() {
         }
         userAppointment();
     }, []);
-
-    const handleCancel = (event) => {
-        axios_api.put('/appointments/deleteAppointment/' + event.user + '/' + event.property).then((res) => {
-            userAppointment();
-            navigate(ROUTES.CANCEL_APPOINTMENT);
-        });
-    }
 
     return (
         <div>
@@ -135,6 +131,30 @@ function Appointments() {
                                     >
                                         <Button
                                             color="primary"
+                                            onClick={()=>{
+                                                navigate(ROUTES.ROOMMATE_FINDER_MY_LISTINGS)
+                                            }}
+                                            fullWidth
+                                            variant="text"
+                                            startIcon={<HouseIcon />}
+                                        >
+                                            My Roommate listings
+                                        </Button>
+                                    </Box>
+                                </CardContent>
+                            </Card>
+
+                            <Card sx={{ mt: 2 }}>
+                                <CardContent>
+                                    <Box
+                                        sx={{
+                                            alignItems: "left",
+                                            display: "flex",
+                                            flexDirection: "column",
+                                        }}
+                                    >
+                                        <Button
+                                            color="primary"
                                             fullWidth
                                             variant="text"
                                             startIcon={<ReviewsIcon />}
@@ -184,7 +204,7 @@ function Appointments() {
                                                     <p style={{ margin: "2%" }}><b>Property Address: </b>{value.property_location}</p>
                                                     <p style={{ margin: "2%" }}><b>Appointment Date: </b>{value.appointment_date.toString().substring(0, 10)}</p>
                                                     <p style={{ margin: "2%" }}><b>Appointment Time: </b>{value.appointment_time}</p>
-                                                    <Button variant={"contained"} style={{ margin: "5%" }} onClick={() => { handleCancel({ user: value.user_id, property: value.property_id }) }}>Cancel Appointment</Button>
+                                                    <CancelAppointment userId={value.user_id} propertyId={value.property_id} userAppointment={userAppointment}/>
                                                 </CardContent>
                                             </Card>
                                         </Grid>

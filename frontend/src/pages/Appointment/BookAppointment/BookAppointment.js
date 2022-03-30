@@ -2,15 +2,14 @@
 
 import React, {useState} from "react";
 import {Button, Dialog, DialogTitle, TextField} from "@mui/material";
-import { useParams } from "react-router-dom";
 import axios_api from "../../../common/axios";
 import {useNavigate} from "react-router-dom";
+import {ROUTES} from "../../../common/constants";
 
-const BookAppointment = () => {
-    const urlParams = useParams();
-    const { userId, propertyId } = urlParams;
+function BookAppointment(props) {
+
     const navigate = useNavigate();
-    const [openBookingDialog, setOpenBookingDialog] = useState(true);
+    const [openBookingDialog, setOpenBookingDialog] = useState(false);
     const [date, setDate] = useState("");
     const [time, setTime] = useState("");
     const [appointmentConfirmation, setAppointmentConfirmation] = useState(false);
@@ -24,11 +23,19 @@ const BookAppointment = () => {
         setTime(event.target.value);
     }
 
+    const handleBook = () => {
+        if (props.userId) {
+            setOpenBookingDialog(true);
+        } else {
+            navigate(ROUTES.LOGIN);
+        }
+    }
+
     const handleAppointmentButton = (event) => {
         if (date && time) {
             axios_api.post("/appointments/addAppointment", {
-                property_id: propertyId,
-                user_id: userId,
+                property_id: props.propertyId,
+                user_id: props.userId,
                 appointment_date: date,
                 appointment_time: time
             }).then((res) => {
@@ -48,7 +55,7 @@ const BookAppointment = () => {
 
     const handleSuccessClose = (event) => {
         setAppointmentConfirmation(false);
-        navigate(`/propertyDetails/${propertyId}`);
+        props.userAppointment();
     }
 
     const handleFailClose = () => {
@@ -59,10 +66,13 @@ const BookAppointment = () => {
     }
 
     return (
-        <div>
+        <div className={"book-appointment"}>
+            <Button className={"book-appointment-button"} variant="contained" sx={{ mt: 3, mb: 2, mr: 2 }} onClick={handleBook}>
+                Book Appointment
+            </Button>
             <Dialog open={openBookingDialog} fullWidth={true}>
-                <DialogTitle style={{textAlign: "center"}}>Appointment Date and Time</DialogTitle>
-                <table style={{textAlign: "center", margin: "40px"}}>
+                <DialogTitle className={"book-dialog-title"} style={{textAlign: "center"}}>Appointment Date and Time</DialogTitle>
+                <table className={"date-time-table"} style={{textAlign: "center", margin: "40px"}}>
                     <tbody>
                         <tr>
                             <td>
@@ -86,7 +96,7 @@ const BookAppointment = () => {
                         </tr>
                     </tbody>
                 </table>
-                <div style={{textAlign: "center"}}>
+                <div className={"book-appointment-button"} style={{textAlign: "center"}}>
                     <Button
                         variant={"contained"}
                         style={{width: "200px", marginBottom: "20px"}}
@@ -97,15 +107,25 @@ const BookAppointment = () => {
                 </div>
             </Dialog>
             <Dialog open={appointmentConfirmation} fullWidth={true}>
-                <p style={{textAlign: "center", marginTop: "20px"}}>Appointment Confirmed!!!</p>
-                <div style={{textAlign: "center", margin: "20px"}}>
-                    <Button variant={"contained"} style={{width: "200px"}} onClick={handleSuccessClose}>Close</Button>
+                <p className={"confirmation-message"} style={{textAlign: "center", marginTop: "20px"}}>Appointment Confirmed!!!</p>
+                <div className={"appointment-dialog-close"} style={{textAlign: "center", margin: "20px"}}>
+                    <Button
+                        className={"appointment-dialog-close-button"}
+                        variant={"contained"} style={{width: "200px"}}
+                        onClick={handleSuccessClose}>
+                            Close
+                    </Button>
                 </div>
             </Dialog>
             <Dialog open={failedBooking} fullWidth={true}>
-                <p style={{textAlign: "center", marginTop: "20px"}}>Appointment Booking Failed!!!</p>
-                <div style={{textAlign: "center", margin: "20px"}}>
-                    <Button variant={"contained"} style={{width: "200px"}} onClick={handleFailClose}>Close</Button>
+                <p className={"fail-message"} style={{textAlign: "center", marginTop: "20px"}}>Appointment Booking Failed!!!</p>
+                <div className={"appointment-fail-close"} style={{textAlign: "center", margin: "20px"}}>
+                    <Button
+                        className={"appointment-fail-close-button"}
+                        variant={"contained"} style={{width: "200px"}}
+                        onClick={handleFailClose}>
+                            Close
+                    </Button>
                 </div>
             </Dialog>
         </div>
