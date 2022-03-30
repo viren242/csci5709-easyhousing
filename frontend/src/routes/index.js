@@ -22,6 +22,7 @@ import Profile from "../pages/UserProfile/Profile";
 import BookAppointment from "../pages/Appointment/BookAppointment/BookAppointment";
 import CancelAppointment from "../pages/Appointment/CancelAppointment/CancelAppointment";
 import Review from "../pages/Review/Review";
+import ShowReviews from "../pages/Review/ShowReviews";
 import Ratings from "../pages/Rating/Ratings";
 import AllServices from "../pages/AllServices/AllServices";
 import CreateService from "../pages/CreateService/CreateService";
@@ -156,6 +157,10 @@ function Routing() {
     {
       pageLink: ROUTES.ROOMMATE_FINDER_EDIT_LISTINGS,
       view: EditRoomatesAd
+    },
+    {
+      pageLink: ROUTES.SHOW_REVIEWS,
+      view: ShowReviews
     }
 
 

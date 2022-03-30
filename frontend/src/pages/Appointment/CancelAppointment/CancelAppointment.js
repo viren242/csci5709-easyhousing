@@ -2,26 +2,34 @@
 
 import React, {useState} from "react";
 import {Button, Dialog} from "@mui/material";
-import {useNavigate} from "react-router-dom";
-import {ROUTES} from "../../../common/constants";
+import axios_api from "../../../common/axios";
 
-function CancelAppointment() {
+function CancelAppointment(props) {
 
-    let navigate = useNavigate();
-
-    const [openDialog, setOpenDialog] = useState(true);
+    const [openDialog, setOpenDialog] = useState(false);
 
     const handleClose = (event) => {
         setOpenDialog(false);
-        navigate(ROUTES.APPOINTMENTS);
+        props.userAppointment();
+    }
+
+    const handleCancel = () => {
+        axios_api.put(`/appointments/deleteAppointment/${props.userId}/${props.propertyId}`).then((res) => {
+            if (res.data.success) {
+                setOpenDialog(true);
+            }
+        })
     }
 
     return (
-        <div>
+        <div className={"cancel-appointment"}>
+            <Button className={"cancel-button"} variant={"contained"} sx={{mt: 3, mb: 2, mr: 2}} onClick={handleCancel}>
+                Cancel Appointment
+            </Button>
             <Dialog open={openDialog} fullWidth={true}>
-                <p style={{textAlign: "center", margin: "20px"}}>Appointment Cancelled!!!</p>
-                <div style={{textAlign: "center"}}>
-                    <Button variant={"contained"} style={{marginBottom: "20px", width: "200px"}} onClick={handleClose}>
+                <p className={"dialog-text"} style={{textAlign: "center", margin: "20px"}}>Appointment Cancelled!!!</p>
+                <div className={"dialog-close"} style={{textAlign: "center"}}>
+                    <Button className={"dialog-close-button"} variant={"contained"} style={{marginBottom: "20px", width: "200px"}} onClick={handleClose}>
                         Close
                     </Button>
                 </div>

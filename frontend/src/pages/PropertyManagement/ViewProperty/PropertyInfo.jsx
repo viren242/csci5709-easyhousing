@@ -17,6 +17,9 @@ import { AppContext } from "../../../context/userContext";
 import { ROUTES } from "../../../common/constants";
 
 import FavoriteButton from '../../Favorites/FavoriteButton/FavoriteButton';
+import ShowReviews from "../../Review/ShowReviews";
+import BookAppointment from "../../Appointment/BookAppointment/BookAppointment";
+import CancelAppointment from "../../Appointment/CancelAppointment/CancelAppointment";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -37,8 +40,7 @@ const PropertyInfo = () => {
     const classes = useStyles();
     const [property, setProperty] = useState([])
     const { propertyId } = useParams();
-    const [userAppointment, setUserAppointment] = useState("");
-    const [openDialog, setOpenDialog] = useState(false);
+    const [ userAppointments, setUserAppointments ] = useState("");
 
     useEffect(async () => {
         await axios_api.get(`/properties/getProperty/${propertyId}`)
@@ -57,45 +59,33 @@ const PropertyInfo = () => {
         state: { userId }
     } = useContext(AppContext);
 
-    useEffect(() => {
+    const userAppointment = () => {
         axios_api.get(`/appointments/getAppointment/${userId}/${propertyId}`).then((res) => {
             if (res.data.success) {
-                setUserAppointment(res.data.appointment);
+                setUserAppointments(res.data.appointment);
+            } else {
+                setUserAppointments("");
             }
-        });
-    }, []);
-
-    const handleBook = () => {
-        if (userId) {
-            navigate(`/book-appointment/${userId}/${propertyId}`);
-        } else {
-            navigate(ROUTES.LOGIN);
-        }
-    }
-
-    const handleCancel = () => {
-        axios_api.put(`/appointments/deleteAppointment/${userId}/${propertyId}`).then((res) => {
-            setOpenDialog(true);
-            setUserAppointment("");
+        }).catch(error => {
+            setUserAppointments("");
         })
     }
 
-    const handleClose = () => {
-        setOpenDialog(false);
-        navigate(`/propertyDetails/${propertyId}`);
-    }
+    useEffect( async () => {
+        await axios_api.get(`/appointments/getAppointment/${userId}/${propertyId}`).then((res) => {
+            if (res.data.success) {
+                setUserAppointments(res.data.appointment);
+            } else {
+                setUserAppointments("");
+            }
+        }).catch(error => {
+            setUserAppointments("");
+        })
+    }, [])
 
     return (
         <>
             <NavigationBar />
-            <Dialog open={openDialog} fullWidth={true}>
-                <p style={{ textAlign: "center", margin: "20px" }}>Appointment Cancelled!!!</p>
-                <div style={{ textAlign: "center" }}>
-                    <Button variant={"contained"} style={{ marginBottom: "20px", width: "200px" }} onClick={handleClose}>
-                        Close
-                    </Button>
-                </div>
-            </Dialog>
             {property ? property.id ? <>
                 <Grid container>
                     <Container component="main" maxWidth="md" sx={{ mt: 5 }}>
@@ -183,38 +173,15 @@ const PropertyInfo = () => {
                                 <Divider />
                                 <Box sx={{ display: 'flex', alignItems: 'center', marginLeft: 'auto', marginRight: 'auto' }}>
                                     {/* <Box width="50%" sx={{ marginRight: 'auto', marginLeft: 'auto', justifyContent: "center" }} > */}
-                                    {((userAppointment !== "") && (userId)) ? (
-                                        <Button
-                                            //fullWidth
-                                            variant="contained"
-                                            onClick={handleCancel}
-                                            sx={{ mt: 3, mb: 2, mr: 2 }}
-                                        >
-                                            Cancel Appointment
-                                        </Button>
+                                    {((userAppointments !== "") && (userId)) ? (
+                                        <CancelAppointment userId={userId} propertyId={propertyId} userAppointment={userAppointment}/>
                                     ) : (
-                                        <Button
-                                            //fullWidth
-                                            variant="contained"
-                                            onClick={handleBook}
-                                            sx={{ mt: 3, mb: 2, mr: 2 }}
-                                        >
-                                            Book Appointment
-                                        </Button>
+                                        <BookAppointment userId={userId} propertyId={propertyId} userAppointment={userAppointment}/>
                                     )}
                                     {/* </Box>
                                             <Box width="50%"> */}
-                                    <Button
-                                        variant="contained"
-                                        onClick={(event) => {
-                                            navigate("/");
-                                        }}
-                                        color="warning"
-                                        sx={{ mt: 3, mb: 2, mr: 2 }}
-                                    >
-                                        Review
-                                    </Button>
-                                    <FavoriteButton propertyId={property.id} />
+                                    <ShowReviews propertyId={propertyId}/>
+                                    <FavoriteButton propertyId={property.id}/>
 
                                     {/* <Button
                                                 //fullWidth
