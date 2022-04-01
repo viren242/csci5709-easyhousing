@@ -149,7 +149,29 @@ const UserPropertyListing = () => {
                                     </Box>
                                 </CardContent>
                             </Card>
-
+                            <Card sx={{ mt: 2 }}>
+                                <CardContent>
+                                    <Box
+                                        sx={{
+                                            alignItems: "left",
+                                            display: "flex",
+                                            flexDirection: "column",
+                                        }}
+                                    >
+                                        <Button
+                                            color="primary"
+                                            onClick={() => {
+                                                navigate(ROUTES.ROOMMATE_FINDER_MY_LISTINGS)
+                                            }}
+                                            fullWidth
+                                            variant="text"
+                                            startIcon={<HouseIcon />}
+                                        >
+                                            My Roommate listings
+                                        </Button>
+                                    </Box>
+                                </CardContent>
+                            </Card>
                             <Card sx={{ mt: 2 }}>
                                 <CardContent>
                                     <Box
