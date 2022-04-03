@@ -31,34 +31,64 @@ const addReport = async (req, res) => {
     try {
         res.setHeader("Content_type", "application/json");
         await reports.create(req.body).then(() => {
-            return res.status(201).json({ message: "Reported Successfully", success: true });
+            return res.status(201).json({ message: "Property Reported Successfully", success: true });
         });
     } catch (error) {
         return res.status(500).json({ error: error.message, message: "Unable to Report Property!!", success: false });
     }
 };
 
+const getReport = async (req, res) => {
+    try {
+        const user = req.params.userId;
+        const property = req.params.propertyId;
+        const report = await reports.findOne({
+            where: { user_id: user, property_id: property }
+        })
 
+        if (!report) {
+            res.status(404).json({
+                message: "No Report Details Available",
+                success: false
+            })
+        } else {
+            res.status(200).json({
+                message: "Report Retrieved Successfully",
+                success: true,
+                report: report
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: "Internal Server Error!!",
+            success: false,
+            error: error.message
+        })
+    }
+};
 
 const deleteReport = async (req, res) => {
     try {
         res.setHeader("Content_type", "application/json");
-        const report_id = req.params.id;
-        const reportById = await reports.findByPk(report_id);
+        const user = req.params.userId;
+        const property = req.params.propertyId;
+        const report = await reports.findOne({
+            where: { user_id: user, property_id: property }
+        })
 
-        if (!reportById) {
+        if (!report) {
             return res.status(404).json({ message: "Report not found!!", success: false });
         }
 
         await reports.destroy({
             where: {
-                id: report_id
+                user_id: user, property_id: property
             }
         }).then(() => {
-            return res.status(200).json({ message: "Report Deleted Successfully", success: true });
+            return res.status(200).json({ message: "Property Report Canceled Successfully", success: true });
         })
     } catch (error) {
-        res.status(500).json({ error: error.message, message: "Unable to delete Property details!!", success: false });
+        res.status(500).json({ error: error.message, message: "Unable to Cancel Report!!", success: false });
     }
 };
 
@@ -66,4 +96,4 @@ const deleteReport = async (req, res) => {
 
 
 
-module.exports = { reportRoot, getAllReports, addReport, deleteReport };
+module.exports = { reportRoot, getAllReports, addReport, deleteReport, getReport };

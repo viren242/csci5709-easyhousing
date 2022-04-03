@@ -5,6 +5,7 @@ export const ROUTES = {
   // COMMON ROUTES
   HOMEPAGE: "/",
   LOGIN: "/login",
+  SUPER_ADMIN_LOGIN: "/loginSuperAdmin",
   FORGOT_PASSWORD: "/forgotPassword",
   RESET_PASSWORD: "/api/user/reset/:userId/:jwtToken",
   SIGNUP: "/signup",
@@ -36,7 +37,7 @@ export const ROUTES = {
 
   //Private Route
   USER_PROFILE: "/profile",
-  ROOMMATE_FINDER:"/roommateHomepage" ,
+  ROOMMATE_FINDER: "/roommateHomepage",
   // USER_PROFILE: "/profile",
 };
 

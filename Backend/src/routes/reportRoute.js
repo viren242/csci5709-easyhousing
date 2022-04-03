@@ -3,11 +3,12 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAllReports, addReport, deleteReport } = require("../controllers/reportController");
+const { getAllReports, addReport, deleteReport, getReport } = require("../controllers/reportController");
 
 router.post("/addReport", addReport);
 router.get("/getAllReports", getAllReports);
-router.delete("/deleteReport/:id", deleteReport);
+router.delete("/deleteReport/:userId/:propertyId", deleteReport);
+router.get("/getReport/:userId/:propertyId", getReport);
 
 
 

@@ -42,6 +42,8 @@ import MyListings from "../pages/RoommateFinder/MyListings";
 import EditRoomatesAd from "../pages/RoommateFinder/EditRoomatesAd";
 import PropertyInfo from "../pages/PropertyManagement/ViewProperty/PropertyInfo";
 import UserPropertyListing from "../pages/PropertyManagement/UserProperty/UserPropertyListing";
+import SuperAdminLogin from "../pages/UserManagement/Login/SuperAdminLogin";
+
 function Routing() {
   const { initializeAuth, dispatch } = useContext(AppContext);
   const location = useLocation();
@@ -53,6 +55,10 @@ function Routing() {
     {
       pageLink: ROUTES.LOGIN,
       view: Login,
+    },
+    {
+      pageLink: ROUTES.SUPER_ADMIN_LOGIN,
+      view: SuperAdminLogin,
     },
     {
       pageLink: ROUTES.SIGNUP,
@@ -148,22 +154,20 @@ function Routing() {
     },
     {
       pageLink: ROUTES.ROOMMATE_FINDER,
-      view: RoommateHomepage
+      view: RoommateHomepage,
     },
     {
       pageLink: ROUTES.ROOMMATE_FINDER_MY_LISTINGS,
-      view: MyListings
+      view: MyListings,
     },
     {
       pageLink: ROUTES.ROOMMATE_FINDER_EDIT_LISTINGS,
-      view: EditRoomatesAd
+      view: EditRoomatesAd,
     },
     {
       pageLink: ROUTES.SHOW_REVIEWS,
-      view: ShowReviews
-    }
-
-
+      view: ShowReviews,
+    },
   ];
 
   useEffect(() => {
