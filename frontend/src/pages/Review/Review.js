@@ -13,7 +13,7 @@ import {
     CardContent,
     Container,
     Divider,
-    Grid,
+    Grid, TextField,
     Typography
 } from "@mui/material";
 import { ROUTES } from "../../common/constants";
@@ -66,11 +66,7 @@ function Review() {
     const [review, setReview] = useState("");
 
     const handleText = (event) => {
-        if (event.target.value.length > 250) {
-            alert("Review length is exceeding the character limit!!!");
-        } else {
-            setReview(event.target.value);
-        }
+        setReview(event.target.value);
     }
 
     return (
@@ -239,7 +235,7 @@ function Review() {
                                                                         {value.review.length > 0 ? (
                                                                             <p style={{ width: "400px", height: "150px" }}>{value.review}</p>
                                                                         ) : (
-                                                                            <input type={"text"} style={{ width: "400px", height: "150px", flexDirection: "row", flex: "fit-content", textAlign: "start" }} onChange={handleText} />
+                                                                            <input type={"text"} maxLength={250} style={{ width: "400px", height: "150px" }} onChange={handleText} />
                                                                         )}
                                                                     </div>
                                                                     <br />
