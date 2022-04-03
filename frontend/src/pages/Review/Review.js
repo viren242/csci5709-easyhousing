@@ -52,6 +52,7 @@ function Review() {
         }).then((res) => {
             if (res.data.success) {
                 userReview();
+                alert("Review Posted Successfully!!!");
             }
         });
     }
@@ -65,7 +66,11 @@ function Review() {
     const [review, setReview] = useState("");
 
     const handleText = (event) => {
-        setReview(event.target.value);
+        if (event.target.value.length > 250) {
+            alert("Review length is exceeding the character limit!!!");
+        } else {
+            setReview(event.target.value);
+        }
     }
 
     return (
@@ -234,7 +239,7 @@ function Review() {
                                                                         {value.review.length > 0 ? (
                                                                             <p style={{ width: "400px", height: "150px" }}>{value.review}</p>
                                                                         ) : (
-                                                                            <input type={"text"} style={{ width: "400px", height: "150px" }} onChange={handleText} />
+                                                                            <input type={"text"} style={{ width: "400px", height: "150px", flexDirection: "row", flex: "fit-content", textAlign: "start" }} onChange={handleText} />
                                                                         )}
                                                                     </div>
                                                                     <br />
