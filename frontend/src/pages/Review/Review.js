@@ -52,7 +52,6 @@ function Review() {
         }).then((res) => {
             if (res.data.success) {
                 userReview();
-                alert("Review Posted Successfully!!!");
             }
         });
     }
