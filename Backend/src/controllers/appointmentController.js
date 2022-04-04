@@ -150,8 +150,6 @@ const deleteAppointment = async (req, res) => {
             where: { user_id: user, property_id: property, isDeleted: false }
         })
 
-        console.log(appointment);
-
         if (!appointment) {
             res.status(404).json({
                 message: "Appointment not available",
