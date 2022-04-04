@@ -234,7 +234,7 @@ function Review() {
                                                                         {value.review.length > 0 ? (
                                                                             <p style={{ width: "400px", height: "150px" }}>{value.review}</p>
                                                                         ) : (
-                                                                            <input type={"text"} style={{ width: "400px", height: "150px" }} onChange={handleText} />
+                                                                            <input type={"text"} maxLength={250} style={{ width: "400px", height: "150px" }} onChange={handleText} />
                                                                         )}
                                                                     </div>
                                                                     <br />
