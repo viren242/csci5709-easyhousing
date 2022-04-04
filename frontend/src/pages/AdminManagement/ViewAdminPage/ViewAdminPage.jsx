@@ -1,13 +1,15 @@
 // Author: Viren Babubhai Malavia (B00895669)
 
 import React, { useEffect, useState, useContext } from 'react'
-import NavigationBar from "../../NavigationBar/Navbar";
+import AdminNavbar from "../../NavigationBar/AdminNavbar";
 import { Container, Box, CssBaseline, TextField, Grid } from '@mui/material';
 import { Card, CardMedia, CardContent, Typography, CardActions, Button } from '@mui/material';
 import axios_api from '../../../common/axios';
 import { useNavigate } from 'react-router';
 import { AppContext } from "../../../context/userContext";
 import FavoritesHeading from "../../../Components/Favorites/FavoritesHeading";
+// import Footer from "../../Footer/Footer";
+
 
 const initialState = {
     filter: 'city',
@@ -15,44 +17,41 @@ const initialState = {
     value2: '',
 };
 
-const ViewFavorites = () => {
+const ViewAdminPage = () => {
     const {
         state: { authenticated, userId, currentUser },
     } = useContext(AppContext);
 
-    const userID = userId;
-
     const navigate = useNavigate();
 
-    const [favoritesDetails, setFavoritesDetails] = useState([]);
+    const [reportedPropertyDetails, setReportedPropertyDetails] = useState([]);
     
-    const favPropDetails = (data) => {
-        data.map((favoriteData) => (
-            axios_api.get(`/properties/getProperty/${favoriteData.property_id}`).then((res) => {
+    const adminPageDetails = (data) => {
+        data.map((reportedData) => (
+            axios_api.get(`/properties/getProperty/${reportedData.property_id}`).then((res) => {
                 if(res.data.success){
-                    setFavoritesDetails(prev => ([...prev, res.data.data]));
+                    setReportedPropertyDetails(prev => ([...prev, res.data.data]));
                 };   
             })
         ))
     }
 
     useEffect( () => {
-        axios_api.get(`/favorites/${userID}`).then((res) => {
+        axios_api.get(`/reports/getAllReports/`).then((res) => {
             if(res.data.success){
-                favPropDetails(res.data.favorites);
+                adminPageDetails(res.data.data);
             }
         });
     }, [])
 
     const handleClick = (propertyId) => {
-        // navigate(`/view_favorites_details/${propertyId}`);
-        navigate(`/propertyDetails/${propertyId}`);
+        navigate(`/admin_page_postdetails/${propertyId}`);
     };
 
     return (
         <>
-            <NavigationBar />
-            <FavoritesHeading heading="My Favorites" />
+            <AdminNavbar />
+            <FavoritesHeading heading="Admin Page - Reported Properties" />
             <Container component="main" maxWidth='xl' style={{ width: "85%", margin: "3rem auto" }}>
                 <CssBaseline />
                 <Box
@@ -62,43 +61,43 @@ const ViewFavorites = () => {
                         flexDirection: 'column',
                     }}
                 >
+                    
 
                     <Box component="form" noValidate sx={{ mt: 3 }}>
                         <Grid container spacing={2}>
-                            {favoritesDetails ? favoritesDetails.length > 0 ? favoritesDetails.map((favoritesDetail) => (
+                            {reportedPropertyDetails ? reportedPropertyDetails.length > 0 ? reportedPropertyDetails.map((reportedDetail) => (
                                 <Grid item xs={12} sm={6} md={4} lg={3} >
-                                    <Card sx={{ maxWidth: 345 }} onClick={() => handleClick(favoritesDetail.id)}>
+                                    <Card sx={{ maxWidth: 345 }} onClick={() => handleClick(reportedDetail.id)}>
                                         <CardMedia
                                             component="img"
                                             height="140"
-                                            image={favoritesDetail.image}
+                                            image={reportedDetail.image}
                                             alt="property image"
                                         />
                                         <CardContent>
                                             <Typography gutterBottom variant="h5" component="div" textOverflow="ellipsis" overflow="hidden" whiteSpace="nowrap">
-                                                {favoritesDetail.title}
+                                                {reportedDetail.title}
                                             </Typography>
                                             <Typography variant="body2" color="text.secondary" textOverflow="ellipsis" overflow="hidden" whiteSpace="nowrap">
-                                                {favoritesDetail.location}
+                                                {reportedDetail.location}
                                             </Typography>
                                             <br />
                                             <Typography variant="body1" color="text.secondary">
-                                                ${favoritesDetail.price}
+                                                ${reportedDetail.price}
                                             </Typography>
                                         </CardContent>
                                     </Card>
                                 </Grid>
                             )
 
-                            ) : "You do not have any Favorites! Now is the time to add some ;)" : " Fetching properties"}
+                            ) : "There are no properties reported in the application :)" : " Fetching properties"}
 
                         </Grid>
                     </Box>
                 </Box>
             </Container>
-
         </>
     )
 }
 
-export default ViewFavorites
+export default ViewAdminPage
