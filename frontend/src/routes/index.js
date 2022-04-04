@@ -46,7 +46,6 @@ import SuperAdminLogin from "../pages/UserManagement/Login/SuperAdminLogin";
 
 import ViewAdminPage from "../pages/AdminManagement/ViewAdminPage/ViewAdminPage";
 import AdminPropertyDetails from "../pages/AdminManagement/ViewAdminPage/AdminPropertyDetails";
-import AdminHomePage from "../pages/HomePage/AdminHomePage";
 function Routing() {
   const { initializeAuth, dispatch } = useContext(AppContext);
   const location = useLocation();
@@ -178,10 +177,6 @@ function Routing() {
     {
       pageLink: ROUTES.VIEW_ADMIN_PAGE_POSTDETAILS,
       view: AdminPropertyDetails,
-    },
-    {
-      pageLink: ROUTES.ADMINHOMEPAGE,
-      view: AdminHomePage,
     },
   ];
 

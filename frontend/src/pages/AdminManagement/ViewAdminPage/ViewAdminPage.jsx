@@ -1,7 +1,7 @@
 // Author: Viren Babubhai Malavia (B00895669)
 
 import React, { useEffect, useState, useContext } from 'react'
-import AdminNavbar from "../../NavigationBar/AdminNavbar";
+import NavigationBar from "../../NavigationBar/Navbar";
 import { Container, Box, CssBaseline, TextField, Grid } from '@mui/material';
 import { Card, CardMedia, CardContent, Typography, CardActions, Button } from '@mui/material';
 import axios_api from '../../../common/axios';
@@ -50,7 +50,7 @@ const ViewAdminPage = () => {
 
     return (
         <>
-            <AdminNavbar />
+            <NavigationBar />
             <FavoritesHeading heading="Admin Page - Reported Properties" />
             <Container component="main" maxWidth='xl' style={{ width: "85%", margin: "3rem auto" }}>
                 <CssBaseline />

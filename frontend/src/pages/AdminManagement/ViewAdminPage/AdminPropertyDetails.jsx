@@ -157,13 +157,13 @@ const AdminPropertyDetails = () => {
                                     $ {property.price}
                                 </Typography>
                                 <Divider />
-                                <Typography gutterBottom variant="h5" component="div" sx={{ color: 'red' }}>
-                                    Admin Information:
+                                <Typography gutterBottom variant="h5" align="center" component="div" sx={{ color: 'red' }}>
+                                    Admin Related Information:
                                 </Typography>
-                                <Typography gutterBottom variant="h6" component="div" sx={{ color: 'blue' }}>
-                                    Ad posted by User with user_id: '{property.user_id}'
+                                <Typography gutterBottom variant="h6" component="div" sx={{ color: 'black' }}>
+                                    Ad is posted by User with user_id: '{property.user_id}'
                                 </Typography>
-                                <Typography gutterBottom variant="h6" component="div" sx={{ color: 'blue' }}>
+                                <Typography gutterBottom variant="h6" component="div" sx={{ color: 'black' }}>
                                     Total count of Users who Reported this post: '{count}'
                                 </Typography>
                                 <Divider />

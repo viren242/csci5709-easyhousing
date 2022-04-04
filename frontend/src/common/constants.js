@@ -32,7 +32,6 @@ export const ROUTES = {
   SHOW_REVIEWS: "/show_reviews/:propertyId",
   VIEW_ADMIN_PAGE: "/admin_page",
   VIEW_ADMIN_PAGE_POSTDETAILS: "/admin_page_postdetails/:propertyId",
-  ADMINHOMEPAGE: "/admin_homepage",
 
   NOT_FOUND: "*",
   ERROR: "/error",
