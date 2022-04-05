@@ -96,5 +96,21 @@ const deleteService = async (req, res) => {
     }
 }
 
+const getMyServices = async (req, res) => {
+    try {
+        res.setHeader("Content_type", "application/json");
+        const userId = req.params.id;
+        console.log(userId);
+        const userServices = await services.findAll({ where: { userid: userId } });
+        if (!userServices || !userServices.length) {
+            return res.status(404).json({ message: "Services details not found!!", success: false });
+        }
+        return res.status(200).json({ message: "All the services of user retrieved.", success: true, data: userServices });
+
+    } catch (error) {
+        return res.status(500).json({ error: error.message, message: "Unable to get service details from Id!!", success: false });
+    }
+};
+
 module.exports = { serviceRoot };
-module.exports = { getAllServices, addService, editService, getService, deleteService };
+module.exports = { getAllServices, addService, editService, getService, deleteService, getMyServices };

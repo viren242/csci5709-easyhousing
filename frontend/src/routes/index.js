@@ -27,6 +27,7 @@ import Ratings from "../pages/Rating/Ratings";
 import AllServices from "../pages/AllServices/AllServices";
 import CreateService from "../pages/CreateService/CreateService";
 import EditService from "../pages/EditService/EditService";
+import MyServices from "../pages/MyServices/MyServices";
 
 import ForgetPassword from "../pages/UserManagement/components/ForgetPassword";
 import ResetPassword from "../pages/UserManagement/components/ResetPassword";
@@ -61,6 +62,10 @@ function Routing() {
     {
       pageLink: ROUTES.SUPER_ADMIN_LOGIN,
       view: SuperAdminLogin,
+    },
+    {
+      pageLink: ROUTES.MY_SERVICES,
+      view: MyServices,
     },
     {
       pageLink: ROUTES.SIGNUP,
