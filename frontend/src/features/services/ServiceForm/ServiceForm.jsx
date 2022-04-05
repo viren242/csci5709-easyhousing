@@ -1,10 +1,16 @@
 import React from "react";
 import { HiOutlinePhotograph } from "react-icons/hi";
 import Axios from "axios";
-
+import { useContext } from "react";
+import { AppContext } from "../../../context/userContext";
 import "./ServiceForm.css";
 
 const ServiceForm = (props) => {
+  const {
+    state: { authenticated, authToken, currentUser, userId },
+    dispatch,
+} = useContext(AppContext);
+
   const [selectedFile, setSelectedFile] = React.useState(null);
   const [formError, setFormError] = React.useState([]);
   const [formState, setFormState] = React.useState(props.defaultFormFieldsState || {
@@ -99,6 +105,7 @@ const ServiceForm = (props) => {
     formData.append("location", location);
     formData.append("email", email);
     formData.append("price", price);
+    formData.append("userid",userId);
 
     if (isImageUpdated) {
       formData.append("image", image);
@@ -108,7 +115,7 @@ const ServiceForm = (props) => {
 
     if (props.mode === "edit") {
       // edit service
-      Axios.put(`https://easyhousingapi.herokuapp.com/services/${props.serviceId}`, formData)
+      Axios.put(`http://localhost:8080/services/${props.serviceId}`, formData)
         .then((response) => {
           if (response.status === 200) {
             window.location = "/services";
@@ -117,7 +124,7 @@ const ServiceForm = (props) => {
         .catch((error) => console.log(error));
     } else {
       // new service
-      Axios.post("https://easyhousingapi.herokuapp.com/services/", formData)
+      Axios.post("http://localhost:8080/services/", formData)
         .then((response) => {
           if (response.status === 200) {
             window.location = "/services";
