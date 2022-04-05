@@ -30,6 +30,8 @@ export const ROUTES = {
   VIEW_FAVORITES: "/view_favorites",
   VIEW_FAVORITES_DETAILS: "/view_favorites_details/:propertyId",
   SHOW_REVIEWS: "/show_reviews/:propertyId",
+  VIEW_ADMIN_PAGE: "/admin_page",
+  VIEW_ADMIN_PAGE_POSTDETAILS: "/admin_page_postdetails/:propertyId",
 
   NOT_FOUND: "*",
   ERROR: "/error",

@@ -44,6 +44,8 @@ import PropertyInfo from "../pages/PropertyManagement/ViewProperty/PropertyInfo"
 import UserPropertyListing from "../pages/PropertyManagement/UserProperty/UserPropertyListing";
 import SuperAdminLogin from "../pages/UserManagement/Login/SuperAdminLogin";
 
+import ViewAdminPage from "../pages/AdminManagement/ViewAdminPage/ViewAdminPage";
+import AdminPropertyDetails from "../pages/AdminManagement/ViewAdminPage/AdminPropertyDetails";
 function Routing() {
   const { initializeAuth, dispatch } = useContext(AppContext);
   const location = useLocation();
@@ -167,6 +169,14 @@ function Routing() {
     {
       pageLink: ROUTES.SHOW_REVIEWS,
       view: ShowReviews,
+    },
+    {
+      pageLink: ROUTES.VIEW_ADMIN_PAGE,
+      view: ViewAdminPage,
+    },
+    {
+      pageLink: ROUTES.VIEW_ADMIN_PAGE_POSTDETAILS,
+      view: AdminPropertyDetails,
     },
   ];
 
