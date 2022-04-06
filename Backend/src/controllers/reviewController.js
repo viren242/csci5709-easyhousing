@@ -172,7 +172,7 @@ const getUserReviews = async (req, res) => {
                     if (propertyImg) {
                         let image = "";
                         if (!propertyImg.dataValues.image || propertyImg.dataValues.image === "") {
-                            image = 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
+                            image = ''
                         } else {
                             image = propertyImg.dataValues.image;
                         }
@@ -191,7 +191,7 @@ const getUserReviews = async (req, res) => {
                     if (propertyImg) {
                         let image = "";
                         if (!propertyImg.dataValues.image || propertyImg.dataValues.image === "") {
-                            image = 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
+                            image = ''
                         } else {
                             image = propertyImg.dataValues.image;
                         }
