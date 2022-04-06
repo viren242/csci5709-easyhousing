@@ -243,10 +243,10 @@ function Ratings() {
                             ) : (
                                 <div style={{marginTop: "2%"}}>
                                     {userRatings.map(value => (
-                                        <Grid key={value.property_id} style={{margin: "5%"}}>
+                                        <Grid key={value.property_id}>
                                             <Card style={{marginTop: "5%"}} variant={"outlined"}>
                                                 <CardContent>
-                                                    <img src={value.images} alt={"image"} style={{width: "300px", height: "200px", paddingRight: "20px"}}/>
+                                                    <img src={value.images} alt={"image"} style={{width: "300px", height: "200px", paddingRight: "5%"}}/>
                                                     {(value.rating < 0) ? (
                                                         <Rating precision={0.5} onChange={ (event, rateNumber) => {handleClick({user: value.user_id, property: value.property_id, rating: rateNumber})}}/>
                                                     ) : (
