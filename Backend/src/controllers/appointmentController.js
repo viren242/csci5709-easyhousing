@@ -26,7 +26,7 @@ const getAllAppointments = async (req, res) => {
                 if (propertyDetails) {
                     let image = "";
                     if (!propertyDetails.dataValues.image || propertyDetails.dataValues.image === "") {
-                        image = 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
+                        image = ''
                     } else {
                         image = propertyDetails.dataValues.image
                     }

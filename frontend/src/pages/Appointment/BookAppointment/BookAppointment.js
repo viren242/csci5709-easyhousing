@@ -6,6 +6,7 @@ import axios_api from "../../../common/axios";
 import {useNavigate} from "react-router-dom";
 import {ROUTES} from "../../../common/constants";
 import {CloseOutlined} from "@material-ui/icons";
+import {toast} from "react-toastify";
 
 function BookAppointment(props) {
 
@@ -74,6 +75,8 @@ function BookAppointment(props) {
                     setOpenBookingDialog(false);
                     setFailedBooking(true);
                 }
+            }).catch((err) => {
+                toast.error("Something went wrong");
             })
         } else {
             setOpenBookingDialog(false);
@@ -115,8 +118,8 @@ function BookAppointment(props) {
                             Appointment Date and Time
                         </div>
                         <div style={{float: "right", display: "inline-block", marginTop: "1px", marginRight: "1px"}}>
-                            <IconButton>
-                                <CloseOutlined onClick={handleClose}/>
+                            <IconButton onClick={handleClose}>
+                                <CloseOutlined/>
                             </IconButton>
                         </div>
                     </div>
