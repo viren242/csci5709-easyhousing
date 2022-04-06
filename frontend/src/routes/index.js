@@ -47,6 +47,8 @@ import SuperAdminLogin from "../pages/UserManagement/Login/SuperAdminLogin";
 
 import ViewAdminPage from "../pages/AdminManagement/ViewAdminPage/ViewAdminPage";
 import AdminPropertyDetails from "../pages/AdminManagement/ViewAdminPage/AdminPropertyDetails";
+import SingleServicePage from "../pages/SingleServicePage/SingleServicePage";
+
 function Routing() {
   const { initializeAuth, dispatch } = useContext(AppContext);
   const location = useLocation();
@@ -183,6 +185,14 @@ function Routing() {
       pageLink: ROUTES.VIEW_ADMIN_PAGE_POSTDETAILS,
       view: AdminPropertyDetails,
     },
+    {
+      pageLink: ROUTES.VIEW_SINGLE_SERVICE,
+      view: SingleServicePage
+    },
+    {
+      pageLink: ROUTES.MY_SERVICES,
+      view: MyServices,
+    }
   ];
 
   useEffect(() => {
