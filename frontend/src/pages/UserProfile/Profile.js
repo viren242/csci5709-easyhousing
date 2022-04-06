@@ -29,7 +29,6 @@ const Profile = () => {
     state: { authenticated, authToken, currentUser },
     dispatch,
   } = useContext(AppContext);
-  //console.log(currentUser)
   let navigate = useNavigate();
   const getProfile = async () => {
     const config = {
@@ -127,9 +126,9 @@ const Profile = () => {
                   </Box>
                 </CardContent>
               </Card>
-              
+
               <Card sx={{ mt: 2 }}>
-              <CardContent>
+                <CardContent>
                   <Box
                     sx={{
                       alignItems: "left",
@@ -139,14 +138,14 @@ const Profile = () => {
                   >
                     <Button
                       color="primary"
-                      onClick={()=>{
-                        navigate(ROUTES.ROOMMATE_FINDER_MY_LISTINGS)
+                      onClick={() => {
+                        navigate(ROUTES.ROOMMATE_FINDER_MY_LISTINGS);
                       }}
                       fullWidth
                       variant="text"
                       startIcon={<HouseIcon />}
                     >
-                      My Roommate 
+                      My Roommate
                     </Button>
                   </Box>
                 </CardContent>

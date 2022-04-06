@@ -27,7 +27,7 @@ import { ROUTES } from "../../../common/constants";
 
 const Login = () => {
   const {
-    state: { authenticated, currentUser, userId, authToken },
+    state: { authenticated },
     dispatch,
   } = useContext(AppContext);
   let navigate = useNavigate();
@@ -120,7 +120,7 @@ const Login = () => {
               component="form"
               noValidate
               onSubmit={handleSubmit(onSubmit)}
-              sx={{ mt: 1 }}
+              sx={{ mt: 1, width: "100%" }}
             >
               <TextField
                 margin="normal"
