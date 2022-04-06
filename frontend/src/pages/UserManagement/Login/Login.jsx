@@ -120,7 +120,7 @@ const Login = () => {
               component="form"
               noValidate
               onSubmit={handleSubmit(onSubmit)}
-              sx={{ mt: 1 }}
+              sx={{ mt: 1, width: "100%" }}
             >
               <TextField
                 margin="normal"

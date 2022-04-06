@@ -19,8 +19,7 @@ import { useNavigate } from "react-router-dom";
 import Logo from "../../assets/images/Logo.png";
 import { ROUTES } from "../../common/constants";
 import Settings from "./components/Settings";
-
-const settings = ["Profile", "Change Password", "Logout"];
+import NestedMenuItem from "material-ui-nested-menu-item";
 
 const Navbar = () => {
   const {
@@ -88,12 +87,6 @@ const Navbar = () => {
                 display: { xs: "block", md: "none", color: "black" },
               }}
             >
-              {/* {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))} */}
-
               <MenuItem onClick={() => navigate(ROUTES.PROPERTY_LISTING)}>
                 <Typography textAlign="center">Property Rental</Typography>
               </MenuItem>
@@ -109,7 +102,13 @@ const Navbar = () => {
             </Menu>
           </Box>
           <Box noWrap sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <img height={40} width={80} src={Logo} alt="logo" />
+            <img
+              onClick={(event) => navigate(ROUTES.HOMEPAGE)}
+              height={40}
+              width={80}
+              src={Logo}
+              alt="logo"
+            />
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button
