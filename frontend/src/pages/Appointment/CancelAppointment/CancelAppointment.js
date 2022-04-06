@@ -3,6 +3,7 @@
 import React, {useState} from "react";
 import {Button, Dialog} from "@mui/material";
 import axios_api from "../../../common/axios";
+import {toast} from "react-toastify";
 
 function CancelAppointment(props) {
 
@@ -18,6 +19,8 @@ function CancelAppointment(props) {
             if (res.data.success) {
                 setOpenDialog(true);
             }
+        }).catch((err) => {
+            toast.error("Something went wrong");
         })
     }
 

@@ -22,6 +22,7 @@ import HouseIcon from "@mui/icons-material/House";
 import ReviewsIcon from "@mui/icons-material/Reviews";
 import axios_api from "../../../common/axios";
 import CancelAppointment from "../CancelAppointment/CancelAppointment";
+import {toast} from "react-toastify";
 
 function Appointments() {
 
@@ -34,9 +35,15 @@ function Appointments() {
 
     const userAppointment = async () => {
         axios_api.get("/appointments/getAllAppointments/" + userId).then((res) => {
-            setUserAppointments(res.data.appointments);
+            if (res.data.success) {
+                setUserAppointments(res.data.appointments);
+            }
         }).catch((err) => {
-            setUserAppointments([]);
+            if (err.response && err.response.status === 404) {
+                setUserAppointments([]);
+            } else {
+                toast.error("Something went wrong");
+            }
         });
     }
 
@@ -188,7 +195,7 @@ function Appointments() {
                             </Card>
                         </Grid>
                         <Grid item xs={8} style={{ textAlign: "center" }}>
-                            <Typography style={{ textAlign: "left" }}><h2>Appointments</h2></Typography>
+                            <Typography style={{ textAlign: "left", fontSize: "x-large" }}><b>Appointments</b></Typography>
                             <Divider variant={"fullWidth"} />
                             {userAppointments.length < 1 ? (
                                 <div style={{ textAlign: "center", margin: "20%" }}>
@@ -197,7 +204,7 @@ function Appointments() {
                             ) : (
                                 <div>
                                     {userAppointments.map(value => (
-                                        <Grid style={{ margin: "5%" }}>
+                                        <Grid key={value.appointment_id} style={{ margin: "5%" }}>
                                             <Card>
                                                 <CardContent>
                                                     <img src={value.property_image} alt={"image"} style={{ width: "200px", height: "200px", margin: "5%" }} />

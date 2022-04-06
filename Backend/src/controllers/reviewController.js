@@ -149,7 +149,7 @@ const deleteReview = async (req, res) => {
 const getUserReviews = async (req, res) => {
     try {
         const listMyAppointments = await appointments.findAll({
-            where: { user_id: req.params.userId, isDeleted: false }
+            where: { user_id: req.params.userId }
         })
         if (!listMyAppointments || !listMyAppointments.length) {
             res.status(404).json({
@@ -162,46 +162,55 @@ const getUserReviews = async (req, res) => {
             for (let i = 0; i < numOfReviews; i++) {
                 const user = listMyAppointments[i].user_id;
                 const property = listMyAppointments[i].property_id;
-                const review = await reviews.findOne({
-                    where: { user_id: user, property_id: property }
-                })
-                if (!review) {
-                    const propertyImg = await properties.findOne({
-                        where: { id: property }
-                    })
-                    if (propertyImg) {
-                        let image = "";
-                        if (!propertyImg.dataValues.image || propertyImg.dataValues.image === "") {
-                            image = ''
-                        } else {
-                            image = propertyImg.dataValues.image;
-                        }
-                        listOfReviews.push({
-                            user_id: user,
-                            property_id: property,
-                            images: image,
-                            review_id: "",
-                            review: ""
-                        })
+                let count = 0;
+                for (let j = 0; j < listOfReviews.length; j++) {
+                    if (listOfReviews[j].user_id === user && listOfReviews[j].property_id === property) {
+                        count = 1;
                     }
-                } else {
-                    const propertyImg = await properties.findOne({
-                        where: { id: property }
+                }
+
+                if (count === 0) {
+                    const review = await reviews.findOne({
+                        where: {user_id: user, property_id: property}
                     })
-                    if (propertyImg) {
-                        let image = "";
-                        if (!propertyImg.dataValues.image || propertyImg.dataValues.image === "") {
-                            image = ''
-                        } else {
-                            image = propertyImg.dataValues.image;
-                        }
-                        listOfReviews.push({
-                            user_id: user,
-                            property_id: property,
-                            images: image,
-                            review_id: review.dataValues.review_id,
-                            review: review.dataValues.review
+                    if (!review) {
+                        const propertyImg = await properties.findOne({
+                            where: {id: property}
                         })
+                        if (propertyImg) {
+                            let image = "";
+                            if (!propertyImg.dataValues.image || propertyImg.dataValues.image === "") {
+                                image = ''
+                            } else {
+                                image = propertyImg.dataValues.image;
+                            }
+                            listOfReviews.push({
+                                user_id: user,
+                                property_id: property,
+                                images: image,
+                                review_id: "",
+                                review: ""
+                            })
+                        }
+                    } else {
+                        const propertyImg = await properties.findOne({
+                            where: {id: property}
+                        })
+                        if (propertyImg) {
+                            let image = "";
+                            if (!propertyImg.dataValues.image || propertyImg.dataValues.image === "") {
+                                image = ''
+                            } else {
+                                image = propertyImg.dataValues.image;
+                            }
+                            listOfReviews.push({
+                                user_id: user,
+                                property_id: property,
+                                images: image,
+                                review_id: review.dataValues.review_id,
+                                review: review.dataValues.review
+                            })
+                        }
                     }
                 }
             }

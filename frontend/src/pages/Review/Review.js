@@ -21,6 +21,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import HouseIcon from "@mui/icons-material/House";
 import ReviewsIcon from "@mui/icons-material/Reviews";
 import axios_api from "../../common/axios";
+import {toast} from "react-toastify";
 
 function Review() {
 
@@ -33,7 +34,15 @@ function Review() {
 
     const userReview = async () => {
         axios_api.get("/reviews/getUserReviews/" + userId).then((res) => {
-            setUserReviews(res.data.reviews);
+            if (res.data.success) {
+                setUserReviews(res.data.reviews);
+            }
+        }).catch((err) => {
+            if (err.response && err.response.status === 404) {
+                setUserReviews([]);
+            } else {
+                toast.error("Something went wrong");
+            }
         })
     }
 
@@ -53,12 +62,30 @@ function Review() {
             if (res.data.success) {
                 userReview();
             }
+        }).catch((err) => {
+            if (err.response) {
+                if (err.response.status !== 404) {
+                    toast.error("Something went wrong");
+                }
+            } else {
+                toast.error("Something went wrong");
+            }
         });
     }
 
     const handleEdit = (event) => {
         axios_api.delete('/reviews/deleteReview/' + event.user + '/' + event.property).then((res) => {
-            userReview();
+            if (res.data.success) {
+                userReview();
+            }
+        }).catch((err) => {
+            if (err.response) {
+                if (err.response.status !== 404) {
+                    toast.error("Something went wrong");
+                }
+            } else {
+                toast.error("Something went wrong");
+            }
         });
     }
 
@@ -222,7 +249,7 @@ function Review() {
                                     <table style={{ borderSpacing: "1em", flexDirection: "row" }}>
                                         <tbody>
                                             {userReviews.map(value => (
-                                                <Card style={{ margin: "1%" }} variant={"outlined"}>
+                                                <Card key={value.property_id} style={{ margin: "1%" }} variant={"outlined"}>
                                                     <Box sx={{ alignItems: "left", display: "flex", flexDirection: "column" }}>
                                                         <CardContent>
                                                             <tr style={{ padding: '40%' }}>

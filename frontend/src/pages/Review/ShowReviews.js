@@ -57,8 +57,8 @@ function ShowReviews(props) {
                         Property Rating and Reviews
                     </div>
                     <div style={{float: "right"}}>
-                        <IconButton>
-                            <CloseOutlined onClick={handleClose}/>
+                        <IconButton onClick={handleClose}>
+                            <CloseOutlined/>
                         </IconButton>
                     </div>
                 </DialogTitle>
