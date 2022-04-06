@@ -3,8 +3,6 @@ import ReactDOM from "react-dom";
 import { AppContextProvider } from "./context/userContext";
 import { ThemeProvider } from "@mui/material";
 
-// import "./index.css";
-import App from "../src/app/App";
 import { BrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

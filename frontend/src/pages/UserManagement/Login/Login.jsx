@@ -27,7 +27,7 @@ import { ROUTES } from "../../../common/constants";
 
 const Login = () => {
   const {
-    state: { authenticated, currentUser, userId, authToken },
+    state: { authenticated },
     dispatch,
   } = useContext(AppContext);
   let navigate = useNavigate();
