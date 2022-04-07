@@ -34,7 +34,7 @@ app.use("/src/images", express.static(path.join(__dirname, "src/images")));
 require("./src/middleware/passport")(passport);
 //Routes
 const serviceRouter = require("./src/routes/serviceRoute");
-app.use("/api/services", serviceRouter);
+app.use("/services", serviceRouter);
 
 app.use("/api/users", userRoute);
 

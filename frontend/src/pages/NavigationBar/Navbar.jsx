@@ -19,7 +19,9 @@ import { useNavigate } from "react-router-dom";
 import Logo from "../../assets/images/Logo.png";
 import { ROUTES } from "../../common/constants";
 import Settings from "./components/Settings";
-import NestedMenuItem from "material-ui-nested-menu-item";
+
+
+const settings = ["Profile", "Change Password", "Logout"];
 
 const Navbar = () => {
   const {
@@ -30,6 +32,7 @@ const Navbar = () => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
+    console.log(event);
     setAnchorElNav(event.currentTarget);
   };
   const handleOpenUserMenu = (event) => {
@@ -37,6 +40,7 @@ const Navbar = () => {
   };
 
   const handleCloseNavMenu = () => {
+    console.log("test");
     setAnchorElNav(null);
   };
 
@@ -87,28 +91,32 @@ const Navbar = () => {
                 display: { xs: "block", md: "none", color: "black" },
               }}
             >
+               
+              {/* {pages.map((page) => (
+                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">{page}</Typography>
+                </MenuItem>
+              ))} */}
+           
               <MenuItem onClick={() => navigate(ROUTES.PROPERTY_LISTING)}>
                 <Typography textAlign="center">Property Rental</Typography>
               </MenuItem>
               <MenuItem onClick={() => navigate(ROUTES.VIEW_SERVICES)}>
                 <Typography textAlign="center">Services</Typography>
               </MenuItem>
-              <MenuItem onClick={() => navigate(ROUTES.ROOMMATE_FINDER)}>
-                <Typography textAlign="center">Roommate Finder</Typography>
-              </MenuItem>
+              <MenuItem  onClick={() => 
+                  //console.log("test");
+                  navigate(ROUTES.ROOMMATE_FINDER)}>
+                  <Typography textAlign="center">Roommate Finder</Typography>
+                </MenuItem>
               <MenuItem onClick={() => navigate(ROUTES.VIEW_FAVORITES)}>
                 <Typography textAlign="center">Favorites</Typography>
               </MenuItem>
+
             </Menu>
           </Box>
           <Box noWrap sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <img
-              onClick={(event) => navigate(ROUTES.HOMEPAGE)}
-              height={40}
-              width={80}
-              src={Logo}
-              alt="logo"
-            />
+            <img height={40} width={80} src={Logo} alt="logo" />
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button
@@ -128,13 +136,9 @@ const Navbar = () => {
               sx={{ my: 2, color: "black", display: "block" }}
             >
               ROOMMATE FINDER
-            </Button>
-            <Button
-              onClick={() =>
-                authenticated
-                  ? navigate(ROUTES.VIEW_FAVORITES)
-                  : navigate(ROUTES.LOGIN)
-              }
+              </Button>
+              <Button
+              onClick={() => authenticated ? (navigate(ROUTES.VIEW_FAVORITES)) : (navigate(ROUTES.LOGIN))}
               sx={{ my: 2, color: "black", display: "block" }}
             >
               Favorites
@@ -147,26 +151,6 @@ const Navbar = () => {
             // width={225}
             sx={{ flexGrow: 0 }}
           >
-            {authenticated && currentUser.role == "super_admin" ? (
-              <Button
-                variant="contained"
-                onClick={() =>
-                  authenticated
-                    ? navigate(ROUTES.VIEW_ADMIN_PAGE)
-                    : navigate(ROUTES.LOGIN)
-                }
-                sx={{
-                  marginRight: 2,
-                  backgroundColor: "#1C3988",
-                  alignItems: "right",
-                  display: { xs: "none", md: "flex" },
-                }}
-              >
-                Admin
-              </Button>
-            ) : (
-              ""
-            )}
             <Button
               variant="contained"
               sx={{

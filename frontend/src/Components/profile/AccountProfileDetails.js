@@ -55,6 +55,7 @@ export const AccountProfileDetails = (props) => {
             phoneNumber,
             imgURL: path,
           };
+          console.log(updateDetails);
           const config = {
             headers: { Authorization: `${authToken}` },
           };

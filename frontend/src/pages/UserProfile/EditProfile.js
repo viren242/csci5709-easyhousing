@@ -40,7 +40,7 @@ const EditUserProfile = () => {
             }}
             component="a"
             startIcon={<ArrowBackIcon fontSize="small" />}
-            onClick={() => navigate(ROUTES.USERS_PROPERTY)}
+            onClick={() => navigate(ROUTES.PROFILE)}
           >
             Back to Profile
           </Button>

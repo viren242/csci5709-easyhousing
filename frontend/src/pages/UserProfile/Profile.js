@@ -29,6 +29,7 @@ const Profile = () => {
     state: { authenticated, authToken, currentUser },
     dispatch,
   } = useContext(AppContext);
+  //console.log(currentUser)
   let navigate = useNavigate();
   const getProfile = async () => {
     const config = {
@@ -126,9 +127,8 @@ const Profile = () => {
                   </Box>
                 </CardContent>
               </Card>
-
               <Card sx={{ mt: 2 }}>
-                <CardContent>
+              <CardContent>
                   <Box
                     sx={{
                       alignItems: "left",
@@ -138,36 +138,14 @@ const Profile = () => {
                   >
                     <Button
                       color="primary"
-                      fullWidth
-                      variant="text"
-                      startIcon={<HouseIcon />}
-                      onClick={() => navigate(ROUTES.MY_SERVICES)}
-                    >
-                      My Services
-                    </Button>
-                  </Box>
-                </CardContent>
-              </Card>
-
-              <Card sx={{ mt: 2 }}>
-                <CardContent>
-                  <Box
-                    sx={{
-                      alignItems: "left",
-                      display: "flex",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <Button
-                      color="primary"
-                      onClick={() => {
-                        navigate(ROUTES.ROOMMATE_FINDER_MY_LISTINGS);
+                      onClick={()=>{
+                        navigate(ROUTES.ROOMMATE_FINDER_MY_LISTINGS)
                       }}
                       fullWidth
                       variant="text"
                       startIcon={<HouseIcon />}
                     >
-                      My Roommate
+                      My Roommate listings
                     </Button>
                   </Box>
                 </CardContent>
@@ -194,27 +172,7 @@ const Profile = () => {
                   </Box>
                 </CardContent>
               </Card>
-              <Card sx={{ mt: 2 }}>
-                <CardContent>
-                  <Box
-                    sx={{
-                      alignItems: "left",
-                      display: "flex",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <Button
-                      color="primary"
-                      fullWidth
-                      variant="text"
-                      startIcon={<ReviewsIcon />}
-                      onClick={() => navigate(ROUTES.MY_SERVICES)}
-                    >
-                      My Services
-                    </Button>
-                  </Box>
-                </CardContent>
-              </Card>
+
               <Card sx={{ mt: 2 }}>
                 <CardContent>
                   <Box

@@ -45,8 +45,7 @@ const ViewFavorites = () => {
     }, [])
 
     const handleClick = (propertyId) => {
-        // navigate(`/view_favorites_details/${propertyId}`);
-        navigate(`/propertyDetails/${propertyId}`);
+        navigate(`/view_favorites_details/${propertyId}`);
     };
 
     return (
@@ -62,6 +61,15 @@ const ViewFavorites = () => {
                         flexDirection: 'column',
                     }}
                 >
+                    {/* <TextField
+                        name="search"
+                        fullWidth
+                        id="search"
+                        label="Search City ..."
+                        autoFocus
+                        value={searchText.value1}
+                        onChange={handleSearchChange}
+                    /> */}
 
                     <Box component="form" noValidate sx={{ mt: 3 }}>
                         <Grid container spacing={2}>
@@ -75,7 +83,7 @@ const ViewFavorites = () => {
                                             alt="property image"
                                         />
                                         <CardContent>
-                                            <Typography gutterBottom variant="h5" component="div" textOverflow="ellipsis" overflow="hidden" whiteSpace="nowrap">
+                                            <Typography gutterBottom variant="h5" component="div">
                                                 {favoritesDetail.title}
                                             </Typography>
                                             <Typography variant="body2" color="text.secondary" textOverflow="ellipsis" overflow="hidden" whiteSpace="nowrap">
@@ -86,6 +94,10 @@ const ViewFavorites = () => {
                                                 ${favoritesDetail.price}
                                             </Typography>
                                         </CardContent>
+                                        {/* <CardActions>
+                                            <Button size="small">Share</Button>
+                                            <Button size="small">Learn More</Button>
+       s                                 </CardActions> */}
                                     </Card>
                                 </Grid>
                             )

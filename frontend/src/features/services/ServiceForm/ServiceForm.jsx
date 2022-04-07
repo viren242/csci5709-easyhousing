@@ -1,18 +1,10 @@
 import React from "react";
 import { HiOutlinePhotograph } from "react-icons/hi";
 import Axios from "axios";
-import { useContext } from "react";
-import { AppContext } from "../../../context/userContext";
+
 import "./ServiceForm.css";
-import Loader from "../../ui/Loader/Loader";
-import axios_api from "../../../common/axios";
 
 const ServiceForm = (props) => {
-  const {
-    state: { userId }
-  } = useContext(AppContext);
-
-  const [isLoading, setIsLoading] = React.useState(false);
   const [selectedFile, setSelectedFile] = React.useState(null);
   const [formError, setFormError] = React.useState([]);
   const [formState, setFormState] = React.useState(props.defaultFormFieldsState || {
@@ -72,28 +64,8 @@ const ServiceForm = (props) => {
     return validationErrors;
   }
 
-  const uploadImageAndGetURI = (image) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const formData = new FormData();
-        formData.append("image", image);
-        const response = await axios_api.post("/properties/uploadImage", formData)
-        if (response.status === 200) {
-          console.log(response.data);
-          resolve(response.data);
-        } else {
-          reject(response);
-        }
-      } catch (error) {
-        reject(error);
-      }
-    });
-  }
-
-  const handleFormSubmit = async (e) => {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
-    setIsLoading(true);
-
     const title = e.target.title.value;
     const description = e.target.description.value;
     const location = e.target.location.value;
@@ -112,9 +84,10 @@ const ServiceForm = (props) => {
       isImageUpdated
     });
 
+    console.log(validationErrors);
+
     if (validationErrors.length !== 0) {
       setFormError(validationErrors);
-      setIsLoading(false);
       return;
     } else {
       setFormError([]);
@@ -126,41 +99,31 @@ const ServiceForm = (props) => {
     formData.append("location", location);
     formData.append("email", email);
     formData.append("price", price);
-    formData.append("userid",userId);
 
     if (isImageUpdated) {
-      const url = await uploadImageAndGetURI(image);
-      formData.append("image", url);
+      formData.append("image", image);
     } else {
       formData.append("image", savedImageName);
     }
 
     if (props.mode === "edit") {
       // edit service
-      axios_api.put(`/services/${props.serviceId}`, formData)
+      Axios.put(`https://easyhousingapi.herokuapp.com/services/${props.serviceId}`, formData)
         .then((response) => {
           if (response.status === 200) {
             window.location = "/services";
           }
-          setIsLoading(false);
         })
-        .catch((error) => {
-          setIsLoading(false);
-          console.log(error);
-        });
+        .catch((error) => console.log(error));
     } else {
       // new service
-      axios_api.post("/services/", formData)
+      Axios.post("https://easyhousingapi.herokuapp.com/services/", formData)
         .then((response) => {
           if (response.status === 200) {
             window.location = "/services";
           }
-          setIsLoading(false);
         })
-        .catch((error) => {
-          setIsLoading(false);
-          console.log(error);
-        });
+        .catch((error) => console.error(error));
     }
   }
 
@@ -258,7 +221,6 @@ const ServiceForm = (props) => {
           value="Post Ad"
         />
       </form>
-      <Loader show={isLoading} />
     </div>
   )
 }

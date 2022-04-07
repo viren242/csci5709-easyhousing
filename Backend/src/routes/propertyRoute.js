@@ -17,7 +17,6 @@ const fileStorage = multer.diskStorage({
 });
 
 const upload = multer({ storage: fileStorage })
-const { uploadFile } = require('../controllers/s3')
 
 router.get("/getAllPropeties", getAllProperties);
 router.get("/getProperty/:id", getProperty);
@@ -44,14 +43,9 @@ router.post(
 
 router.post(
     "/uploadImage",
-    upload.single('image'), async (req, res) => {
-        try {
-            const result = await uploadFile(req.file)
-            res.send(result.Location)
-        } catch (error) {
-            res.send(error.message)
-        }
-
+    upload.single('image'), (req, res) => {
+        console.log(req.file.path)
+        res.send(IMAGE_URL + `${req.file.filename}`)
     },
 )
 

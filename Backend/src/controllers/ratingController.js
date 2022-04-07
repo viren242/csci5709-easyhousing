@@ -149,7 +149,7 @@ const deleteRating = async (req, res) => {
 const getUserRatings = async (req, res) => {
     try {
         const listMyAppointments = await appointments.findAll({
-            where: { user_id: req.params.userId }
+            where: { user_id: req.params.userId, isDeleted: false }
         })
         if (!listMyAppointments || !listMyAppointments.length) {
             res.status(404).json({
@@ -162,55 +162,46 @@ const getUserRatings = async (req, res) => {
             for (let i = 0; i < numOfRatings; i++) {
                 const user = listMyAppointments[i].user_id;
                 const property = listMyAppointments[i].property_id;
-                let count = 0;
-                for (let j = 0; j < listOfRatings.length; j++) {
-                    if (listOfRatings[j].user_id === user && listOfRatings[j].property_id === property) {
-                        count = 1;
-                    }
-                }
-
-                if (count === 0) {
-                    const rating = await ratings.findOne({
-                        where: {user_id: user, property_id: property}
+                const rating = await ratings.findOne({
+                    where: { user_id: user, property_id: property }
+                })
+                if (!rating) {
+                    const propertyImg = await properties.findOne({
+                        where: { id: property }
                     })
-                    if (!rating) {
-                        const propertyImg = await properties.findOne({
-                            where: {id: property}
-                        })
-                        if (propertyImg) {
-                            let image = "";
-                            if (!propertyImg.dataValues.image || propertyImg.dataValues.image === "") {
-                                image = ''
-                            } else {
-                                image = propertyImg.dataValues.image;
-                            }
-                            listOfRatings.push({
-                                user_id: user,
-                                property_id: property,
-                                images: image,
-                                rating_id: "",
-                                rating: -1
-                            })
+                    if (propertyImg) {
+                        let image = "";
+                        if (!propertyImg.dataValues.image || propertyImg.dataValues.image === "") {
+                            image = 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
+                        } else {
+                            image = propertyImg.dataValues.image;
                         }
-                    } else {
-                        const propertyImg = await properties.findOne({
-                            where: {id: property}
+                        listOfRatings.push({
+                            user_id: user,
+                            property_id: property,
+                            images: image,
+                            rating_id: "",
+                            rating: false
                         })
-                        if (propertyImg) {
-                            let image = "";
-                            if (!propertyImg.dataValues.image || propertyImg.dataValues.image === "") {
-                                image = ''
-                            } else {
-                                image = propertyImg.dataValues.image;
-                            }
-                            listOfRatings.push({
-                                user_id: user,
-                                property_id: property,
-                                images: image,
-                                rating_id: rating.dataValues.rating_id,
-                                rating: rating.dataValues.rating
-                            })
+                    }
+                } else {
+                    const propertyImg = await properties.findOne({
+                        where: { id: property }
+                    })
+                    if (propertyImg) {
+                        let image = "";
+                        if (!propertyImg.dataValues.image || propertyImg.dataValues.image === "") {
+                            image = 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
+                        } else {
+                            image = propertyImg.dataValues.image;
                         }
+                        listOfRatings.push({
+                            user_id: user,
+                            property_id: property,
+                            images: image,
+                            rating_id: rating.dataValues.rating_id,
+                            rating: rating.dataValues.rating
+                        })
                     }
                 }
             }

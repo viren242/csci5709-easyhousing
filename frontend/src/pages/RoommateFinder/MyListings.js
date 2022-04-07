@@ -25,7 +25,7 @@ export default function MyListings() {
         dispatch,
     } = useContext(AppContext);
     
-    console.log(listings);
+    
 
     let navigate = useNavigate();
     useEffect(() => {
@@ -35,7 +35,6 @@ export default function MyListings() {
         axios_api
             .get(`/roomatefinder/${currentUser.user_id}`)
             .then((response) => {
-                console.log(response );
                 if ((response.data.success = true)) {
                     dispatch({ type: ActionTypes.SET_ROOMMATE_LISTINGS, data: response.data });
 

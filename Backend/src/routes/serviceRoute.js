@@ -4,7 +4,7 @@ const express = require("express");
 const multer = require("multer");
 const path = require("path");
 
-const { getAllServices, getMyServices, filterServices } = require("../controllers/serviceController");
+const { getAllServices } = require("../controllers/serviceController");
 const { addService } = require("../controllers/serviceController");
 const { editService } = require("../controllers/serviceController");
 const { getService } = require("../controllers/serviceController");
@@ -29,8 +29,6 @@ router.get("/:id",getService);
 router.post("/", upload.single("image"), addService);
 router.put("/:id", upload.single("image"), editService);
 router.delete("/:id", deleteService);
-router.get("/myservices/:id", getMyServices);
-router.post("/filter", filterServices);
 
 
 module.exports = router;

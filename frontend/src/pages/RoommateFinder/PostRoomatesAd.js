@@ -13,7 +13,7 @@ import { AppContext } from "../../context/userContext";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../common/constants";
 
-export default function PostRoomatesAd(props) {
+export default function PostRoomatesAd() {
     const [selectedFiles, setFile] = useState(null);
     const [fileName, setFileName] = useState(null);
     const [previewImages, setImages] = useState([]);
@@ -45,7 +45,7 @@ export default function PostRoomatesAd(props) {
         const formData = new FormData();
         formData.append("image", selectedFiles);
         // formData.append("fileName", fileName)
-console.log(currentUser);
+
         if (selectedFiles) {
             axios_api
                 .post("/roomatefinder/imageUpload", formData)
@@ -67,7 +67,6 @@ console.log(currentUser);
                             if ((response.data.success = true)) {
                                 toast.success(response?.data?.message);
                                 // reset();
-                                props.setValue("list")
                                  navigate(ROUTES.ROOMMATE_FINDER);
                             } else {
                                 toast.error(response?.data?.message);

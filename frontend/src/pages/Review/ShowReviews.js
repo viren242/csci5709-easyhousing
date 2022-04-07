@@ -1,10 +1,9 @@
 // Arvinder Singh (B00878415)
 
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios_api from "../../common/axios";
 import {Card, CardContent, Dialog, DialogTitle, IconButton, Grid, Button, Rating} from "@mui/material";
 import {CloseOutlined} from "@material-ui/icons";
-import {toast} from "react-toastify";
 
 function ShowReviews(props) {
     const [ reviews, setReviews ] = useState([]);
@@ -12,37 +11,29 @@ function ShowReviews(props) {
     const [ openDialog, setOpenDialog ] = useState(false);
 
     const showReviews = () => {
-        axios_api.get(`/ratings/getAvgPropertyRatings/${props.propertyId}`).then((res) => {
-            if (res.data.success) {
-                setAvgRating(res.data.averageRating);
-            }
-        }).catch((err) => {
-            if (err.response && err.response.status === 404) {
-                setAvgRating(-1);
-            }
-        })
-
         axios_api.get(`/reviews/getAllPropertyReviews/${props.propertyId}`).then((res) => {
-            if (res.data.success) {
-                setReviews(res.data.reviews);
-                setOpenDialog(true);
-            }
+            setReviews(res.data.reviews);
+            setOpenDialog(true);
         }).catch((err) => {
-            if (err.response && err.response.status === 404) {
-                setReviews([]);
-                setOpenDialog(true);
-            } else {
-                toast.error("Something went wrong");
-            }
+            setReviews([]);
+            setOpenDialog(true);
         })
     }
+
+    useEffect(async () => {
+        await axios_api.get(`/ratings/getAvgPropertyRatings/${props.propertyId}`).then((res) => {
+            setAvgRating(res.data.averageRating);
+        }).catch((err) => {
+            setAvgRating(-1);
+        })
+    }, []);
 
     const handleClose = () => {
         setOpenDialog(false);
     }
 
     return (
-        <div className={"show-reviews"}>
+        <div>
             <Button
                 variant="contained"
                 onClick={showReviews}
@@ -57,13 +48,13 @@ function ShowReviews(props) {
                         Property Rating and Reviews
                     </div>
                     <div style={{float: "right"}}>
-                        <IconButton onClick={handleClose}>
-                            <CloseOutlined/>
+                        <IconButton>
+                            <CloseOutlined onClick={handleClose}/>
                         </IconButton>
                     </div>
                 </DialogTitle>
                 {avgRating !== -1 ? (
-                    <p style={{marginLeft: "22px"}}><Rating precision={0.1} value={avgRating} readOnly={true}/></p>
+                    <p style={{marginLeft: "22px"}}><Rating precision={0.01} value={avgRating} readOnly={true}/></p>
                 ) : (
                     <p style={{marginLeft: "22px"}}>No Rating provided yet!!!</p>
                 )}
@@ -72,7 +63,7 @@ function ShowReviews(props) {
                 ) : (
                     <div>
                         {reviews.map(value => (
-                            <Grid key={value.review_id} style={{margin: "5%"}}>
+                            <Grid style={{margin: "5%"}}>
                                 <Card raised={true}>
                                     <CardContent>
                                         <p>{value.review}</p>

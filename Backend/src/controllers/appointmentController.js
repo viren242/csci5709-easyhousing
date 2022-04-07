@@ -26,7 +26,7 @@ const getAllAppointments = async (req, res) => {
                 if (propertyDetails) {
                     let image = "";
                     if (!propertyDetails.dataValues.image || propertyDetails.dataValues.image === "") {
-                        image = ''
+                        image = 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
                     } else {
                         image = propertyDetails.dataValues.image
                     }
@@ -149,6 +149,8 @@ const deleteAppointment = async (req, res) => {
         const appointment = await appointments.findOne({
             where: { user_id: user, property_id: property, isDeleted: false }
         })
+
+        console.log(appointment);
 
         if (!appointment) {
             res.status(404).json({

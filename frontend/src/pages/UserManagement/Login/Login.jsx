@@ -12,7 +12,6 @@ import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import Divider from "@mui/material/Divider";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { toast } from "react-toastify";
@@ -27,7 +26,7 @@ import { ROUTES } from "../../../common/constants";
 
 const Login = () => {
   const {
-    state: { authenticated },
+    state: { authenticated, currentUser, userId, authToken },
     dispatch,
   } = useContext(AppContext);
   let navigate = useNavigate();
@@ -120,7 +119,7 @@ const Login = () => {
               component="form"
               noValidate
               onSubmit={handleSubmit(onSubmit)}
-              sx={{ mt: 1, width: "100%" }}
+              sx={{ mt: 1 }}
             >
               <TextField
                 margin="normal"
@@ -208,24 +207,6 @@ const Login = () => {
                   </Link>
                 </Grid>
               </Grid>
-              <Box py={2}>
-                <Divider>
-                  <Typography variant="caption" component="div">
-                    Or
-                  </Typography>
-                </Divider>
-                <Box pt={2} display="flex" justifyContent="center">
-                  <Link
-                    onClick={() => {
-                      navigate(ROUTES.SUPER_ADMIN_LOGIN);
-                    }}
-                  >
-                    <Typography variant="subtitle2" component="div">
-                      Login as Super Admin
-                    </Typography>
-                  </Link>
-                </Box>
-              </Box>
             </Box>
           </Box>
         </Grid>

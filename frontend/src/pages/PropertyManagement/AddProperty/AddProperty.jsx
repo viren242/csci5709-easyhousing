@@ -198,12 +198,16 @@ const AddProperty = () => {
                                 if ((response.data.success = true)) {
                                     toast.success(response?.data?.message);
                                     reset();
+                                    console.log(response?.data?.message);
                                     navigate(ROUTES.HOMEPAGE);
                                 } else {
+                                    console.log(response?.data?.message);
                                     toast.error(response?.data?.message);
                                 }
                             })
                             .catch((err) => {
+                                debugger;
+                                console.log(err?.response?.data?.message);
                                 toast.error(err?.response?.data?.message || "Something went wrong");
                             });
                     } else {
@@ -213,12 +217,16 @@ const AddProperty = () => {
                                 if ((response.data.success = true)) {
                                     toast.success(response?.data?.message);
                                     reset();
+                                    console.log(response?.data?.message);
                                     navigate(ROUTES.HOMEPAGE);
                                 } else {
+                                    console.log(response?.data?.message);
                                     toast.error(response?.data?.message);
                                 }
                             })
                             .catch((err) => {
+                                debugger;
+                                console.log(err?.response?.data?.message);
                                 toast.error(err?.response?.data?.message || "Something went wrong");
                             });
                     }
@@ -237,12 +245,16 @@ const AddProperty = () => {
                         if ((response.data.success = true)) {
                             toast.success(response?.data?.message);
                             reset();
+                            console.log(response?.data?.message);
                             navigate(ROUTES.HOMEPAGE);
                         } else {
+                            console.log(response?.data?.message);
                             toast.error(response?.data?.message);
                         }
                     })
                     .catch((err) => {
+                        debugger;
+                        console.log(err?.response?.data?.message);
                         toast.error(err?.response?.data?.message || "Something went wrong");
                     });
             } else {
@@ -252,12 +264,16 @@ const AddProperty = () => {
                         if ((response.data.success = true)) {
                             toast.success(response?.data?.message);
                             reset();
+                            console.log(response?.data?.message);
                             navigate(ROUTES.HOMEPAGE);
                         } else {
+                            console.log(response?.data?.message);
                             toast.error(response?.data?.message);
                         }
                     })
                     .catch((err) => {
+                        debugger;
+                        console.log(err?.response?.data?.message);
                         toast.error(err?.response?.data?.message || "Something went wrong");
                     });
             }
