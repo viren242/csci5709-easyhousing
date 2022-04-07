@@ -22,6 +22,8 @@ import axios_api from "../../common/axios";
 import { AppContext } from "../../context/userContext";
 import { useForm } from "react-hook-form";
 import NavigationBar from "../NavigationBar/Navbar";
+import { ROUTES } from "../../common/constants";
+import { useNavigate } from "react-router-dom";
 
 export default function PostRoomatesAd() {
   const [selectedFiles, setFile] = useState(null);
@@ -70,6 +72,7 @@ export default function PostRoomatesAd() {
       .then((response) => {
         if ((response.data.success = true)) {
           toast.success(response?.data?.message);
+          navigate(ROUTES.ROOMMATE_FINDER_MY_LISTINGS);
         } else {
           toast.error(response?.data?.message);
         }
@@ -79,6 +82,7 @@ export default function PostRoomatesAd() {
       });
   };
 
+  let navigate = useNavigate();
   useEffect(() => {
     // when the component is mounted, the alert is displayed for 3 seconds
     setTimeout(() => {
@@ -269,7 +273,7 @@ export default function PostRoomatesAd() {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Post Ad
+            Update Ad
           </Button>
         </form>
       </div>

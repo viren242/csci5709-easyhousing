@@ -29,13 +29,19 @@ var imageStorage = multer.diskStorage({
     }
 })
 var upload = multer({ storage: imageStorage })
+const { uploadFile } = require('../controllers/s3')
 
 router.post(
     "/imageUpload",
-    upload.single('image'), (req, res) => {
-        console.log(req.file.path)
-        res.send( IMAGE_URL + `${req.file.path}`)
+    upload.single('image'), async (req, res) => {
+        try {
+            const result = await uploadFile(req.file)
+            res.send(result.Location)
+        } catch (error) {
+            res.send(error.message)
+        }
     },
+
 )
 
 module.exports = router;

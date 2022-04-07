@@ -28,6 +28,7 @@ export default function ListRoomates() {
         axios_api
             .get("/roomatefinder/")
             .then((response) => {
+                console.log(response);
                 if ((response.data.success = true && response.data && response.data.length > 0)) {
                     dispatch({ type: ActionTypes.SET_ROOMMATE_LISTINGS, data: response.data });
                     emptyList =true;
