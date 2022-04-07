@@ -3,6 +3,7 @@
 const { services } = require("../models");
 const fs = require("fs");
 const path = require("path");
+const { Op } = require("sequelize");
 
 const serviceRoot = (req, res) => {
     try {
@@ -96,5 +97,76 @@ const deleteService = async (req, res) => {
     }
 }
 
-module.exports = { serviceRoot };
-module.exports = { getAllServices, addService, editService, getService, deleteService };
+const getMyServices = async (req, res) => {
+    try {
+        res.setHeader("Content_type", "application/json");
+        const userId = req.params.id;
+        console.log(userId);
+        const userServices = await services.findAll({ where: { userid: userId } });
+        if (!userServices || !userServices.length) {
+            return res.status(404).json({ message: "Services details not found!!", success: false });
+        }
+        return res.status(200).json(userServices);
+
+    } catch (error) {
+        return res.status(500).json({ error: error.message, message: "Unable to get service details from Id!!", success: false });
+    }
+};
+
+const filterServices = async (req, res) => {
+    try {
+        const filters = req.body;
+        const locationFilter = filters.location;
+        const titleFilter = filters.title;
+        const priceFilter = filters.price;
+        const userFilter = filters.userId;
+
+        const filtersToUse = {};
+
+        if (locationFilter) {
+            filtersToUse.location = { [Op.like]: `%${locationFilter}%` };
+        }
+
+        if (titleFilter) {
+            filtersToUse.title = { [Op.like]: `%${titleFilter}%` };
+        }
+
+        if (priceFilter && !isNaN(priceFilter.min) && !isNaN(priceFilter.max)) {
+            filtersToUse.price = { [Op.between]: [priceFilter.min, priceFilter.max]};
+        } else if (priceFilter && !isNaN(priceFilter.min)) {
+            filtersToUse.price = { [Op.gte]: priceFilter.min };
+        } else if  (priceFilter && !isNaN(priceFilter.max)) {
+            filtersToUse.price  = { [Op.lte]: priceFilter.max };
+        }
+
+        if (userFilter) {
+            filtersToUse.userid = { [Op.eq]: userFilter };
+        }
+
+        const filteredServices = await services.findAll({ where: filtersToUse });
+
+
+        if (filteredServices !== undefined) {
+            return res.status(200).send(filteredServices);
+        }
+        
+        throw new Error("Error while fetching services.");
+    } catch (error) {
+        return res.status(500).json({
+            error: error.message,
+            message: "Unable to get services.",
+            success: false
+        });
+    }
+}
+
+module.exports = {
+    serviceRoot,
+    getAllServices,
+    addService,
+    editService,
+    getService,
+    deleteService,
+    getMyServices,
+    filterServices
+};

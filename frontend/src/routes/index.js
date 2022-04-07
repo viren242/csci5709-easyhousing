@@ -27,6 +27,7 @@ import Ratings from "../pages/Rating/Ratings";
 import AllServices from "../pages/AllServices/AllServices";
 import CreateService from "../pages/CreateService/CreateService";
 import EditService from "../pages/EditService/EditService";
+import MyServices from "../pages/MyServices/MyServices";
 
 import ForgetPassword from "../pages/UserManagement/components/ForgetPassword";
 import ResetPassword from "../pages/UserManagement/components/ResetPassword";
@@ -42,6 +43,12 @@ import MyListings from "../pages/RoommateFinder/MyListings";
 import EditRoomatesAd from "../pages/RoommateFinder/EditRoomatesAd";
 import PropertyInfo from "../pages/PropertyManagement/ViewProperty/PropertyInfo";
 import UserPropertyListing from "../pages/PropertyManagement/UserProperty/UserPropertyListing";
+import SuperAdminLogin from "../pages/UserManagement/Login/SuperAdminLogin";
+
+import ViewAdminPage from "../pages/AdminManagement/ViewAdminPage/ViewAdminPage";
+import AdminPropertyDetails from "../pages/AdminManagement/ViewAdminPage/AdminPropertyDetails";
+import SingleServicePage from "../pages/SingleServicePage/SingleServicePage";
+
 function Routing() {
   const { initializeAuth, dispatch } = useContext(AppContext);
   const location = useLocation();
@@ -53,6 +60,14 @@ function Routing() {
     {
       pageLink: ROUTES.LOGIN,
       view: Login,
+    },
+    {
+      pageLink: ROUTES.SUPER_ADMIN_LOGIN,
+      view: SuperAdminLogin,
+    },
+    {
+      pageLink: ROUTES.MY_SERVICES,
+      view: MyServices,
     },
     {
       pageLink: ROUTES.SIGNUP,
@@ -148,22 +163,36 @@ function Routing() {
     },
     {
       pageLink: ROUTES.ROOMMATE_FINDER,
-      view: RoommateHomepage
+      view: RoommateHomepage,
     },
     {
       pageLink: ROUTES.ROOMMATE_FINDER_MY_LISTINGS,
-      view: MyListings
+      view: MyListings,
     },
     {
       pageLink: ROUTES.ROOMMATE_FINDER_EDIT_LISTINGS,
-      view: EditRoomatesAd
+      view: EditRoomatesAd,
     },
     {
       pageLink: ROUTES.SHOW_REVIEWS,
-      view: ShowReviews
+      view: ShowReviews,
+    },
+    {
+      pageLink: ROUTES.VIEW_ADMIN_PAGE,
+      view: ViewAdminPage,
+    },
+    {
+      pageLink: ROUTES.VIEW_ADMIN_PAGE_POSTDETAILS,
+      view: AdminPropertyDetails,
+    },
+    {
+      pageLink: ROUTES.VIEW_SINGLE_SERVICE,
+      view: SingleServicePage
+    },
+    {
+      pageLink: ROUTES.MY_SERVICES,
+      view: MyServices,
     }
-
-
   ];
 
   useEffect(() => {
