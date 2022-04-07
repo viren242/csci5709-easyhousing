@@ -5,6 +5,7 @@ export const ROUTES = {
   // COMMON ROUTES
   HOMEPAGE: "/",
   LOGIN: "/login",
+  SUPER_ADMIN_LOGIN: "/loginSuperAdmin",
   FORGOT_PASSWORD: "/forgotPassword",
   RESET_PASSWORD: "/api/user/reset/:userId/:jwtToken",
   SIGNUP: "/signup",
@@ -26,9 +27,13 @@ export const ROUTES = {
   VIEW_SERVICES: "/services",
   ADD_SERVICE: "/services/create",
   EDIT_SERVICE: "services/edit/:id",
+  MY_SERVICES: "/myservices",
+  VIEW_SINGLE_SERVICE: "/services/:id",
   VIEW_FAVORITES: "/view_favorites",
   VIEW_FAVORITES_DETAILS: "/view_favorites_details/:propertyId",
   SHOW_REVIEWS: "/show_reviews/:propertyId",
+  VIEW_ADMIN_PAGE: "/admin_page",
+  VIEW_ADMIN_PAGE_POSTDETAILS: "/admin_page_postdetails/:propertyId",
 
   NOT_FOUND: "*",
   ERROR: "/error",
@@ -36,7 +41,7 @@ export const ROUTES = {
 
   //Private Route
   USER_PROFILE: "/profile",
-  ROOMMATE_FINDER:"/roommateHomepage" ,
+  ROOMMATE_FINDER: "/roommateHomepage",
   // USER_PROFILE: "/profile",
 };
 

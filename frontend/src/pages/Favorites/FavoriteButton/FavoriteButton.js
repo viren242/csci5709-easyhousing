@@ -6,14 +6,13 @@ import axios_api from "../../../common/axios";
 import { AppContext } from "../../../context/userContext";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../../common/constants";
+import { toast } from "react-toastify";
 
 function FavoriteButton(props) {
   const {
     state: { authenticated, userId, currentUser },
   } = useContext(AppContext);
   let navigate = useNavigate();
-  const propertyID = props.propertyId;
-  const userID = userId;
 
   const favMsg = "Add to Favorites";
   const msgColor = "white";
@@ -40,24 +39,26 @@ function FavoriteButton(props) {
   useEffect(async () => {
     if (tempState != 0) {
       axios_api
-        .get(`/favorites/${userID}/${propertyID}`)
+        .get(`/favorites/${userId}/${props.propertyId}`)
         .then((res) => {
           if (res.data.success) {
             axios_api
-              .delete(`/favorites/${userID}/${propertyID}`)
+              .delete(`/favorites/${userId}/${props.propertyId}`)
               .then((res) => {
                 if (res.data.success == true) {
+                  toast.success("Post Removed from Favorites!");
                   setFavMsgState("Add to Favorites");
                   setMsgColorState("white");
                 }
               });
           } else {
             const favReqBody = {
-              user_id: userID,
-              property_id: propertyID,
+              user_id: userId,
+              property_id: props.propertyId,
             };
             axios_api.post("/favorites/", favReqBody).then((res) => {
               if (res.data.success == true) {
+                toast.success("Post Added to Favorites!");
                 setFavMsgState("Remove from Favorites");
                 setMsgColorState("red");
               }
@@ -70,9 +71,9 @@ function FavoriteButton(props) {
 
   useEffect(async () => {
     axios_api
-      .get(`/favorites/${userID}/${propertyID}`)
+      .get(`/favorites/${userId}/${props.propertyId}`)
       .then((res) => {
-        if (res.data.success) {
+        if (res.data.success && userId) {
           setFavMsgState("Remove from Favorites");
           setMsgColorState("red");
         } else {
@@ -90,8 +91,8 @@ function FavoriteButton(props) {
         sx={{ mt: 3, mb: 2, mr: 2 }}
         onClick={handleButton}
       >
-        {favMsgState}
         <svg
+          style={{ marginRight: "4px" }}
           xmlns="http://www.w3.org/2000/svg"
           width="16"
           height="16"
@@ -104,8 +105,9 @@ function FavoriteButton(props) {
             d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
           />
         </svg>
+        {favMsgState}
       </Button>
-      <Dialog open={favAddedMessage} fullWidth={true}>
+      {/* <Dialog open={favAddedMessage} fullWidth={true}>
         <p style={{ textAlign: "center", margin: "20px" }}>
           Post Added To Favorites!
         </p>
@@ -118,7 +120,7 @@ function FavoriteButton(props) {
             Close
           </Button>
         </div>
-      </Dialog>
+      </Dialog> */}
     </div>
   );
 }
