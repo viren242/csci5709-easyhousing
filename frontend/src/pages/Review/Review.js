@@ -282,9 +282,9 @@ function Review() {
                                                     <Grid item>
                                                         <div>
                                                             {value.review.length > 0 ? (
-                                                                <p style={{ width: "400px", height: "150px" }}>{value.review}</p>
+                                                                <p style={{ width: "380px", height: "150px" }}>{value.review}</p>
                                                             ) : (
-                                                                <TextField multiline rows={5} type={"text"} maxLength={250} style={{ width: "400px", height: "150px" }} onChange={handleText} />
+                                                                <TextField multiline rows={5} type={"text"} maxLength={250} style={{ width: "380px", height: "150px" }} onChange={handleText} />
                                                             )}
                                                         </div>
                                                         <div style={{textAlign: "end", marginTop: "3.2%"}}>
