@@ -183,6 +183,28 @@ function Review() {
                                     >
                                         <Button
                                             color="primary"
+                                            fullWidth
+                                            variant="text"
+                                            startIcon={<HouseIcon />}
+                                            onClick={() => navigate(ROUTES.MY_SERVICES)}
+                                        >
+                                            My Services
+                                        </Button>
+                                    </Box>
+                                </CardContent>
+                            </Card>
+
+                            <Card sx={{ mt: 2 }}>
+                                <CardContent>
+                                    <Box
+                                        sx={{
+                                            alignItems: "left",
+                                            display: "flex",
+                                            flexDirection: "column",
+                                        }}
+                                    >
+                                        <Button
+                                            color="primary"
                                             onClick={()=>{
                                                 navigate(ROUTES.ROOMMATE_FINDER_MY_LISTINGS)
                                             }}
@@ -260,9 +282,9 @@ function Review() {
                                                     <Grid item>
                                                         <div>
                                                             {value.review.length > 0 ? (
-                                                                <p style={{ width: "400px", height: "150px" }}>{value.review}</p>
+                                                                <p style={{ width: "380px", height: "150px" }}>{value.review}</p>
                                                             ) : (
-                                                                <TextField multiline rows={5} type={"text"} maxLength={250} style={{ width: "400px", height: "150px" }} onChange={handleText} />
+                                                                <TextField multiline rows={5} type={"text"} maxLength={250} style={{ width: "380px", height: "150px" }} onChange={handleText} />
                                                             )}
                                                         </div>
                                                         <div style={{textAlign: "end", marginTop: "3.2%"}}>
