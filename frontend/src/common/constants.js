@@ -28,6 +28,7 @@ export const ROUTES = {
   ADD_SERVICE: "/services/create",
   EDIT_SERVICE: "services/edit/:id",
   MY_SERVICES: "/myservices",
+  VIEW_SINGLE_SERVICE: "/services/:id",
   VIEW_FAVORITES: "/view_favorites",
   VIEW_FAVORITES_DETAILS: "/view_favorites_details/:propertyId",
   SHOW_REVIEWS: "/show_reviews/:propertyId",

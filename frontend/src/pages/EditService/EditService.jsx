@@ -7,6 +7,9 @@ import Axios from "axios";
 import ServiceForm from "../../features/services/ServiceForm/ServiceForm";
 import Navbar from "../NavigationBar/Navbar";
 import Footer from "../../features/ui/Footer/Footer";
+import Loader from "../../features/ui/Loader/Loader";
+import axios_api from "../../common/axios";
+
 
 const EditService = () => {
   // get the value of :id from route
@@ -25,7 +28,7 @@ const EditService = () => {
 
   // get service details on mount
   React.useEffect(() => {
-    Axios.get(`https://easyhousingapi.herokuapp.com/services/${params.id}`)
+    axios_api.get(`/services/${params.id}`)
       .then((response) => {
         const newDefaultValues = {
           title: response.data.title,
@@ -46,10 +49,11 @@ const EditService = () => {
     return (
       <>
         <Navbar />
-        <div className="wrapper">
-          <p style={{
-            textAlign: "center"
-          }}>Loading...</p>
+        <div
+          className="wrapper"
+          style={{ minHeight: "90vh" }}
+        >
+          <Loader show={serviceLoading} />
         </div>
         <Footer />
       </>

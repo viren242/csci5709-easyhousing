@@ -51,9 +51,11 @@ const editListing = async (req, res) => {
 }
 
 const getListing = async (req, res) => {
+    console.log(req.params.id);
     try {
         const id = req.params.id;
         const getMyListing = await roommateListings.findAll({ where: { postedUserId: id } });
+        console.log(getMyListing);
         res.status(200).json(getMyListing);
     } catch (error) {
         res.status(500).json({ message: error.message, success: false });

@@ -21,6 +21,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import HouseIcon from "@mui/icons-material/House";
 import ReviewsIcon from "@mui/icons-material/Reviews";
 import axios_api from "../../common/axios";
+import {toast} from "react-toastify";
 
 function Ratings() {
 
@@ -33,7 +34,15 @@ function Ratings() {
 
     const userRating = async () => {
         axios_api.get("/ratings/getUserRatings/" + userId).then((res) => {
-            setUserRatings(res.data.ratings);
+            if (res.data.success) {
+                setUserRatings(res.data.ratings);
+            }
+        }).catch((err) => {
+            if (err.response && err.response.status === 404) {
+                setUserRatings([]);
+            } else {
+                toast.error("Something went wrong");
+            }
         })
     }
 
@@ -53,6 +62,14 @@ function Ratings() {
             if (res.data.success) {
                 userRating();
             }
+        }).catch((err) => {
+            if (err.response) {
+                if (err.response.status !== 404) {
+                    toast.error("Something went wrong");
+                }
+            } else {
+                toast.error("Something went wrong");
+            }
         });
     }
 
@@ -62,7 +79,17 @@ function Ratings() {
             user_id: event.user,
             rating: event.rating
         }).then((res) => {
-            userRating();
+            if (res.data.success) {
+                userRating();
+            }
+        }).catch((err) => {
+            if (err.response) {
+                if (err.response.status !== 404) {
+                    toast.error("Something went wrong");
+                }
+            } else {
+                toast.error("Something went wrong");
+            }
         });
     }
 
@@ -131,8 +158,31 @@ function Ratings() {
                                             fullWidth
                                             variant="text"
                                             startIcon={<HouseIcon />}
+                                            onClick={() => navigate(ROUTES.USERS_PROPERTY)}
                                         >
                                             My Properties
+                                        </Button>
+                                    </Box>
+                                </CardContent>
+                            </Card>
+
+                            <Card sx={{ mt: 2 }}>
+                                <CardContent>
+                                    <Box
+                                        sx={{
+                                            alignItems: "left",
+                                            display: "flex",
+                                            flexDirection: "column",
+                                        }}
+                                    >
+                                        <Button
+                                            color="primary"
+                                            fullWidth
+                                            variant="text"
+                                            startIcon={<HouseIcon />}
+                                            onClick={() => navigate(ROUTES.MY_SERVICES)}
+                                        >
+                                            My Services
                                         </Button>
                                     </Box>
                                 </CardContent>
@@ -216,11 +266,11 @@ function Ratings() {
                             ) : (
                                 <div style={{marginTop: "2%"}}>
                                     {userRatings.map(value => (
-                                        <Grid style={{margin: "5%"}}>
+                                        <Grid key={value.property_id}>
                                             <Card style={{marginTop: "5%"}} variant={"outlined"}>
                                                 <CardContent>
-                                                    <img src={value.images} alt={"image"} style={{width: "300px", height: "200px", paddingRight: "20px"}}/>
-                                                    {(!value.rating) ? (
+                                                    <img src={value.images} alt={"image"} style={{width: "300px", height: "200px", paddingRight: "5%"}}/>
+                                                    {(value.rating < 0) ? (
                                                         <Rating precision={0.5} onChange={ (event, rateNumber) => {handleClick({user: value.user_id, property: value.property_id, rating: rateNumber})}}/>
                                                     ) : (
                                                         <Rating precision={0.5} value={value.rating} onChange={(event, rateNumber) => {handleEdit({user: value.user_id, property: value.property_id, rating: rateNumber})}}/>

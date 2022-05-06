@@ -33,7 +33,6 @@ const ResetPassword = () => {
     watch,
   } = useForm();
   useEffect(() => {
-    console.log(authenticated);
     if (authenticated) {
       navigate(ROUTES.HOMEPAGE);
     }

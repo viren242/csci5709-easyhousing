@@ -20,6 +20,7 @@ export default function RoomateHomePage() {
         
     };
 
+
     return (
         <div>
         <NavigationBar />
@@ -41,7 +42,7 @@ export default function RoomateHomePage() {
             </div>
             {value == "list" ? (
                 <ListRoomates />
-            ) : <PostRoomatesAd />}
+            ) : <PostRoomatesAd setValue />}
 
         </div>
     );

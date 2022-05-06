@@ -13,7 +13,7 @@ import {
     CardContent,
     Container,
     Divider,
-    Grid,
+    Grid, TextField,
     Typography
 } from "@mui/material";
 import { ROUTES } from "../../common/constants";
@@ -21,6 +21,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import HouseIcon from "@mui/icons-material/House";
 import ReviewsIcon from "@mui/icons-material/Reviews";
 import axios_api from "../../common/axios";
+import {toast} from "react-toastify";
 
 function Review() {
 
@@ -33,7 +34,15 @@ function Review() {
 
     const userReview = async () => {
         axios_api.get("/reviews/getUserReviews/" + userId).then((res) => {
-            setUserReviews(res.data.reviews);
+            if (res.data.success) {
+                setUserReviews(res.data.reviews);
+            }
+        }).catch((err) => {
+            if (err.response && err.response.status === 404) {
+                setUserReviews([]);
+            } else {
+                toast.error("Something went wrong");
+            }
         })
     }
 
@@ -45,20 +54,42 @@ function Review() {
     }, []);
 
     const handleClick = (event) => {
-        axios_api.post("/reviews/addReview", {
-            property_id: event.property,
-            user_id: event.user,
-            review: review
-        }).then((res) => {
-            if (res.data.success) {
-                userReview();
-            }
-        });
+        if (review.length > 0) {
+            axios_api.post("/reviews/addReview", {
+                property_id: event.property,
+                user_id: event.user,
+                review: review
+            }).then((res) => {
+                if (res.data.success) {
+                    userReview();
+                }
+            }).catch((err) => {
+                if (err.response) {
+                    if (err.response.status !== 404) {
+                        toast.error("Something went wrong");
+                    }
+                } else {
+                    toast.error("Something went wrong");
+                }
+            })
+        } else {
+            alert("Please enter some text in review box to post!!!")
+        }
     }
 
     const handleEdit = (event) => {
         axios_api.delete('/reviews/deleteReview/' + event.user + '/' + event.property).then((res) => {
-            userReview();
+            if (res.data.success) {
+                userReview();
+            }
+        }).catch((err) => {
+            if (err.response) {
+                if (err.response.status !== 404) {
+                    toast.error("Something went wrong");
+                }
+            } else {
+                toast.error("Something went wrong");
+            }
         });
     }
 
@@ -152,6 +183,28 @@ function Review() {
                                     >
                                         <Button
                                             color="primary"
+                                            fullWidth
+                                            variant="text"
+                                            startIcon={<HouseIcon />}
+                                            onClick={() => navigate(ROUTES.MY_SERVICES)}
+                                        >
+                                            My Services
+                                        </Button>
+                                    </Box>
+                                </CardContent>
+                            </Card>
+
+                            <Card sx={{ mt: 2 }}>
+                                <CardContent>
+                                    <Box
+                                        sx={{
+                                            alignItems: "left",
+                                            display: "flex",
+                                            flexDirection: "column",
+                                        }}
+                                    >
+                                        <Button
+                                            color="primary"
                                             onClick={()=>{
                                                 navigate(ROUTES.ROOMMATE_FINDER_MY_LISTINGS)
                                             }}
@@ -219,40 +272,33 @@ function Review() {
                                 </div>
                             ) : (
                                 <div>
-                                    <table style={{ borderSpacing: "1em", flexDirection: "row" }}>
-                                        <tbody>
-                                            {userReviews.map(value => (
-                                                <Card style={{ margin: "1%" }} variant={"outlined"}>
-                                                    <Box sx={{ alignItems: "left", display: "flex", flexDirection: "column" }}>
-                                                        <CardContent>
-                                                            <tr style={{ padding: '40%' }}>
-                                                                <td style={{ width: '30%', marginRight: '50%' }}>
-                                                                    <img src={value.images} alt={"image"} style={{ width: "300px", height: "200px" }} />
-                                                                </td>
-                                                                <td style={{ width: '70%' }} valign={"top"}>
-                                                                    <div>
-                                                                        {value.review.length > 0 ? (
-                                                                            <p style={{ width: "400px", height: "150px" }}>{value.review}</p>
-                                                                        ) : (
-                                                                            <input type={"text"} maxLength={250} style={{ width: "400px", height: "150px" }} onChange={handleText} />
-                                                                        )}
-                                                                    </div>
-                                                                    <br />
-                                                                    <div style={{ textAlign: "end" }}>
-                                                                        {value.review.length > 0 ? (
-                                                                            <Button variant={"contained"} onClick={() => handleEdit({ user: value.user_id, property: value.property_id })}>Edit Review</Button>
-                                                                        ) : (
-                                                                            <Button variant={"contained"} onClick={() => handleClick({ user: value.user_id, property: value.property_id })}>Post Review</Button>
-                                                                        )}
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                        </CardContent>
-                                                    </Box>
-                                                </Card>
-                                            ))}
-                                        </tbody>
-                                    </table>
+                                    {userReviews.map(value => (
+                                        <Card key={value.property_id} style={{marginTop: "5%"}} variant={"outlined"}>
+                                            <CardContent>
+                                                <Grid container style={{margin: "auto"}}>
+                                                    <Grid item style={{marginRight: "2%"}}>
+                                                        <img src={value.images} alt={"image"} style={{ width: "300px", height: "200px" }} />
+                                                    </Grid>
+                                                    <Grid item>
+                                                        <div>
+                                                            {value.review.length > 0 ? (
+                                                                <p style={{ width: "380px", height: "150px" }}>{value.review}</p>
+                                                            ) : (
+                                                                <TextField multiline rows={5} type={"text"} maxLength={250} style={{ width: "380px", height: "150px" }} onChange={handleText} />
+                                                            )}
+                                                        </div>
+                                                        <div style={{textAlign: "end", marginTop: "3.2%"}}>
+                                                            {value.review.length > 0 ? (
+                                                                <Button variant={"contained"} onClick={() => handleEdit({ user: value.user_id, property: value.property_id })}>Edit Review</Button>
+                                                            ) : (
+                                                                <Button variant={"contained"} onClick={() => handleClick({ user: value.user_id, property: value.property_id })}>Post Review</Button>
+                                                            )}
+                                                        </div>
+                                                    </Grid>
+                                                </Grid>
+                                            </CardContent>
+                                        </Card>
+                                    ))}
                                 </div>
                             )}
                         </Grid>
