@@ -151,6 +151,21 @@ const Navbar = () => {
             // width={225}
             sx={{ flexGrow: 0 }}
           >
+            {authenticated && currentUser.role == "super_admin" ? (
+              <Button variant="contained"
+              onClick={() => authenticated ? (navigate(ROUTES.VIEW_ADMIN_PAGE)) : (navigate(ROUTES.LOGIN))}
+              sx={{
+                marginRight: 2,
+                backgroundColor: "#1C3988",
+                alignItems: "right",
+                display: { xs: "none", md: "flex" },
+              }}
+            >
+              Admin
+            </Button>
+            ) : (
+              ""
+            )}
             <Button
               variant="contained"
               sx={{

@@ -1,4 +1,4 @@
-// Author: Purvilkumar Bharthania (B00901605)
+// Author: Viren Babubhai Malavia (B00895669)
 
 import React, { useState, useEffect, useContext } from 'react'
 import axios_api from '../../../common/axios';
@@ -16,12 +16,9 @@ import LocalLaundryServiceOutlined from '@material-ui/icons/LocalLaundryServiceO
 import { AppContext } from "../../../context/userContext";
 import { ROUTES } from "../../../common/constants";
 
-import FavoriteButton from '../../Favorites/FavoriteButton/FavoriteButton';
-import ShowReviews from "../../Review/ShowReviews";
-import BookAppointment from "../../Appointment/BookAppointment/BookAppointment";
-import CancelAppointment from "../../Appointment/CancelAppointment/CancelAppointment";
-import AddReport from '../../Report/AddReport/AddReport';
-import CancelReport from '../../Report/CancelReport/CancelReport';
+import ApprovePost from '../ApprovePost/ApprovePost';
+import EditPost from '../EditPost/EditPost';
+import DeletePost from '../DeletePost/DeletePost';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -37,14 +34,13 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const PropertyInfo = () => {
+const AdminPropertyDetails = () => {
     const navigate = useNavigate();
     const classes = useStyles();
-    const [property, setProperty] = useState([])
+    const [property, setProperty] = useState([]);
     const { propertyId } = useParams();
-    const [userAppointments, setUserAppointments] = useState("");
     const [userReport, setUserReport] = useState("");
-    const [reported, setReported] = React.useState(false);
+    const [count, setCount] = useState(0);
 
     const {
         state: { userId }
@@ -61,53 +57,15 @@ const PropertyInfo = () => {
                 setProperty([])
             })
 
-        await axios_api.get(`/reports/getReport/${userId}/${propertyId}`).then((res) => {
+        await axios_api.get(`/reports/getTotalReports/${propertyId}`).then((res) => {
             if (res.data.success) {
                 setUserReport(res.data.report);
-                //setReported(true);
+                setCount(res.data.count);
             } else {
                 setUserReport("");
             }
         }).catch(error => {
             setUserReport("");
-        })
-        //handleSearch(searchText)
-    }, [])
-
-    const reportStatus = () => {
-        axios_api.get(`/reports/getReport/${userId}/${propertyId}`).then((res) => {
-            if (res.data.success) {
-                setUserReport(res.data.report);
-                //setReported(true);
-            } else {
-                setUserReport("");
-            }
-        }).catch(error => {
-            setUserReport("");
-        })
-    };
-
-    const userAppointment = () => {
-        axios_api.get(`/appointments/getAppointment/${userId}/${propertyId}`).then((res) => {
-            if (res.data.success) {
-                setUserAppointments(res.data.appointment);
-            } else {
-                setUserAppointments("");
-            }
-        }).catch(error => {
-            setUserAppointments("");
-        })
-    }
-
-    useEffect(async () => {
-        await axios_api.get(`/appointments/getAppointment/${userId}/${propertyId}`).then((res) => {
-            if (res.data.success) {
-                setUserAppointments(res.data.appointment);
-            } else {
-                setUserAppointments("");
-            }
-        }).catch(error => {
-            setUserAppointments("");
         })
     }, [])
 
@@ -192,41 +150,29 @@ const PropertyInfo = () => {
                                     </Box>
                                 </Box>
                                 <Divider />
-                                <Typography gutterBottom variant="h6" component="div" >
+                                <Typography gutterBottom variant="h6" component="div">
                                     Price
                                 </Typography>
                                 <Typography gutterBottom variant="h5" component="div" sx={{ color: 'green' }}>
                                     $ {property.price}
                                 </Typography>
                                 <Divider />
+                                <Typography gutterBottom variant="h5" align="center" component="div" sx={{ color: 'red' }}>
+                                    Admin Related Information:
+                                </Typography>
+                                <Typography gutterBottom variant="h6" component="div" sx={{ color: 'black' }}>
+                                    Ad is posted by User with user_id: '{property.user_id}'
+                                </Typography>
+                                <Typography gutterBottom variant="h6" component="div" sx={{ color: 'black' }}>
+                                    Total count of Users who Reported this post: '{count}'
+                                </Typography>
+                                <Divider />
                                 <Box sx={{ display: 'flex', alignItems: 'center', marginLeft: 'auto', marginRight: 'auto' }}>
-                                    {/* <Box width="50%" sx={{ marginRight: 'auto', marginLeft: 'auto', justifyContent: "center" }} > */}
-                                    {((userAppointments !== "") && (userId)) ? (
-                                        <CancelAppointment userId={userId} propertyId={propertyId} userAppointment={userAppointment} />
-                                    ) : (
-                                        <BookAppointment userId={userId} propertyId={propertyId} userAppointment={userAppointment} />
-                                    )}
-                                    {/* </Box>
-                                            <Box width="50%"> */}
-                                    <ShowReviews propertyId={propertyId} />
-                                    <FavoriteButton propertyId={property.id} />
-                                    {((userReport !== "") && (userId)) ? (
-                                        <CancelReport userId={userId} propertyId={propertyId} reportStatus={reportStatus} />
-                                    ) : (
-                                        <AddReport userId={userId} propertyId={propertyId} reportStatus={reportStatus} />
-                                    )}
-                                    {/* <Button
-                                                //fullWidth
-                                                variant="contained"
-                                                onClick={(event) => {
-                                                    navigate("/");
-                                                 }}
-                                                color="error"
-                                                sx={{ mt: 3, mb: 2, mr: 2, }}
-                                            >
-                                                Report
-                                            </Button> */}
-                                    {/* </Box> */}
+
+                                    <ApprovePost userId={userId} propertyId={propertyId} />
+                                    <EditPost userId={userId} propertyId={propertyId} />
+                                    <DeletePost userId={userId} propertyId={propertyId} />
+                                    
                                 </Box>
 
                             </Box>
@@ -238,4 +184,4 @@ const PropertyInfo = () => {
     )
 }
 
-export default PropertyInfo
+export default AdminPropertyDetails

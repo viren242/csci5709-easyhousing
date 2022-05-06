@@ -47,7 +47,7 @@ const Login = () => {
     const { email, password } = data;
     const loginCredentials = { email, password };
     axios_api
-      .post("/users/appUserLogin", loginCredentials)
+      .post("/users/superAdminLogin", loginCredentials)
       .then((response) => {
         if ((response.data.success = true)) {
           const { data } = response;
@@ -217,11 +217,11 @@ const Login = () => {
                 <Box pt={2} display="flex" justifyContent="center">
                   <Link
                     onClick={() => {
-                      navigate(ROUTES.SUPER_ADMIN_LOGIN);
+                      navigate(ROUTES.LOGIN);
                     }}
                   >
                     <Typography variant="subtitle2" component="div">
-                      Login as Super Admin
+                      Login as App User
                     </Typography>
                   </Link>
                 </Box>
